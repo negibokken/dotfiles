@@ -232,4 +232,7 @@ fi
 # zsh の補完を sshmux コマンドでも有効にする
 compdef sshmux=ssh
 
-
+# tmux 起動中じゃなければ自動的に tmux を起動する
+if [[ ! -n $TMUX ]]; then
+  tmux new-session
+fi
