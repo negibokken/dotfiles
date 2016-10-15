@@ -34,8 +34,8 @@ colors
 
 # ヒストリの設定
 HISTFILE=~/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTSIZE=1000
+SAVEHIST=1000
 
 # プロンプト
 # 1行表示
@@ -144,13 +144,6 @@ alias l='ls -lt'
 alias tw='tw -yes'
 alias vi='vim'
 
-#プリンタの設定
-alias p1l="lp -d mfp_isb4 -o sides=two-sided-long-edge -o fitplot"
-alias p4l="lp -d mfp_isb4 -o sides=two-sided-long-edge -o number-up=4 -o fitplot"
-alias p1s="lp -d mfp_isb4 -o sides=two-sided-short-edge -o fitplot"
-alias p4s="lp -d mfp_isb4 -o sides=two-sided-short-edge -o number-up=4 -o fitplot"
-alias p1='lp -d mfp_isb4 -o media="a4"'
-
 alias rm='rm -rf'
 alias cp='cp -i'
 alias scp='scp -r'
@@ -166,15 +159,6 @@ alias sudo='sudo '
 alias -g L='| less'
 alias -g G='| grep'
 
-# サーバ関係のエイリアス
-alias matterhorn='ssh -Y matterhorn'
-alias matterhorns='ssh -Y matterhorns'
-alias uranus='ssh -Y uranus'
-alias uranuss='ssh -Y uranuss'
-alias everest='ssh -Y everest'
-alias everests='ssh -Y everests'
-alias monterosa='ssh -Y monterosa'
-alias monterosas='ssh -Y monterosas'
 alias R="R --no-save --no-restore-data -q"
 
 ## アプリのエイリアス
