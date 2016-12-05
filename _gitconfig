@@ -1,0 +1,20 @@
+[user]
+  name = bokken
+
+[core]
+  editor = vim
+
+[alias]
+  tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+  st = status
+  ck = checkout
+  ad = add
+  br = branch
+  r = rebase
+  m = merge
+  diffc = diff --cached
+  rh = reset --hard
+  rs = reset --soft
+
+[diff]
+  algorithm = histogram
