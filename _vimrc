@@ -117,8 +117,17 @@ augroup PrevimSettings
     autocmd BufNewFile,BufRead <em>.{md,mdwn,mkd,mkdn,mark</em>} set filetype=markdown
 augroup END
 
-"" プラグインの設定
+" プラグインの設定
 filetype off
+
+" Installation check.
+"if neobundle#exists_not_installed_bundles()
+"  echomsg 'Not installed bundles : ' .
+"        \ string(neobundle#get_not_installed_bundle_names())
+"  echomsg 'Please execute ":NeoBundleInstall" command.'
+"  "finish
+"endif
+
 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
@@ -169,17 +178,22 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'kana/vim-submode'
   " NERDTree
   NeoBundle 'scrooloose/nerdtree'
+  NeoBundle 'jistr/vim-nerdtree-tabs'
 call neobundle#end()
 
-" Start NERDTree when start vim
-"autocmd vimenter * NERDTree
-" Close NERDTree window if there is only NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-map <C-n> :NERDTreeToggle<CR>
-
-" ~/neobundle.log にログを出力する
-let g:neobundle#log_filename = $HOME . "/neobundle.log"
-
+let g:nerdtree_tabs_autoclose=1
+let g:nerdtree_tabs_smart_startup_focus=2
+"let g:nerdtree_tabs_focus_on_files=1
+augroup NERDTreeExec
+  autocmd!
+  " Start NERDTree when start vim
+  filetype on
+  autocmd BufRead,BufNewFile *.rb NERDTreeTabsOpen
+  " Close NERDTree window if there is only NERDTree
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  autocmd VimEnter * wincmd l
+augroup END
+map <C-n> :NERDTreeTabsToggle<CR>
 " configure status bar
 let g:lightline = {
       \ 'colorscheme': 'seoul256',
@@ -199,6 +213,7 @@ autocmd BufRead,BufNewFile *.ts set filetype=typescript
 let g:syntastic_mode_map = { 'mode': 'passive',
     \ 'active_filetypes': ['go', 'ruby', 'javascript', 'typescript'] }
 let g:syntastic_go_checkers = ['go', 'golint']
+"let g:syntastic_ruby_checkers = ['rubocop']
 
 " golang configure
 let g:go_hightlight_functions = 1
@@ -227,9 +242,10 @@ autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 " set color scheme as vim-hybrid
 syntax on
+"let g:hybrid_custom_term_colors = 1
 colorscheme hybrid
 highligh Normal ctermbg=none
-
+highlight LineNr ctermfg=243
 " html のタグ補完
 augroup MyXML
   autocmd!
@@ -282,9 +298,7 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " Original snippets directory
 let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/snippets/'
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB>
+" SuperTab like snippets behavior.  "imap <expr><TAB>
 " \ pumvisible() ? "\<C-n>" :
 " \ neosnippet#expandable_or_jumpable() ?
 " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
@@ -369,6 +383,14 @@ call submode#map('bufmove', 'n', '', '<', '<C-w><')
 call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 
+" ESC to Ctrl+J
+inoremap <C-j> <esc>
+nnoremap <C-j> <esc>
+vnoremap <C-j> <esc>
+
+" delete line Ctrl+d
+inoremap <C-d> <esc>dd
+nnoremap <C-d> dd
 
 " vim grep
 nnoremap [q :cprevious<CR>
