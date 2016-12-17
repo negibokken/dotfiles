@@ -179,6 +179,8 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   " NERDTree
   NeoBundle 'scrooloose/nerdtree'
   NeoBundle 'jistr/vim-nerdtree-tabs'
+  " vim instant preview
+  NeoBundle 'suan/vim-instant-markdown'
 call neobundle#end()
 
 let g:nerdtree_tabs_autoclose=1
@@ -213,7 +215,7 @@ autocmd BufRead,BufNewFile *.ts set filetype=typescript
 let g:syntastic_mode_map = { 'mode': 'passive',
     \ 'active_filetypes': ['go', 'ruby', 'javascript', 'typescript'] }
 let g:syntastic_go_checkers = ['go', 'golint']
-"let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_ruby_checkers = ['rubocop']
 
 " golang configure
 let g:go_hightlight_functions = 1
@@ -391,6 +393,12 @@ vnoremap <C-j> <esc>
 " delete line Ctrl+d
 inoremap <C-d> <esc>dd
 nnoremap <C-d> dd
+
+" Move faster
+nnoremap <C-f> jjj
+vnoremap <C-f> jjj
+nnoremap <C-b> kkk
+vnoremap <C-b> kkk
 
 " vim grep
 nnoremap [q :cprevious<CR>
