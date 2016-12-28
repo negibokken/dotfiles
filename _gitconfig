@@ -1,0 +1,25 @@
+[include]
+  path = .gitconfig.local
+
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore_global
+
+[alias]
+  tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+  st = status
+  ck = checkout
+  cm = commit
+  ad = add
+  br = branch
+  r = rebase
+  m = merge
+  diffc = diff --cached
+  rh = reset --hard
+  rs = reset --soft
+  ds = diff --staged
+  dc = diff --cached
+  pushup = "!gitbranchname() { git symbolic-ref --short HEAD; }; gitpushupstream() { git push --set-upstream origin `gitbranchname`; }; gitpushupstream"
+
+[diff]
+  algorithm = histogram
