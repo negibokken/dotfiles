@@ -133,13 +133,17 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 
+filetype plugin on
+
 call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleFetch 'Shougo/neobundle.vim'
   " originalrepos on github
   NeoBundle 'VimClojure'
   NeoBundle 'Shougo/vimshell'
   NeoBundle 'Shougo/unite.vim'
+  "NeoBundle 'Shougo/neocomplete'
   NeoBundle 'Shougo/neocomplcache'
+  NeoBundle 'Shougo/vimproc.vim'
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
   NeoBundle 'jpalardy/vim-slime'
@@ -147,22 +151,28 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   " インデントに色を付けて見やすくする
   NeoBundle 'nathanaelkane/vim-indent-guides'
   NeoBundle 'tyru/open-browser.vim'
-  NeoBundle 'tukiyo/previm'
+  "NeoBundle 'tukiyo/previm'
   NeoBundle 'mattn/emmet-vim'
   NeoBundle 'jpo/vim-railscasts-theme'
   NeoBundle 'simeji/winresizer'
   NeoBundle 'leafgarland/typescript-vim'
   NeoBundle 'Townk/vim-autoclose'
   NeoBundle 'jelera/vim-javascript-syntax'
-  NeoBundle 'hokaccha/vim-html5validator'
+  "NeoBundle 'hokaccha/vim-html5validator'
   NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'marijnh/tern_for_vim'
-  NeoBundle 'moll/vim-node'
+  "NeoBundle 'marijnh/tern_for_vim'
+  "NeoBundle 'moll/vim-node'
   "" Reference
   NeoBundle 'thinca/vim-ref'
   NeoBundle 'tokuhirom/jsref'
   NeoBundle 'mojako/ref-sources.vim'
   NeoBundleLazy 'heavenshell/vim-jsdoc' , {'autoload': {'filetypes': ['javascript']}}
+  "NeoBundle 'mtscout6/syntastic-local-eslint.vim'
+  NeoBundle 'othree/yajs.vim'
+  NeoBundle 'othree/html5.vim'
+  NeoBundle 'mxw/vim-jsx'
+  NeoBundle 'neomake/neomake'
+  "NeoBundle 'benjie/neomake-local-eslint.vim'
   " golang
   NeoBundle 'fatih/vim-go'
   "NeoBundle 'Blackrush/vim-gocode'
@@ -181,7 +191,20 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'jistr/vim-nerdtree-tabs'
   " vim instant preview
   NeoBundle 'suan/vim-instant-markdown'
+  NeoBundle 'elzr/vim-json'
 call neobundle#end()
+
+" JSON syntax
+let g:vim_json_syntax_conceal = 0
+
+" vim-jsx用の設定
+let g:jsx_ext_required = 1        " ファイルタイプがjsxのとき読み込む．
+let g:jsx_pragma_required = 0     " @から始まるプラグマでは読み込まない．
+
+augroup Vimrc
+  autocmd!
+  autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+augroup END
 
 let g:nerdtree_tabs_autoclose=1
 let g:nerdtree_tabs_smart_startup_focus=2
@@ -190,7 +213,7 @@ augroup NERDTreeExec
   autocmd!
   " Start NERDTree when start vim
   filetype on
-  autocmd BufRead,BufNewFile *.rb NERDTreeTabsOpen
+  autocmd BufRead,BufNewFile *.* NERDTreeTabsOpen
   " Close NERDTree window if there is only NERDTree
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd VimEnter * wincmd l
@@ -205,6 +228,16 @@ filetype plugin indent on     " required!
 filetype indent on
 syntax on
 
+" Eslint 設定
+autocmd! BufWritePost * Neomake " 保存時に実行する
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_error_sign = {'text': '>>', 'texthl': 'Error'}
+let g:neomake_warning_sign = {'text': '>>',  'texthl': 'Todo'}
+
+" Cancel JSON syntax
+set conceallevel=0
+let g:vim_json_syntax_conceal = 0
+
 " tag bar toggle setting
 nmap tt :TagbarToggle<CR>
 
@@ -213,9 +246,10 @@ autocmd BufRead,BufNewFile *.ts set filetype=typescript
 
 " golang lint
 let g:syntastic_mode_map = { 'mode': 'passive',
-    \ 'active_filetypes': ['go', 'ruby', 'javascript', 'typescript'] }
+    \ 'active_filetypes': ['go', 'ruby',]} "'javascript', 'typescript'] }
 let g:syntastic_go_checkers = ['go', 'golint']
 let g:syntastic_ruby_checkers = ['rubocop']
+"let g:syntastic_js_checkers = ['eslint']
 
 " golang configure
 let g:go_hightlight_functions = 1
@@ -244,10 +278,12 @@ autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 " set color scheme as vim-hybrid
 syntax on
-"let g:hybrid_custom_term_colors = 1
 colorscheme hybrid
+set background=dark
+"let g:hybrid_custom_term_colors = 1
 highligh Normal ctermbg=none
 highlight LineNr ctermfg=243
+
 " html のタグ補完
 augroup MyXML
   autocmd!
@@ -318,7 +354,7 @@ let g:tern_show_argument_hints='on_hold'
 let g:tern_map_keys=1
 
 " vim-indent-guides
-" colorscheme default
+"colorscheme default
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=236
@@ -329,6 +365,7 @@ autocmd filetype coffee,javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
 
 " jsdoc for vim-ref
 let g:ref_javascript_doc_path = '/Users/ryo/.vim/bundle/jsref/htdocs'
+let g:javascript_plugin_flow = 1
 
 " JunkFile
 " Open junk file."{{{
