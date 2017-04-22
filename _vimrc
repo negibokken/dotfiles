@@ -30,6 +30,10 @@ set nowrapscan
 set laststatus=2
 ""検索結果をハイライトする
 set hlsearch
+"" エンコード設定
+set encoding=UTF-8
+set fileencoding=UTF-8
+set termencoding=UTF-8
 ""ハイライトをESC2回で消す
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
 ""コマンドラインモードで<Tab>でファイル名補完
@@ -138,28 +142,28 @@ filetype plugin on
 call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleFetch 'Shougo/neobundle.vim'
   " originalrepos on github
-  NeoBundle 'VimClojure'
+  "NeoBundle 'VimClojure'
   NeoBundle 'Shougo/vimshell'
-  NeoBundle 'Shougo/unite.vim'
+  "NeoBundle 'Shougo/unite.vim'
   "NeoBundle 'Shougo/neocomplete'
   NeoBundle 'Shougo/neocomplcache'
   NeoBundle 'Shougo/vimproc.vim'
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle 'jpalardy/vim-slime'
+  "NeoBundle 'jpalardy/vim-slime'
   NeoBundle 'tpope/vim-endwise'
   " インデントに色を付けて見やすくする
   NeoBundle 'nathanaelkane/vim-indent-guides'
-  NeoBundle 'tyru/open-browser.vim'
+  "NeoBundle 'tyru/open-browser.vim'
   "NeoBundle 'tukiyo/previm'
   NeoBundle 'mattn/emmet-vim'
-  NeoBundle 'jpo/vim-railscasts-theme'
+  "NeoBundle 'jpo/vim-railscasts-theme'
   NeoBundle 'simeji/winresizer'
   NeoBundle 'leafgarland/typescript-vim'
-  NeoBundle 'Townk/vim-autoclose'
+  "NeoBundle 'Townk/vim-autoclose'
   NeoBundle 'jelera/vim-javascript-syntax'
   "NeoBundle 'hokaccha/vim-html5validator'
-  NeoBundle 'tpope/vim-fugitive'
+  "NeoBundle 'tpope/vim-fugitive'
   "NeoBundle 'marijnh/tern_for_vim'
   "NeoBundle 'moll/vim-node'
   "" Reference
@@ -169,7 +173,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleLazy 'heavenshell/vim-jsdoc' , {'autoload': {'filetypes': ['javascript']}}
   "NeoBundle 'mtscout6/syntastic-local-eslint.vim'
   NeoBundle 'othree/yajs.vim'
-  NeoBundle 'othree/html5.vim'
+  "NeoBundle 'othree/html5.vim'
   NeoBundle 'mxw/vim-jsx'
   NeoBundle 'neomake/neomake'
   "NeoBundle 'benjie/neomake-local-eslint.vim'
@@ -177,12 +181,12 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'fatih/vim-go'
   "NeoBundle 'Blackrush/vim-gocode'
   NeoBundle 'vim-jp/vim-go-extra'
-  NeoBundle 'scrooloose/syntastic'
+  "NeoBundle 'scrooloose/syntastic'
   NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
   " customize status bar
   NeoBundle 'itchyny/lightline.vim'
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'airblade/vim-gitgutter'
+  "NeoBundle 'tpope/vim-fugitive'
+  "NeoBundle 'airblade/vim-gitgutter'
   NeoBundle 'majutsushi/tagbar'
   " vim tab resize
   NeoBundle 'kana/vim-submode'
@@ -192,7 +196,13 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   " vim instant preview
   NeoBundle 'suan/vim-instant-markdown'
   NeoBundle 'elzr/vim-json'
+  "NeoBundle 'mattn/webapi-vim'
+  NeoBundle 'Shougo/unite.vim'
+  "NeoBundle 'moznion/hateblo.vim'
 call neobundle#end()
+
+" vim instant markdown
+let g:instant_markdown_auto_start = 1
 
 " JSON syntax
 let g:vim_json_syntax_conceal = 0
@@ -213,7 +223,7 @@ augroup NERDTreeExec
   autocmd!
   " Start NERDTree when start vim
   filetype on
-  autocmd BufRead,BufNewFile *.* NERDTreeTabsOpen
+  "autocmd BufRead,BufNewFile *.* NERDTreeTabsOpen
   " Close NERDTree window if there is only NERDTree
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd VimEnter * wincmd l
@@ -231,6 +241,14 @@ syntax on
 " Eslint 設定
 autocmd! BufWritePost * Neomake " 保存時に実行する
 let g:neomake_javascript_enabled_makers = ['eslint']
+"let g:neomake_typescript_tslint_maker = {
+"  \ 'args': [
+"  \     '%:p', '--format verbose'
+"  \ ],
+"  \ 'errorformat': '%E%f[%l\, %c]: %m'
+"  \ }
+let g:neomake_typescript_enabled_makers = ['tslint']
+let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_error_sign = {'text': '>>', 'texthl': 'Error'}
 let g:neomake_warning_sign = {'text': '>>',  'texthl': 'Todo'}
 
@@ -243,13 +261,6 @@ nmap tt :TagbarToggle<CR>
 
 " TypeScript
 autocmd BufRead,BufNewFile *.ts set filetype=typescript
-
-" golang lint
-let g:syntastic_mode_map = { 'mode': 'passive',
-    \ 'active_filetypes': ['go', 'ruby',]} "'javascript', 'typescript'] }
-let g:syntastic_go_checkers = ['go', 'golint']
-let g:syntastic_ruby_checkers = ['rubocop']
-"let g:syntastic_js_checkers = ['eslint']
 
 " golang configure
 let g:go_hightlight_functions = 1
