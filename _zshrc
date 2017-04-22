@@ -1,8 +1,3 @@
-# 少し凝った zshrc
-# License : MIT
-# http://mollifier.mit-license.org/
-
-########################################
 # 環境変数
 export LANG=ja_JP.UTF-8
 
@@ -14,30 +9,40 @@ export PATH=$PATH:$HOME/.mybin
 export PATH=$HOME/.rbenv/bin:$PATH
 eval "$(rbenv init - zsh)"
 export CC=/usr/bin/gcc
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# Activate Pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+export PATH=${PYENV_ROOT}/bin:$PATH
+eval "$(pyenv init -)"
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 # golang 設定
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=$HOME/go
+export GOPATH=$HOME/go:$HOME/go/workspace
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$HOME/.go/bin
 
 export PATH="$HOME/.rbenv/shims:$PATH"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
 export PATH=$PATH:./node_modules/.bin
 export PATH=$HOME/.nodebrew/current/bin:$PATH
-export PATH=$PATH:$HOME/.config/yarn/global/node_modules/.bin/
-#for zsh-completions
-#fpath=(/usr/local/share/zsh-completions $fpath)
+export PATH=$PATH:$HOME/.config/yarn/global/node_modules/.bin
+export PATH="/usr/local/sbin:$PATH"
 
-#補完機能を有効にする
-#autoload -Uz compinit #compinit -u
+## for vscode plantuml
+### JAVA setting
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
+export PLANTUML_JAR=/usr/local/Cellar/plantuml/8048/libexec/plantuml.jar
+## GRAPHVIZ_DOT setting
+export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/2.40.1/bin/dot
+
+## Use Hub
+function git(){hub "$@"}
 
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
-
-# emacs 風キーバインドにする
-#bindkey -e
 
 # 単語移動
 bindkey '^f' forward-word
@@ -55,7 +60,6 @@ SAVEHIST=1000
 PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
 %# "
 
-
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
 select-word-style default
@@ -64,7 +68,7 @@ select-word-style default
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
-########################################
+#########################################
 # 補完
 # 補完機能を有効にする
 autoload -Uz compinit
@@ -72,6 +76,9 @@ compinit
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
 # ../ の後は今いるディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
@@ -83,12 +90,14 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 # ps コマンドのプロセス名補完
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 
-
 ########################################
 # vcs_info
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
+setopt prompt_subst
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' disable bzr svn hg
 zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
 zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
 
@@ -98,8 +107,7 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-
-########################################
+#######################################
 # オプション
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
@@ -122,7 +130,7 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 
 # 同時に起動したzshの間でヒストリを共有する
-setopt share_history
+# setopt share_history
 
 # 同じコマンドをヒストリに残さない
 setopt hist_ignore_all_dups
@@ -149,10 +157,9 @@ bindkey "^[[3~" delete-char
 #export LSCOLORS=cxfxcxdxbxegedabagacad
 
 # エイリアス
-#alias ls="ls -G"
+alias ls="ls -G"
 alias la='ls -lta'
 alias l='ls -lt'
-alias tw='tw -yes'
 alias vi='vim'
 
 alias grep='grep --color'
@@ -164,15 +171,10 @@ alias scp='scp -r'
 alias mv='mv -i'
 alias vinone='vi -u NONE -U NONE --noplugin'
 
-
 alias mkdir='mkdir -p'
 
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
-
-# グローバルエイリアス
-alias -g L='| less'
-alias -g G='| grep'
 
 alias R="R --no-save --no-restore-data -q"
 
@@ -181,36 +183,11 @@ alias skim="open -a '/Applications/Skim.app'"
 
 ## bundle exec rake test
 alias bert="bundle exec rake test"
-
 alias be="bundle exec"
 alias ber="bundle exec ruby"
 
-# C で標準出力をクリップボードにコピーする
-# mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
-if which pbcopy >/dev/null 2>&1 ; then
-    # Mac
-    alias -g C='| pbcopy'
-elif which xsel >/dev/null 2>&1 ; then
-    # Linux
-    alias -g C='| xsel --input --clipboard'
-elif which putclip >/dev/null 2>&1 ; then
-    # Cygwin
-    alias -g C='| putclip'
-fi
-
-########################################
-# OS 別の設定
-case ${OSTYPE} in
-    darwin*)
-        #Mac用の設定
-        export CLICOLOR=1
-        alias ls='ls -G -F'
-        ;;
-    linux*)
-        #Linux用の設定
-        alias ls='ls -F --color=auto'
-        ;;
-esac
+# optipng
+alias opng="optipng"
 
 # mkdev コマンドを作成する
 mkdev () {
@@ -231,11 +208,6 @@ mkdev () {
   cd ${devPath}
 }
 
-# vim:set ft=zsh:
-
-# OPAM configuration
-. /Users/bokken/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
 # tmux 系の処理を記述
 ## 起動時に tmux が保持しているセッションを表示
 tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
@@ -244,11 +216,16 @@ tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
     echo '% tmux list-windows -a'
     tmux list-windows -a
 fi
-
-# zsh の補完を sshmux コマンドでも有効にする
-compdef sshmux=ssh
-
+#
 # tmux 起動中じゃなければ自動的に tmux を起動する
-if [[ ! -n $TMUX ]]; then
+if [[ ! -n $TMUX && $VS_CODE =~ "[0-9]+" ]]; then
   tmux new-session
 fi
+
+# if expr "aaabbc" : "b+c$" > /dev/null; then
+#     echo "hoge"
+# fi
+#if type zprof > /dev/null 2>&1; then
+#  zprof | less
+#fi
+
