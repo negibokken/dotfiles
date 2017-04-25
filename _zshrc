@@ -218,7 +218,7 @@ tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
 fi
 #
 # tmux 起動中じゃなければ自動的に tmux を起動する
-if [[ ! -n $TMUX && $VS_CODE =~ "[0-9]+" ]]; then
+if [[ ! $TMUX ]] && [[ ! $VSCODE_PID =~ "[0-9]+" ]]; then
   tmux new-session
 fi
 
