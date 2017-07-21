@@ -1,100 +1,63 @@
-# 環境変数
+# language
 export LANG=ja_JP.UTF-8
 
-# PATHの設定
-#export myTEXMF=/usr/local/texlive/texmf-local
+# mybin
 export PATH=$PATH:$HOME/.mybin
 
-# rbenv設定
-export PATH=$HOME/.rbenv/bin:$PATH
-eval "$(rbenv init - zsh)"
-export CC=/usr/bin/gcc
+# rbenv
+export PATH=$HOME/.rbenv/shims:$PATH
 
-# Activate Pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-export PATH=${PYENV_ROOT}/bin:$PATH
-eval "$(pyenv init -)"
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-
-# golang 設定
+# golang
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export GOROOT=/usr/local/opt/go/libexec
 export GOPATH=$HOME/go:$HOME/go/workspace:$HOME/.ghq/github.com
 export PATH=$PATH:$HOME/go/bin:$PATH:$GOROOT/bin:$HOME/.go/bin
 
-export PATH="$HOME/.rbenv/shims:$PATH"
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
+# nodebrew
 export PATH=$PATH:./node_modules/.bin
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=$PATH:$HOME/.config/yarn/global/node_modules/.bin
+
+# sbin
 export PATH="/usr/local/sbin:$PATH"
 
-## for vscode plantuml
-### JAVA setting
+# vscode plantuml
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 export PLANTUML_JAR=/usr/local/Cellar/plantuml/8048/libexec/plantuml.jar
-## GRAPHVIZ_DOT setting
 export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/2.40.1/bin/dot
 
-## Use Hub
+# Hub
 function git(){hub "$@"}
 
-# 色を使用出来るようにする
-autoload -Uz colors
-colors
-
-# 単語移動
-bindkey '^f' forward-word
-bindkey '^b' backward-word
-
-# ヒストリの設定
+# history
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 
-# プロンプト
-# 1行表示
-#PROMPT="%~ %# "
-# 2行表示
-PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
-%# "
+# colorize
+autoload -Uz colors
+colors
 
-# 単語の区切り文字を指定する
-autoload -Uz select-word-style
-select-word-style default
-# ここで指定した文字は単語区切りとみなされる
-# / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
-zstyle ':zle:*' word-chars " /=;@:{},|"
-zstyle ':zle:*' word-style unspecified
-
-#########################################
-# 補完
-# 補完機能を有効にする
 autoload -Uz compinit
 compinit
 
-# 補完で小文字でも大文字にマッチさせる
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
+# prompt
+PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
+%# "
 
-# ../ の後は今いるディレクトリを補完しない
-zstyle ':completion:*' ignore-parents parent pwd ..
+# word cursor movement
+bindkey '^f' fowward-word
+bindkey '^b' backward-word
 
-# sudo の後ろでコマンド名を補完する
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-                   /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+# word definition
+autoload -Uz select-word-style
+select-word-style default
+zstyle ':zle:*' word-chars " /=;@:{},|"
+zstyle ':zle:*' word-style unspecified
 
-# ps コマンドのプロセス名補完
-zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
-
-########################################
-# vcs_info
+# vcs prompt
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
-
 setopt prompt_subst
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' disable bzr svn hg
@@ -102,105 +65,71 @@ zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
 zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
 
 function _update_vcs_info_msg() {
-    LANG=en_US.UTF-8 vcs_info
-    RPROMPT="${vcs_info_msg_0_}"
+  LANG=en_US.UTF-8 vcs_info
+  RPROMPT="${vcs_info_msg_0_}"
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-#######################################
-# オプション
-# 日本語ファイル名を表示可能にする
+# Options
+## print_eight_bit
 setopt print_eight_bit
 
-# beep を無効にする
-setopt no_beep
-
-# フローコントロールを無効にする
-setopt no_flow_control
-
-# '#' 以降をコメントとして扱う
+## comment
 setopt interactive_comments
 
-# ディレクトリ名だけでcdする
+## cd if specfied only directory
 setopt auto_cd
 
-# cd したら自動的にpushdする
-setopt auto_pushd
-# 重複したディレクトリを追加しない
-setopt pushd_ignore_dups
-
-# 同時に起動したzshの間でヒストリを共有する
+## share history among zsh process
 setopt share_history
 
-# 同じコマンドをヒストリに残さない
+## delete same command
 setopt hist_ignore_all_dups
 
-# スペースから始まるコマンド行はヒストリに残さない
-setopt hist_ignore_space
-
-# ヒストリに保存するときに余分なスペースを削除する
-setopt hist_reduce_blanks
-
-# 高機能なワイルドカード展開を使用する
+## expand wild card
 setopt extended_glob
 
-########################################
-# キーバインド
+## delete redundant spaces
+setopt hist_reduce_blanks
 
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
-bindkey '^R' history-incremental-pattern-search-backward
-bindkey "^[[3~" delete-char
-
-########################################
-
-# lsの色設定
-#export LSCOLORS=cxfxcxdxbxegedabagacad
-
-# エイリアス
+# aliases
 alias ls="ls -G"
-alias la='ls -lta'
-alias l='ls -lt'
-alias vi='vim'
+alias l="ls -lt"
+alias la="ls -lta"
 
-alias grep='grep --color'
-alias egrep='egrep --color'
+alias vi="vim"
 
-alias rm='rm -rf'
-alias cp='cp -i'
-alias scp='scp -r'
-alias mv='mv -i'
-alias vinone='vi -u NONE -U NONE --noplugin'
+alias grep="grep --color"
+alias egrep="egrep --color"
+alias rm="rm -rf"
 
-alias mkdir='mkdir -p'
+alias cp="cp -i"
 
-# sudo の後のコマンドでエイリアスを有効にする
-alias sudo='sudo '
+alias mkdir="mkdir -p"
 
-alias R="R --no-save --no-restore-data -q"
+alias sudo="sudo "
 
-## アプリのエイリアス
-alias skim="open -a '/Applications/Skim.app'"
+# tmux
+tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
+  echo '% tmux list-sessions'
+  tmux list-sessions
+  echo '% tmux list-windows -a'
+  tmux list-windows -a
+fi
+if [[ ! $TMUX ]] && [[ ! $VSCODE_PID =~ "[0-9]+" ]]; then
+  tmux new-session
+fi
 
-## bundle exec rake test
-alias bert="bundle exec rake test"
-alias be="bundle exec"
-alias ber="bundle exec ruby"
-
-# optipng
-alias opng="optipng"
-
-# mkdev コマンドを作成する
+# make temp directory
 mkdev () {
-  if [ ! -n "$1" ]
-  then
+  if [ ! -n "$1" ]; then
     echo "Usage: mkdev dir-name"
-    return
+  return
   fi
   local dirName=$1
   local rootDir=$(ghq root)
   local githubUser="github.com/$(git config user.name)"
-  if [[ dirName = */* ]]
-  then
+  if [[ dirName = */* ]]; then
     githubUser = "github.com"
   fi
   local devPath="${rootDir}/${githubUser}/${dirName}"
@@ -208,29 +137,21 @@ mkdev () {
   cd ${devPath}
 }
 
-# tmux 系の処理を記述
-## 起動時に tmux が保持しているセッションを表示
-tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
-    echo '% tmux list-sessions'
-    tmux list-sessions
-    echo '% tmux list-windows -a'
-    tmux list-windows -a
-fi
-#
-# tmux 起動中じゃなければ自動的に tmux を起動する
-if [[ ! $TMUX ]] && [[ ! $VSCODE_PID =~ "[0-9]+" ]]; then
-  tmux new-session
-fi
+mktemp () {
+  if [ ! -n "$1" ]; then
+    echo "Usage: mktemp dir-name"
+    return
+  fi
+  local dirName=$1
+  local rootDir="$HOME/temp"
+  local devPath="${rootDir}/${dirName}"
+  mkdir -p ${devPath}
+  cd ${devPath}
+}
 
-# if expr "aaabbc" : "b+c$" > /dev/null; then
-#     echo "hoge"
-# fi
-# if type zprof > /dev/null 2>&1; then
-#   zprof | less
-# fi
-
-## For peco
-#pecoでhistory検索
+###############################
+# peco
+###############################
 function peco-select-history() {
   BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
   CURSOR=$#BUFFER
@@ -239,14 +160,13 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^r' peco-select-history
 
-# ### search a destination from cdr list
+# search a destination from cdr list
 function peco-get-destination-from-cdr() {
   cdr -l | \
   sed -e 's/^[[:digit:]]*[[:blank:]]*//' | \
   peco --query "$LBUFFER"
 }
 
-### search a destination from cdr list and cd the destination
 function peco-cdr() {
   local destination="$(peco-get-destination-from-cdr)"
   if [ -n "$destination" ]; then
@@ -259,8 +179,9 @@ function peco-cdr() {
 zle -N peco-cdr
 bindkey '^x' peco-cdr
 
-## ghq peco
+## peco
 alias gh='cd $(ghq list -p | peco)'
+alias pro='cd ~/Project/$(ls ~/Project | peco)'
 
 #pecoでkill
 function peco-pkill() {
@@ -271,3 +192,4 @@ function peco-pkill() {
   done
 }
 alias pk="peco-pkill"
+
