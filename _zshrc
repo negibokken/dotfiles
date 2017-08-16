@@ -10,8 +10,17 @@ export PATH=$HOME/.rbenv/shims:$PATH
 # golang
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=$HOME/go:$HOME/go/workspace:$HOME/.ghq/github.com
+export GOPATH=$HOME/go
 export PATH=$PATH:$HOME/go/bin:$PATH:$GOROOT/bin:$HOME/.go/bin
+export MYGO=$GOPATH/src/github.com/negibokken
+
+export GL_USER="negibokken"
+export GL_PRIVATE="private"
+export GL_ENDPOINT="https://gitlab.com/api/v3"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/shims:$PATH"
 
 # nodebrew
 export PATH=$PATH:./node_modules/.bin
@@ -149,6 +158,18 @@ mktemp () {
   cd ${devPath}
 }
 
+gotemp () {
+  if [ ! -n "$1" ]; then
+    echo "Usage: gotemp dir-name"
+    return
+  fi
+  local dirName=$1
+  local rootDir="$HOME/go/src/github.com/negibokken"
+  local devPath="${rootDir}/${dirName}"
+  mkdir -p ${devPath}
+  cd ${devPath}
+}
+
 ###############################
 # peco
 ###############################
@@ -192,4 +213,3 @@ function peco-pkill() {
   done
 }
 alias pk="peco-pkill"
-
