@@ -90,7 +90,7 @@ setopt interactive_comments
 setopt auto_cd
 
 ## share history among zsh process
-setopt share_history
+# setopt share_history
 
 ## delete same command
 setopt hist_ignore_all_dups
@@ -213,3 +213,10 @@ function peco-pkill() {
   done
 }
 alias pk="peco-pkill"
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/sls.zsh
