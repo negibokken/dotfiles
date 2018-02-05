@@ -116,10 +116,10 @@ endif
 """"""""""""""""""""""""""""""
 
 "" Previmの設定
-augroup PrevimSettings
-    autocmd!
-    autocmd BufNewFile,BufRead <em>.{md,mdwn,mkd,mkdn,mark</em>} set filetype=markdown
-augroup END
+" augroup PrevimSettings
+"     autocmd!
+"     autocmd BufNewFile,BufRead <em>.{md,mdwn,mkd,mkdn,mark</em>} set filetype=markdown
+" augroup END
 
 " プラグインの設定
 filetype off
@@ -155,7 +155,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   " インデントに色を付けて見やすくする
   NeoBundle 'nathanaelkane/vim-indent-guides'
   "NeoBundle 'tyru/open-browser.vim'
-  "NeoBundle 'tukiyo/previm'
+  NeoBundle 'tukiyo/previm'
   NeoBundle 'mattn/emmet-vim'
   "NeoBundle 'jpo/vim-railscasts-theme'
   NeoBundle 'simeji/winresizer'
@@ -194,12 +194,16 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'scrooloose/nerdtree'
   NeoBundle 'jistr/vim-nerdtree-tabs'
   " vim instant preview
-  NeoBundle 'suan/vim-instant-markdown'
+  " NeoBundle 'suan/vim-instant-markdown'
   NeoBundle 'elzr/vim-json'
   "NeoBundle 'mattn/webapi-vim'
   NeoBundle 'Shougo/unite.vim'
   "NeoBundle 'moznion/hateblo.vim'
 call neobundle#end()
+
+" previm setting
+let g:previm_open_cmd = 'open -a Google\ Chrome'
+let g:previm_enable_realtime = 1
 
 " vim instant markdown
 let g:instant_markdown_auto_start = 1

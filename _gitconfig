@@ -23,5 +23,6 @@
 
 [diff]
   algorithm = histogram
+
 [ghq]
 	root = /Users/bokken/go/src
