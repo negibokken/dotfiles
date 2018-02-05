@@ -153,7 +153,8 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'prettier/vim-prettier', {
         \ 'do': 'yarn install',
         \ 'for': ['javascript', 'typescript', 'css', 'less',
-        \ 'scss', 'json', 'graphql', 'markdown', 'vue'] }
+        \ 'scss', 'json', 'graphql', 'vue'] }
+  NeoBundle 'mzlogin/vim-markdown-toc'
   NeoBundleCheck "未インストールのプラグインの確認
 call neobundle#end()
 
@@ -335,7 +336,7 @@ endfunction"}}}
 
 " vim prettier setting
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync"
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue PrettierAsync"
 
 " keymap setting
 " ハイライトを ESC 2回で消す
