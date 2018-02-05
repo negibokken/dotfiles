@@ -21,7 +21,7 @@ set smarttab
 "ファイル内の <Tab> が対応する空白の数
 set tabstop=2
 " プラグインの有効化
-set nocompatible               " be iMproved
+set nocompatible
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=h,l,b,s,<,>,[,]
 ""検索をファイルの先頭へループしない
@@ -34,8 +34,6 @@ set hlsearch
 set encoding=UTF-8
 set fileencoding=UTF-8
 set termencoding=UTF-8
-""ハイライトをESC2回で消す
-nmap <ESC><ESC> :nohlsearch<CR><ESC>
 ""コマンドラインモードで<Tab>でファイル名補完
 set wildmenu
 ""ウィンドウのタイトルバーにファイルのパス情報等を表示する
@@ -64,6 +62,7 @@ set spell
 highlight turn gui=standout cterm=standout
 autocmd BufRead *.rb,*.ts,*.js,*.py call matchadd("turn", '.\%>81v')
 
+" spell check
 function! s:SpellConf()
   redir! => syntax
   silent syntax
@@ -104,34 +103,16 @@ set wildmode=full
 " 行番号と列番号を表示する
 set ruler
 
-""""""""""""""""""""""""""""""
 " 最後のカーソル位置を復元する
-"""""""""""""""""""""""""""""""
 if has("autocmd")
     autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
     \   exe "normal! g'\"" |
     \ endif
 endif
-""""""""""""""""""""""""""""""
-
-"" Previmの設定
-" augroup PrevimSettings
-"     autocmd!
-"     autocmd BufNewFile,BufRead <em>.{md,mdwn,mkd,mkdn,mark</em>} set filetype=markdown
-" augroup END
 
 " プラグインの設定
 filetype off
-
-" Installation check.
-"if neobundle#exists_not_installed_bundles()
-"  echomsg 'Not installed bundles : ' .
-"        \ string(neobundle#get_not_installed_bundle_names())
-"  echomsg 'Please execute ":NeoBundleInstall" command.'
-"  "finish
-"endif
-
 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
@@ -141,72 +122,40 @@ filetype plugin on
 
 call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleFetch 'Shougo/neobundle.vim'
-  " originalrepos on github
-  "NeoBundle 'VimClojure'
-  NeoBundle 'Shougo/vimshell'
-  "NeoBundle 'Shougo/unite.vim'
-  "NeoBundle 'Shougo/neocomplete'
   NeoBundle 'Shougo/neocomplcache'
-  NeoBundle 'Shougo/vimproc.vim'
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
-  "NeoBundle 'jpalardy/vim-slime'
+  NeoBundle 'jpalardy/vim-slime'
   NeoBundle 'tpope/vim-endwise'
-  " インデントに色を付けて見やすくする
   NeoBundle 'nathanaelkane/vim-indent-guides'
-  "NeoBundle 'tyru/open-browser.vim'
   NeoBundle 'tukiyo/previm'
   NeoBundle 'mattn/emmet-vim'
-  "NeoBundle 'jpo/vim-railscasts-theme'
   NeoBundle 'simeji/winresizer'
   NeoBundle 'leafgarland/typescript-vim'
-  "NeoBundle 'Townk/vim-autoclose'
   NeoBundle 'jelera/vim-javascript-syntax'
-  "NeoBundle 'hokaccha/vim-html5validator'
-  "NeoBundle 'tpope/vim-fugitive'
-  "NeoBundle 'marijnh/tern_for_vim'
-  "NeoBundle 'moll/vim-node'
-  "" Reference
   NeoBundle 'thinca/vim-ref'
   NeoBundle 'tokuhirom/jsref'
   NeoBundle 'mojako/ref-sources.vim'
-  NeoBundleLazy 'heavenshell/vim-jsdoc' , {'autoload': {'filetypes': ['javascript']}}
-  "NeoBundle 'mtscout6/syntastic-local-eslint.vim'
   NeoBundle 'othree/yajs.vim'
-  "NeoBundle 'othree/html5.vim'
+  NeoBundle 'othree/html5.vim'
   NeoBundle 'mxw/vim-jsx'
   NeoBundle 'neomake/neomake'
-  "NeoBundle 'benjie/neomake-local-eslint.vim'
-  " golang
   NeoBundle 'fatih/vim-go'
-  "NeoBundle 'Blackrush/vim-gocode'
   NeoBundle 'vim-jp/vim-go-extra'
-  "NeoBundle 'scrooloose/syntastic'
   NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
-  " customize status bar
   NeoBundle 'itchyny/lightline.vim'
-  "NeoBundle 'tpope/vim-fugitive'
-  "NeoBundle 'airblade/vim-gitgutter'
   NeoBundle 'majutsushi/tagbar'
-  " vim tab resize
   NeoBundle 'kana/vim-submode'
-  " NERDTree
   NeoBundle 'scrooloose/nerdtree'
   NeoBundle 'jistr/vim-nerdtree-tabs'
-  " vim instant preview
-  " NeoBundle 'suan/vim-instant-markdown'
   NeoBundle 'elzr/vim-json'
-  "NeoBundle 'mattn/webapi-vim'
   NeoBundle 'Shougo/unite.vim'
-  "NeoBundle 'moznion/hateblo.vim'
+  NeoBundleCheck "未インストールのプラグインの確認
 call neobundle#end()
 
 " previm setting
 let g:previm_open_cmd = 'open -a Google\ Chrome'
 let g:previm_enable_realtime = 1
-
-" vim instant markdown
-let g:instant_markdown_auto_start = 1
 
 " JSON syntax
 let g:vim_json_syntax_conceal = 0
@@ -220,19 +169,17 @@ augroup Vimrc
   autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 augroup END
 
+" set NERD TREE
 let g:nerdtree_tabs_autoclose=1
 let g:nerdtree_tabs_smart_startup_focus=2
-"let g:nerdtree_tabs_focus_on_files=1
 augroup NERDTreeExec
   autocmd!
-  " Start NERDTree when start vim
   filetype on
-  "autocmd BufRead,BufNewFile *.* NERDTreeTabsOpen
-  " Close NERDTree window if there is only NERDTree
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd VimEnter * wincmd l
 augroup END
 map <C-n> :NERDTreeTabsToggle<CR>
+
 " configure status bar
 let g:lightline = {
       \ 'colorscheme': 'seoul256',
@@ -243,15 +190,9 @@ filetype indent on
 syntax on
 
 " Eslint 設定
-autocmd! BufWritePost * Neomake " 保存時に実行する
+" 保存時に実行する
+autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
-"let g:neomake_typescript_tslint_maker = {
-"  \ 'args': [
-"  \     '%:p', '--format verbose'
-"  \ ],
-"  \ 'errorformat': '%E%f[%l\, %c]: %m'
-"  \ }
-let g:neomake_typescript_enabled_makers = ['tslint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_error_sign = {'text': '>>', 'texthl': 'Error'}
 let g:neomake_warning_sign = {'text': '>>',  'texthl': 'Todo'}
@@ -279,11 +220,6 @@ let g:go_bin_path = expand("~/.go/bin")
 set rtp+=$GOROOT/misc/vim
 
 filetype plugin indent on
-NeoBundleCheck "未インストールのプラグインの確認
-
-""""""""""""""""""""""""""
-" markdown
- "let g:vim_markdown_initial_foldlevel=
 
 "" plasticboy/vim-markdown options
 let g:vim_markdown_folding_disabled = 1
@@ -350,7 +286,7 @@ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " Original snippets directory
-let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/snippets/'
+let g:neosnippet#snippets_directory='~/dotfiles/.vim/snippets/'
 " SuperTab like snippets behavior.  "imap <expr><TAB>
 " \ pumvisible() ? "\<C-n>" :
 " \ neosnippet#expandable_or_jumpable() ?
@@ -369,7 +305,7 @@ let g:tern_show_argument_hints='on_hold'
 let g:tern_map_keys=1
 
 " vim-indent-guides
-"colorscheme default
+" colorscheme default
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=236
@@ -377,10 +313,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=237
 
 " Indent with 2 spaces
 autocmd filetype coffee,javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-
-" jsdoc for vim-ref
-let g:ref_javascript_doc_path = '/Users/ryo/.vim/bundle/jsref/htdocs'
-let g:javascript_plugin_flow = 1
 
 " JunkFile
 " Open junk file."{{{
@@ -397,21 +329,9 @@ function! s:open_junk_file()
   endif
 endfunction"}}}
 
-" BlogEdit
-" Open blog file."{{{
-command! -nargs=0 Blog call s:open_blog_file()
-function! s:open_blog_file()
-  let l:blog_dir = $HOME . '/Project/Private/blog'. strftime('')
-  if !isdirectory(l:blog_dir)
-    call mkdir(l:blog_dir, 'p')
-  endif
-
-  let l:filename = input('Blog File: ', l:blog_dir.strftime('/%Y-%m-%d-%H%M%S.md'))
-  if l:filename != ''
-    execute 'edit ' . l:filename
-  endif
-endfunction"}}}
-
+" keymap setting
+" ハイライトを ESC 2回で消す
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
 
 " vim tab
 nnoremap s <Nop>
