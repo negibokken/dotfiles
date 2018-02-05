@@ -125,6 +125,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'Shougo/neocomplcache'
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
+  NeoBundle 'Shougo/unite.vim'
   NeoBundle 'jpalardy/vim-slime'
   NeoBundle 'tpope/vim-endwise'
   NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -149,7 +150,10 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'scrooloose/nerdtree'
   NeoBundle 'jistr/vim-nerdtree-tabs'
   NeoBundle 'elzr/vim-json'
-  NeoBundle 'Shougo/unite.vim'
+  NeoBundle 'prettier/vim-prettier', {
+        \ 'do': 'yarn install',
+        \ 'for': ['javascript', 'typescript', 'css', 'less',
+        \ 'scss', 'json', 'graphql', 'markdown', 'vue'] }
   NeoBundleCheck "未インストールのプラグインの確認
 call neobundle#end()
 
@@ -192,7 +196,7 @@ syntax on
 " Eslint 設定
 " 保存時に実行する
 autocmd! BufWritePost * Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_error_sign = {'text': '>>', 'texthl': 'Error'}
 let g:neomake_warning_sign = {'text': '>>',  'texthl': 'Todo'}
