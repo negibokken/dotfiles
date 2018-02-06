@@ -54,7 +54,7 @@ PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
 %# "
 
 # word cursor movement
-bindkey '^f' fowward-word
+bindkey '^f' forward-word
 bindkey '^b' backward-word
 
 # word definition
