@@ -376,10 +376,10 @@ inoremap <C-d> <esc>dd
 nnoremap <C-d> dd
 
 " Move faster
-nnoremap <C-f> jjj
-vnoremap <C-f> jjj
-nnoremap <C-b> kkk
-vnoremap <C-b> kkk
+"nnoremap <C-f> jjj
+"vnoremap <C-f> jjj
+"nnoremap <C-b> kkk
+"vnoremap <C-b> kkk
 
 " vim grep
 nnoremap [q :cprevious<CR>
