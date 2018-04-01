@@ -206,6 +206,10 @@ bindkey '^x' peco-cdr
 alias gh='cd $(ghq list -p | peco)'
 alias pro='cd ~/Project/$(ls ~/Project | peco)'
 alias temp='cd ~/temp/$(ls ~/temp | peco)'
+alias cb='git checkout `git branch |
+  peco |
+  sed -e "s/\* //g" |
+  awk "{print \$1}"`'
 
 #pecoでkill
 function peco-pkill() {
