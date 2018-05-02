@@ -336,8 +336,13 @@ function! s:open_junk_file()
 endfunction"}}}
 
 " vim prettier setting
-let g:prettier#autoformat = 0
+let g:prettier#autoformat = 1
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue PrettierAsync"
+let g:prettier#config#print_width = 150
+let g:prettier#config#single_quote = 'true'
+let g:prettier#config#bracket_spacing = 'true'
+let g:prettier#config#trailing_comma = 'all'
+let g:prettier#config#prose_wrap = 'preserve'
 
 " keymap setting
 " ハイライトを ESC 2回で消す
@@ -381,6 +386,9 @@ nnoremap <C-d> dd
 "vnoremap <C-f> jjj
 "nnoremap <C-b> kkk
 "vnoremap <C-b> kkk
+
+" ctags remap
+noremap <C-t> <C-[>
 
 " vim grep
 nnoremap [q :cprevious<CR>
