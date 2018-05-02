@@ -146,6 +146,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
   NeoBundle 'itchyny/lightline.vim'
   NeoBundle 'majutsushi/tagbar'
+  NeoBundle 'szw/vim-tags'
   NeoBundle 'kana/vim-submode'
   NeoBundle 'scrooloose/nerdtree'
   NeoBundle 'jistr/vim-nerdtree-tabs'
