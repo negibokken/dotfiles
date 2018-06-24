@@ -12,6 +12,8 @@ set number
 set shiftwidth=2
 "閉じ括弧が入力されたとき、対応する括弧を表示する
 set showmatch
+"" 大文字を無視する
+set ignorecase
 ""検索時に大文字を含んでいたら大/小を区別
 set smartcase
 "新しい行を作ったときに高度な自動インデントを行う
@@ -195,6 +197,26 @@ filetype plugin indent on     " required!
 filetype indent on
 syntax on
 
+" tagbar
+let g:tagbar_type_typescript = {
+  \ 'ctagsbin' : 'tstags',
+  \ 'ctagsargs' : '-f-',
+  \ 'kinds': [
+    \ 'e:enums:0:1',
+    \ 'f:function:0:1',
+    \ 't:typealias:0:1',
+    \ 'M:Module:0:1',
+    \ 'I:import:0:1',
+    \ 'i:interface:0:1',
+    \ 'C:class:0:1',
+    \ 'm:method:0:1',
+    \ 'p:property:0:1',
+    \ 'v:variable:0:1',
+    \ 'c:const:0:1',
+  \ ],
+  \ 'sort' : 0
+  \ }                                                                               "
+
 " Eslint 設定
 " 保存時に実行する
 autocmd! BufWritePost * Neomake
@@ -336,11 +358,11 @@ function! s:open_junk_file()
 endfunction"}}}
 
 " vim prettier setting
-let g:prettier#autoformat = 1
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue PrettierAsync"
-let g:prettier#config#print_width = 150
+let g:prettier#autoformat = 1
+let g:prettier#config#print_width =  80
+let g:prettier#config#single_quote = 1
 let g:prettier#config#single_quote = 'true'
-let g:prettier#config#bracket_spacing = 'true'
 let g:prettier#config#trailing_comma = 'all'
 let g:prettier#config#prose_wrap = 'preserve'
 
@@ -386,9 +408,6 @@ nnoremap <C-d> dd
 "vnoremap <C-f> jjj
 "nnoremap <C-b> kkk
 "vnoremap <C-b> kkk
-
-" ctags remap
-noremap <C-t> <C-[>
 
 " vim grep
 nnoremap [q :cprevious<CR>
