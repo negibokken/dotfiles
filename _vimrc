@@ -1,3 +1,7 @@
+" 英語設定
+set langmenu=en_US.UTF-8
+let $LANG="en"
+
 "新しい行のインデントを現在行と同じにする
 set autoindent
 "Vi互換をオフ
@@ -125,6 +129,7 @@ filetype plugin on
 call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleFetch 'Shougo/neobundle.vim'
   NeoBundle 'Shougo/neocomplcache'
+  " NeoBundle 'Shougo/neocomplete.vim'
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
   NeoBundle 'Shougo/unite.vim'
@@ -149,15 +154,27 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'itchyny/lightline.vim'
   NeoBundle 'majutsushi/tagbar'
   NeoBundle 'szw/vim-tags'
+  NeoBundle 'craigemery/vim-autotag'
   NeoBundle 'kana/vim-submode'
   NeoBundle 'scrooloose/nerdtree'
   NeoBundle 'jistr/vim-nerdtree-tabs'
+  NeoBundle 'rhysd/vim-clang-format'
   NeoBundle 'elzr/vim-json'
   NeoBundle 'prettier/vim-prettier', {
         \ 'do': 'yarn install',
         \ 'for': ['javascript', 'typescript', 'css', 'less',
         \ 'scss', 'json', 'graphql', 'vue'] }
   NeoBundle 'mzlogin/vim-markdown-toc'
+  " NeoBundle 'Shougo/vimproc.vim', {
+  "           \ 'build' : {
+  "           \ 'windows' : 'make -f make_mingw32.mak',
+  "           \ 'cygwin' : 'make -f make_cygwin.mak',
+  "           \ 'mac' : 'make -f make_mac.mak',
+  "           \ 'unix' : 'make -f make_unix.mak',
+  "           \ },
+  "           \ }
+  " NeoBundle 'justmao945/vim-clang'
+  " NeoBundle 'Shougo/neoinclude.vim'
   NeoBundleCheck "未インストールのプラグインの確認
 call neobundle#end()
 
@@ -196,6 +213,15 @@ let g:lightline = {
 filetype plugin indent on     " required!
 filetype indent on
 syntax on
+
+" ctags
+set exrc
+set secure
+
+let g:vim_tags_auto_generate = 1
+
+"" vim-autotag
+let g:autotagTagsFile="tags"
 
 " tagbar
 let g:tagbar_type_typescript = {
@@ -254,6 +280,7 @@ let g:vim_markdown_folding_disabled = 1
 
 " md as markdown, instead of modula2
 autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+autocmd BufNewFile,BufRead *.nas set filetype=nas
 
 " set color scheme as vim-hybrid
 syntax on
@@ -415,5 +442,71 @@ nnoremap ]q :cnext<CR>
 nnoremap [Q :<C-u>cfirst<CR>
 nnoremap ]Q :<C-u>clast<CR>
 
+" Ctags
+"nnoremap <C-]> <C-]>
+nnoremap <C-[> <C-t>
+
 " hook quick fixcmd
 autocmd QuickFixCmdPost *grep* cwindow
+
+
+" Clang format setting
+" function! Formatonsave()
+"   let l:formatdiff = 1
+"   :py3f /usr/local/Cellar/clang-format/2018-04-24/share/clang/clang-format.py
+" endfunction
+" autocmd BufWritePre *.c,*.h,*.cc,*.cpp call Formatonsave()
+let g:clang_format#style_options = {
+  \ "AccessModifierOffset" : -4,
+  \ "AllowShortIfStatementsOnASingleLine" : "true",
+  \ "AlwaysBreakTemplateDeclarations" : "true",
+  \ "Standard" : "C++11",
+  \ "BreakBeforeBraces" : "Stroustrup" }
+let g:clang_format#code_style = "google"
+let g:clang_format#auto_format = 1
+
+" Help
+set keywordprg=:help " Open Vim internal help by K command
+let g:neomake_cpp_enable_makers = ['clang']
+let g:neomake_cpp_clang_maker = {
+    \ 'args': ['-std=c++14']
+    \ }
+"   \ 'args': ['-std=c++14', '-Wall', '-Wextra', '-Weverything', '-pedantic']
+
+
+"" 'Shougo/neocomplete.vim' {{{
+"let g:neocomplete#enable_at_startup = 1
+"if !exists('g:neocomplete#force_omni_input_patterns')
+"        let g:neocomplete#force_omni_input_patterns = {}
+"endif
+"let g:neocomplete#force_overwrite_completefunc = 1
+"let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+""""}}}
+"
+"" 'justmao945/vim-clang' {{{
+"
+"" disable auto completion for vim-clanG
+"let g:clang_auto = 0
+"let g:clang_complete_auto = 0
+"let g:clang_auto_select = 0
+"let g:clang_use_library = 1
+"
+"" default 'longest' can not work with neocomplete
+"let g:clang_c_completeopt   = 'menuone'
+"let g:clang_cpp_completeopt = 'menuone'
+"
+"if executable('clang-3.6')
+"    let g:clang_exec = 'clang-3.6'
+"elseif executable('clang-3.5')
+"    let g:clang_exec = 'clang-3.5'
+"elseif executable('clang-3.4')
+"    let g:clang_exec = 'clang-3.4'
+"else
+"    let g:clang_exec = 'clang'
+"endif
+"
+"let g:clang_c_options = '-std=c11'
+"let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
+"
+"" }}}
