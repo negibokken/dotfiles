@@ -57,6 +57,11 @@ set nobackup
 set list
 set listchars=tab:..,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
 
+"" auto bracket complete
+inoremap { {}<Left><CR><ESC><S-o>
+inoremap [ []<Left>
+inoremap ( ()<Left>
+
 set spelllang+=en,cjk
 " Spell check
 " mark mistakes with  underline and bold
@@ -117,6 +122,12 @@ if has("autocmd")
     \ endif
 endif
 
+" gdb setting
+packadd termdebug
+"マウスを使用
+set mouse=a
+let g:termdebug_wide = 163
+
 " プラグインの設定
 filetype off
 
@@ -174,9 +185,13 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   "           \ },
   "           \ }
   " NeoBundle 'justmao945/vim-clang'
-  " NeoBundle 'Shougo/neoinclude.vim'
+  NeoBundle 'soramugi/auto-ctags.vim'
   NeoBundleCheck "未インストールのプラグインの確認
 call neobundle#end()
+
+" auto ctags
+let g:auto_ctags = 1
+let g:auto_ctags_directory_list = ['.git', '.svn', '.']
 
 " previm setting
 let g:previm_open_cmd = 'open -a Google\ Chrome'
@@ -447,7 +462,7 @@ nnoremap ]Q :<C-u>clast<CR>
 nnoremap <C-[> <C-t>
 
 " hook quick fixcmd
-autocmd QuickFixCmdPost *grep* cwindow
+" autocmd QuickFixCmdPost *grep* cwindow
 
 
 " Clang format setting
@@ -466,7 +481,7 @@ let g:clang_format#code_style = "google"
 let g:clang_format#auto_format = 1
 
 " Help
-set keywordprg=:help " Open Vim internal help by K command
+" set keywordprg=:help " Open Vim internal help by K command
 let g:neomake_cpp_enable_makers = ['clang']
 let g:neomake_cpp_clang_maker = {
     \ 'args': ['-std=c++14']

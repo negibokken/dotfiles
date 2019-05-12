@@ -25,11 +25,15 @@ export PATH=$PATH:$HOME/.config/yarn/global/node_modules/.bin
 
 # sbin
 export PATH="/usr/local/sbin:$PATH"
+export PATH="/Users/bokken/Library/Android/sdk/platform-tools:$PATH"
 
 # vscode plantuml
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 export PLANTUML_JAR=/usr/local/Cellar/plantuml/8048/libexec/plantuml.jar
 export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/2.40.1/bin/dot
+
+# Chromium tools
+export PATH=$PATH:/usr/local/bin/depot_tools
 
 # Hub
 function git(){hub "$@"}
@@ -106,6 +110,7 @@ alias l="ls -lt"
 alias la="ls -lta"
 
 alias vi="vim"
+alias vio="vim -O"
 
 alias grep="grep --color"
 alias egrep="egrep --color"
@@ -118,7 +123,18 @@ alias mkdir="mkdir -p"
 alias sudo="sudo "
 alias gcp="gcloud"
 alias kube="kubectl"
+alias k="kubectl"
 alias codegrep='find . -path ./.git -prune -o -path ./log -prune -o -type f -print0 | xargs -0 grep -n -E $1'
+
+yarnb () {
+  yarn add $@
+  local types=`echo $@ | sed -E 's/([^ ]*)/@types\/\1/g'`
+  echo $types
+  yarn add -D $types
+}
+
+# Application alias
+alias 0xED="open -a 0xED"
 
 # tmux
 tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
