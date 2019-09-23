@@ -158,9 +158,10 @@ augroup ClangFormatG
     \ "BreakBeforeBraces" : "Stroustrup" }
   let g:clang_format#code_style = "google"
   let g:clang_format#auto_format = 1
-augroup ClangFormatG
+augroup END
 
-augroup ClangFormatG
+"" [plug-conf] xavierd/clang_complete clang formatting
+augroup ClangComplete
   let g:neomake_cpp_enable_makers = ['clang']
   let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14', '-I/usr/local/Cellar/gtk+3/3.24.10/include/gtk-3.0/'] }
 augroup END
