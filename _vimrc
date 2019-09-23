@@ -89,9 +89,8 @@ source ${HOME}/dotfiles/vimconf/junk_file.vim
 "" [plug] vim-plag
 filetype plugin on
 call plug#begin('~/.vim/plugged')
-call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
-""Plug 'xavierd/clang_complete'
+Plug 'xavierd/clang_complete'
 Plug 'neomake/neomake'
 Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
@@ -114,7 +113,7 @@ Plug 'Shougo/neomru.vim'
 call plug#end()
 
 "" [plug-conf] xavierd/clang_complete
-""let g:clang_library_path='/usr/local/opt/llvm/lib'
+let g:clang_library_path='/usr/local/opt/llvm/lib'
 
 "" [plug-conf] previm/previm
 let g:previm_open_cmd = 'open -a Google\ Chrome'
@@ -148,8 +147,8 @@ augroup Eslint
   let g:neomake_warning_sign = {'text': '>>',  'texthl': 'Todo'}
 augroup END
 
-"" [plug-conf] neomake/neomake clang formatting
-augroup Clang
+"" [plug-conf] rhysd/vim-clang-format clang formatting
+augroup ClangFormatG
   autocmd! BufWritePost * Neomake
   let g:clang_format#style_options = {
     \ "AccessModifierOffset" : -4,
@@ -159,9 +158,11 @@ augroup Clang
     \ "BreakBeforeBraces" : "Stroustrup" }
   let g:clang_format#code_style = "google"
   let g:clang_format#auto_format = 1
+augroup ClangFormatG
+
+augroup ClangFormatG
   let g:neomake_cpp_enable_makers = ['clang']
-  let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14'] }
-  "let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14', '-stdlib=gtk+-3.0'] }
+  let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14', '-I/usr/local/Cellar/gtk+3/3.24.10/include/gtk-3.0/'] }
 augroup END
 
 "" [plug-conf] elzr/vim-json
