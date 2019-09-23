@@ -150,6 +150,7 @@ augroup END
 
 "" [plug-conf] neomake/neomake clang formatting
 augroup Clang
+  autocmd! BufWritePost * Neomake
   let g:clang_format#style_options = {
     \ "AccessModifierOffset" : -4,
     \ "AllowShortIfStatementsOnASingleLine" : "true",
@@ -159,7 +160,8 @@ augroup Clang
   let g:clang_format#code_style = "google"
   let g:clang_format#auto_format = 1
   let g:neomake_cpp_enable_makers = ['clang']
-  let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14', '-stdlib=gtk+-3.0'] }
+  let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14'] }
+  "let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14', '-stdlib=gtk+-3.0'] }
 augroup END
 
 "" [plug-conf] elzr/vim-json
