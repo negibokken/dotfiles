@@ -89,8 +89,9 @@ source ${HOME}/dotfiles/vimconf/junk_file.vim
 "" [plug] vim-plag
 filetype plugin on
 call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
-Plug 'xavierd/clang_complete'
+""Plug 'xavierd/clang_complete'
 Plug 'neomake/neomake'
 Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
@@ -104,8 +105,16 @@ Plug 'prettier/vim-prettier', {
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'previm/previm'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Shougo/neocomplcache'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/neomru.vim'
 call plug#end()
 
+"" [plug-conf] xavierd/clang_complete
+""let g:clang_library_path='/usr/local/opt/llvm/lib'
 
 "" [plug-conf] previm/previm
 let g:previm_open_cmd = 'open -a Google\ Chrome'
@@ -138,6 +147,7 @@ augroup Eslint
   let g:neomake_error_sign = {'text': '>>', 'texthl': 'Error'}
   let g:neomake_warning_sign = {'text': '>>',  'texthl': 'Todo'}
 augroup END
+
 "" [plug-conf] neomake/neomake clang formatting
 augroup Clang
   let g:clang_format#style_options = {
@@ -149,7 +159,7 @@ augroup Clang
   let g:clang_format#code_style = "google"
   let g:clang_format#auto_format = 1
   let g:neomake_cpp_enable_makers = ['clang']
-  let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14'] }
+  let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14', '-stdlib=gtk+-3.0'] }
 augroup END
 
 "" [plug-conf] elzr/vim-json
@@ -157,7 +167,6 @@ let g:vim_json_syntax_conceal = 0
 
 "" [plug-conf] plasticboy/vim-markdown options
 let g:vim_markdown_folding_disabled = 1
-
 
 "" [plug-conf] nathanaelkane/vim-indent-guides
 let g:indent_guides_enable_on_vim_startup = 1
@@ -174,6 +183,14 @@ let g:prettier#config#single_quote = 'true'
 let g:prettier#config#trailing_comma = 'all'
 let g:prettier#config#prose_wrap = 'preserve'
 
+"" [plugconf] Shougo/neocomplcache
+source ${HOME}/dotfiles/vimconf/neocomplcache_conf.vim
+
+"" [plugconf] Shougo/Unite.vim
+source ${HOME}/dotfiles/vimconf/unite_conf.vim
+
+"" [plugconf] unite-grep
+source ${HOME}/dotfiles/vimconf/quick_grep.vim
 
 
 "" [keymap] Delete highlight when press esc twice
@@ -208,65 +225,13 @@ inoremap <C-j> <esc>
 nnoremap <C-j> <esc>
 vnoremap <C-j> <esc>
 
-" delete line Ctrl+d
+"" [keymap] delete line Ctrl+d
 inoremap <C-d> <esc>dd
 nnoremap <C-d> dd
 
-" vim grep
+"" [keymap] vim grep
 nnoremap [q :cprevious<CR>
 nnoremap ]q :cnext<CR>
 nnoremap [Q :<C-u>cfirst<CR>
 nnoremap ]Q :<C-u>clast<CR>
-
-" Ctags
-"nnoremap <C-]> <C-]>
-"nnoremap <C-[> <C-t>
-
-" hook quick fixcmd
-" autocmd QuickFixCmdPost *grep* cwindow
-
-" Clang format setting
-" function! Formatonsave()
-"   let l:formatdiff = 1
-"   :py3f /usr/local/Cellar/clang-format/2018-04-24/share/clang/clang-format.py
-" endfunction
-" autocmd BufWritePre *.c,*.h,*.cc,*.cpp call Formatonsave()
-
-
-"" 'Shougo/neocomplete.vim' {{{
-"let g:neocomplete#enable_at_startup = 1
-"if !exists('g:neocomplete#force_omni_input_patterns')
-"        let g:neocomplete#force_omni_input_patterns = {}
-"endif
-"let g:neocomplete#force_overwrite_completefunc = 1
-"let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-""""}}}
-"
-"" 'justmao945/vim-clang' {{{
-"
-"" disable auto completion for vim-clanG
-"let g:clang_auto = 0
-"let g:clang_complete_auto = 0
-"let g:clang_auto_select = 0
-"let g:clang_use_library = 1
-"
-"" default 'longest' can not work with neocomplete
-"let g:clang_c_completeopt   = 'menuone'
-"let g:clang_cpp_completeopt = 'menuone'
-"
-"if executable('clang-3.6')
-"    let g:clang_exec = 'clang-3.6'
-"elseif executable('clang-3.5')
-"    let g:clang_exec = 'clang-3.5'
-"elseif executable('clang-3.4')
-"    let g:clang_exec = 'clang-3.4'
-"else
-"    let g:clang_exec = 'clang'
-"endif
-"
-"let g:clang_c_options = '-std=c11'
-"let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
-"
-"" }}}
 
