@@ -47,6 +47,8 @@ set clipboard=unnamed,autoselect
 set backspace=indent,eol,start
 "" [basic] do not make .swp
 set nobackup
+"" [basic] do not make .swp
+set noswapfile
 "" [basic] make special character visible
 set list
 set listchars=tab:..,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
