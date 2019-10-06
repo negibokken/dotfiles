@@ -192,16 +192,16 @@ let g:prettier#config#single_quote = 'true'
 let g:prettier#config#trailing_comma = 'all'
 let g:prettier#config#prose_wrap = 'preserve'
 
-"" [plugconf] Shougo/neocomplcache
+"" [plug-conf] Shougo/neocomplcache
 source ${HOME}/dotfiles/vimconf/neocomplcache_conf.vim
 
-"" [plugconf] Shougo/Unite.vim
+"" [plug-conf] Shougo/Unite.vim
 source ${HOME}/dotfiles/vimconf/unite_conf.vim
 
-"" [plugconf] unite-grep
+"" [plug-conf] unite-grep
 source ${HOME}/dotfiles/vimconf/quick_grep.vim
 
-"" [plugconf] vim/fugtive
+"" [plug-conf] vim/fugtive
 autocmd QuickFixCmdPost *grep* cwindow
 set statusline+=%{fugitive#statusline()}
 
