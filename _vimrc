@@ -114,6 +114,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 "" [plug-conf] xavierd/clang_complete
@@ -199,6 +200,10 @@ source ${HOME}/dotfiles/vimconf/unite_conf.vim
 
 "" [plugconf] unite-grep
 source ${HOME}/dotfiles/vimconf/quick_grep.vim
+
+"" [plugconf] vim/fugtive
+autocmd QuickFixCmdPost *grep* cwindow
+set statusline+=%{fugitive#statusline()}
 
 
 "" [keymap] Delete highlight when press esc twice
