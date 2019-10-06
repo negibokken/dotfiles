@@ -29,6 +29,8 @@ set nocompatible
 set whichwrap=h,l,b,s,<,>,[,]
 "" [basic] no return head of the file when searching
 set nowrapscan
+"" [basic] no wrap line
+set nowrap
 "" [basic] show status bar
 set laststatus=2
 "" [basic] highlight search result
