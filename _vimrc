@@ -232,5 +232,3 @@ inoremap <C-a> <Esc>^i
 noremap <C-e> <Esc>$a
 noremap <C-a> <Esc>^i
 
-"" [keymap] vim-fugitive Ggrep
-noremap <C-g> :silent Ggrep 
