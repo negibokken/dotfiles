@@ -232,3 +232,5 @@ inoremap <C-a> <Esc>^i
 noremap <C-e> <Esc>$a
 noremap <C-a> <Esc>^i
 
+"" [keymap] fugitive keymap
+source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
