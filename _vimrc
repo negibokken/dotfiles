@@ -81,7 +81,6 @@ source ${HOME}/dotfiles/vimconf/set_filetype.vim
 source ${HOME}/dotfiles/vimconf/color_scheme.vim
 "" [conf] complete html end tag when enter </
 source ${HOME}/dotfiles/vimconf/complete_html_tag.vim
-
 "" [conf] Indent with 2 spaces
 autocmd filetype coffee,javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
@@ -201,13 +200,12 @@ source ${HOME}/dotfiles/vimconf/unite_conf.vim
 "" [plug-conf] unite-grep
 source ${HOME}/dotfiles/vimconf/quick_grep.vim
 
-"" [plug-conf] vim/fugtive
+"" [plug-conf] 'tpope/vim-fugitive'
 autocmd QuickFixCmdPost *grep* cwindow
-set statusline+=%{fugitive#statusline()}
-
 
 "" [keymap] Delete highlight when press esc twice
-nmap <ESC><ESC> :nohlsearch<CR><ESC>
+nmap <C-j><C-j> :nohlsearch<CR><ESC>
+nmap <Esc><Esc> :nohlsearch<CR><ESC>
 
 "" [keymap] vim tab operation
 nnoremap s <Nop>
@@ -243,8 +241,17 @@ inoremap <C-d> <esc>dd
 nnoremap <C-d> dd
 
 "" [keymap] vim grep
-nnoremap [q :cprevious<CR>
-nnoremap ]q :cnext<CR>
+nnoremap <C-y> <Nop>
+nnoremap <C-p> :cprevious<CR>
+nnoremap <C-y> :cnext<CR>
 nnoremap [Q :<C-u>cfirst<CR>
 nnoremap ]Q :<C-u>clast<CR>
 
+"" [keymap] simple keymap
+inoremap <C-e> <Esc>$a
+inoremap <C-a> <Esc>^i
+noremap <C-e> <Esc>$a
+noremap <C-a> <Esc>^i
+
+"" [keymap] vim-fugitive Ggrep
+noremap <C-f> :silent Ggrep 
