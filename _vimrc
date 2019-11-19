@@ -94,7 +94,7 @@ filetype plugin on
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'xavierd/clang_complete'
-Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -114,6 +114,7 @@ Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'PhilRunninger/nerdtree-visual-selection'
 call plug#end()
 
 "" [plug-conf] xavierd/clang_complete
@@ -142,33 +143,10 @@ augroup NERDTreeExec
   map <C-n> :NERDTreeTabsToggle<CR>
 augroup END
 
-"" [plug-conf] neomake/neomake eslint on save
-augroup Eslint
-  autocmd! BufWritePost * Neomake
-  let g:neomake_javascript_enabled_makers = ['eslint']
-  let g:neomake_ruby_enabled_makers = ['rubocop']
-  let g:neomake_error_sign = {'text': '>>', 'texthl': 'Error'}
-  let g:neomake_warning_sign = {'text': '>>',  'texthl': 'Todo'}
-augroup END
-
-"" [plug-conf] rhysd/vim-clang-format clang formatting
-augroup ClangFormatG
-  autocmd! BufWritePost * Neomake
-  let g:clang_format#style_options = {
-    \ "AccessModifierOffset" : -4,
-    \ "AllowShortIfStatementsOnASingleLine" : "true",
-    \ "AlwaysBreakTemplateDeclarations" : "true",
-    \ "Standard" : "C++11",
-    \ "BreakBeforeBraces" : "Stroustrup" }
-  let g:clang_format#code_style = "google"
-  let g:clang_format#auto_format = 1
-augroup END
-
-"" [plug-conf] xavierd/clang_complete clang formatting
-augroup ClangComplete
-  let g:neomake_cpp_enable_makers = ['clang']
-  let g:neomake_cpp_clang_maker = { 'args': ['-std=c++14', '-I/usr/local/Cellar/gtk+3/3.24.10/include/gtk-3.0/'] }
-augroup END
+"" [plug-config] 'w0rp/ale'
+let g:ale_statusline_format = ['E%d', 'W%d', '']
+let b:ale_fixers = ['prettier', 'eslint']
+let g:ale_javascript_prettier_use_local_config = 1
 
 "" [plug-conf] elzr/vim-json
 let g:vim_json_syntax_conceal = 0
@@ -254,4 +232,4 @@ noremap <C-e> <Esc>$a
 noremap <C-a> <Esc>^i
 
 "" [keymap] vim-fugitive Ggrep
-noremap <C-f> :silent Ggrep 
+noremap <C-g> :silent Ggrep 
