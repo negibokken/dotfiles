@@ -234,3 +234,6 @@ noremap <C-a> <Esc>^i
 
 "" [keymap] fugitive keymap
 source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
+
+"" [keymap] reload all files
+noremap <C-r><C-r>  :bufdo e<CR>
