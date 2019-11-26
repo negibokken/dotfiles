@@ -118,6 +118,10 @@ Plug 'airblade/vim-gitgutter'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 call plug#end()
 
+" [plug-conf] 'rhysd/vim-clang-format'
+let g:clang_format#auto_format = 1
+let g:clang_format#code_style = 'google'
+
 "" [plug-conf] xavierd/clang_complete
 let g:clang_library_path='/usr/local/opt/llvm/lib'
 
@@ -147,7 +151,11 @@ augroup END
 "" [plug-config] 'w0rp/ale'
 let g:ale_statusline_format = ['E%d', 'W%d', '']
 let b:ale_fixers = ['prettier', 'eslint']
+let b:ale_linter = {'c':['clang', 'clangd'],'cpp':['clang','clangd']}
 let g:ale_javascript_prettier_use_local_config = 1
+let g:ale_completion_enabled = 1
+let g:ale_cpp_clang_options = "-std=c++14 -Wall $(pkg-config --cflags-only-I gtk+-3.0)"
+let g:ale_cpp_gcc_options = "-std=c++14 -Wall $(pkg-config --cflags-only-I gtk+-3.0)"
 
 "" [plug-conf] elzr/vim-json
 let g:vim_json_syntax_conceal = 0
