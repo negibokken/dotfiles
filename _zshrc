@@ -198,6 +198,20 @@ gotemp () {
   cd ${devPath}
 }
 
+gat () {
+  git add .
+  git cm -m "Add $(basename $(cd .. && pwd)) $(basename $(pwd))"
+  git push origin master
+}
+
+mkcode () {
+  e="D"
+  if [ -n "$1" ]; then
+    e=$1
+  fi
+  for i in {A..$e}; do cppdev question$i comp; done
+}
+
 ###############################
 # peco
 ###############################
