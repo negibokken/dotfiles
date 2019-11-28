@@ -116,6 +116,7 @@ Plug 'Shougo/neomru.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'PhilRunninger/nerdtree-visual-selection'
+Plug 'MattesGroeger/vim-bookmarks'
 call plug#end()
 
 " [plug-conf] 'rhysd/vim-clang-format'
@@ -189,6 +190,12 @@ source ${HOME}/dotfiles/vimconf/quick_grep.vim
 
 "" [plug-conf] 'tpope/vim-fugitive'
 autocmd QuickFixCmdPost *grep* cwindow
+
+" [plug-conf] 'MattesGroeger/vim-bookmarks'
+highlight BookmarkSign ctermbg=NONE ctermfg=160
+highlight BookmarkLine ctermbg=194 ctermfg=NONE
+let g:bookmark_sign = '♥'
+let g:bookmark_highlight_lines = 1
 
 "" [keymap] Delete highlight when press esc twice
 nmap <C-j><C-j> :nohlsearch<CR><ESC>
