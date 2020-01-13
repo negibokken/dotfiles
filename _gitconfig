@@ -7,6 +7,9 @@
 	precomposeUnicode = true
 
 [alias]
+  push = push -u
+  pu = !git push origin `git branch --show-current`
+  puc = !git add . && git cm -m "WIP" && git push origin `git branch --show-current`
   tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
   st = status
   ck = checkout
