@@ -3,6 +3,7 @@ export LANG=ja_JP.UTF-8
 
 # mybin
 export PATH=$PATH:$HOME/.mybin
+export PATH=$PATH:./btools
 
 # rbenv
 export PATH=$HOME/.rbenv/shims:$PATH
@@ -10,7 +11,7 @@ export PATH=$HOME/.rbenv/shims:$PATH
 # golang
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=$HOME/go
+export GOPATH=$HOME/go:$HOME/.ghq/
 export PATH=$PATH:$HOME/go/bin:$PATH:$GOROOT/bin:$HOME/.go/bin
 export MYGO=$GOPATH/src/github.com/negibokken
 
@@ -33,15 +34,20 @@ export PLANTUML_JAR=/usr/local/Cellar/plantuml/8048/libexec/plantuml.jar
 export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/2.40.1/bin/dot
 
 # Chromium tools
-export PATH=$PATH:/usr/local/bin/depot_tools
+# export PATH=$PATH:/usr/local/bin/depot_tools
+export PATH=$PATH:/Users/bokken/.ghq/chromium.googlesource.com/chromium/tools/depot_tools
+
+# For flex & bison
+#export PATH="/usr/local/opt/flex/bin:$PATH"
+export PATH="/usr/local/opt/bison/bin:$PATH"
 
 # Hub
 function git(){hub "$@"}
 
 # history
 HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 
 # colorize
 autoload -Uz colors
@@ -103,7 +109,7 @@ setopt auto_cd
 ## share history among zsh process
 # setopt share_history
 
-## delete same command
+## delete same command history
 setopt hist_ignore_all_dups
 
 ## expand wild card
@@ -134,11 +140,9 @@ alias kube="kubectl"
 alias k="kubectl"
 alias codegrep='find . -path ./.git -prune -o -path ./log -prune -o -type f -print0 | xargs -0 grep -n -E $1'
 
-alias atcoder="/Users/bokken/.ghq/github.com/negibokken/sandbox/atcoder"
-
+alias atcoder="cd /Users/bokken/.ghq/github.com/negibokken/sandbox/atcoder"
+alias leetcode="cd /Users/bokken/.ghq/github.com/negibokken/sandbox/leetcode"
 ## global alias
-alias -g A="| awk"
-alias -g C="| pbcopy"
 alias -g L="| less"
 alias -g X="| xargs"
 alias -g H="| head"
@@ -182,7 +186,7 @@ mkdev () {
 }
 
 mktemp () {
-  if [ ! -n "$1" ]; then
+  if [ ! -n "$1" ] ; then
     echo "Usage: mktemp dir-name"
     return
   fi
@@ -193,6 +197,34 @@ mktemp () {
   cd ${devPath}
 }
 
+compp() {
+  if [[ ! (-n "$1") || ! (-n "$2") ]] ; then
+    echo "Usage: mktemp compname question"
+    echo "Example: mktemp abc040 A"
+    return
+  fi
+  local contest=""
+  local number=""
+  local question=$2
+  local pat="([a-zA-Z]+)([0-9]+)"
+  if [[ $1 =~ $pat ]]; then
+    contest=${match[1]}
+    number=${match[2]}
+  else
+    echo "Usage: mktemp compname question"
+    echo "Example: mktemp abc040 A"
+    return
+  fi
+  local dirName=${contest}/${1}
+  local rootDir="${HOME}/.ghq/github.com/negibokken/sandbox/atcoder"
+  local devPath="${rootDir}/${dirName}"
+  if [ ! -e ${devPath} ]; then
+    mkdir -p ${devPath}
+  fi
+  cd "${devPath}"
+  cppdev question$2 comp
+  cd "${devPath}/question${2}"
+}
 
 gotemp () {
   if [ ! -n "$1" ]; then
