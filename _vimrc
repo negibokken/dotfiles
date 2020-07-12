@@ -102,8 +102,7 @@ Plug 'rhysd/vim-clang-format'
 Plug 'elzr/vim-json'
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
-      \ 'for': ['javascript', 'typescript', 'css', 'less',
-      \ 'scss', 'json', 'graphql', 'vue'] }
+      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html',]}
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'previm/previm'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -169,7 +168,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=236
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=237
 
 "" [plug-conf] prettier/vim-prettier vim prettier setting
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue PrettierAsync"
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.html PrettierAsync"
 let g:prettier#autoformat = 1
 let g:prettier#config#print_width =  80
 let g:prettier#config#single_quote = 1
@@ -199,7 +198,7 @@ let g:bookmark_highlight_lines = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
- let g:go_imports_autosave = 1
+let g:go_imports_autosave = 1
 
 "" [keymap] Delete highlight when press esc twice
 nmap <C-j><C-j> :nohlsearch<CR><ESC>
