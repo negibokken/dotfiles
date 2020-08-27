@@ -118,6 +118,7 @@ Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
 call plug#end()
 
 " [plug-conf] 'rhysd/vim-clang-format'
@@ -140,6 +141,7 @@ let g:vim_json_syntax_conceal = 0
 let g:lightline = { 'colorscheme': 'seoul256' }
 
 "" [plug-conf] scrooloose/nerdtree
+let NERDTreeShowHidden=1
 let g:nerdtree_tabs_autoclose=0
 let g:nerdtree_tabs_smart_startup_focus=2
 augroup NERDTreeExec
@@ -154,7 +156,8 @@ augroup END
 let g:ale_statusline_format = ['E%d', 'W%d', '']
 let g:ale_linters = {'c':['clang'],'cpp':['clang']}
 let g:ale_cpp_clang_executable="clang++"
-let g:ale_cpp_clang_options = "-std=c++14"
+let g:ale_cpp_clang_options = "-std=c++14 -I/Users/bokken/blib/include"
+let g:ale_c_clang_options="-I/Users/bokken/blib/include"
 
 "" [plug-conf] elzr/vim-json
 let g:vim_json_syntax_conceal = 0
@@ -199,6 +202,7 @@ let g:bookmark_highlight_lines = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
+let g:go_fmt_command = "goimports"
 let g:go_imports_autosave = 1
 
 "" [keymap] Delete highlight when press esc twice
