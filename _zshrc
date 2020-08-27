@@ -1,8 +1,8 @@
 # language
 export LANG=ja_JP.UTF-8
 
-# mybin
-export PATH=$PATH:$HOME/.mybin
+# bin
+export PATH=$PATH:$HOME/.bin
 export PATH=$PATH:./btools
 
 # rbenv
