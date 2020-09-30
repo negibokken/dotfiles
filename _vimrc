@@ -159,6 +159,7 @@ let g:ale_statusline_format = ['E%d', 'W%d', '']
 let g:ale_linters = {'c':['clang'],'cpp':['clang'],'markdown':['prettier']}
 let g:ale_fixers = {'markdown':['prettier']}
 let g:ale_cpp_clang_executable="clang++"
+let g:ale_javascript_prettier_options = "--prose-wrap always"
 let g:ale_cpp_clang_options = "-std=c++14 -I/Users/bokken/blib/include"
 let g:ale_c_clang_options="-I/Users/bokken/blib/include"
 let g:ale_fix_on_save = 1
