@@ -119,6 +119,8 @@ Plug 'MattesGroeger/vim-bookmarks'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
+Plug 'previm/previm'
+Plug 'easymotion/vim-easymotion'
 call plug#end()
 
 " [plug-conf] 'rhysd/vim-clang-format'
@@ -204,34 +206,37 @@ let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_fmt_command = "goimports"
 let g:go_imports_autosave = 1
+let g:go_auto_type_info = 1
+
+" [plug-conf] 'previm/previm'
+let g:previm_disable_default_css = 1
+let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
+let g:previm_open_cmd = "open -a Google Chrome"
+
+"" [plug-conf] easymotion/vim-easymotion
+nmap s <Plug>(easymotion-s2)
 
 "" [keymap] Delete highlight when press esc twice
 nmap <C-j><C-j> :nohlsearch<CR><ESC>
 nmap <Esc><Esc> :nohlsearch<CR><ESC>
 
 "" [keymap] vim tab operation
-nnoremap s <Nop>
-nnoremap ss :<C-u>sp<CR>
-nnoremap sv :<C-u>vs<CR>
-nnoremap sj <C-w>j
-nnoremap sk <C-w>k
-nnoremap sl <C-w>l
-nnoremap sh <C-w>h
-nnoremap sq :<C-u>q<CR>
-nnoremap sQ :<C-u>bd<CR>
-nnoremap sn gt
-nnoremap sp gT
-nnoremap st :<C-u>tabnew<CR>
+"" nnoremap s <Nop>
+nnoremap <C-w>s :<C-u>sp<CR>
+nnoremap <C-w>v :<C-u>vs<CR>
+nnoremap <C-w>n gt
+nnoremap <C-w>p gT
+nnoremap <C-w>t :<C-u>tabnew<CR>
 
 "" [keymap] vim window resize
-call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
-call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
-call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
-call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
-call submode#map('bufmove', 'n', '', '>', '<C-w>>')
-call submode#map('bufmove', 'n', '', '<', '<C-w><')
-call submode#map('bufmove', 'n', '', '+', '<C-w>+')
-call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+call submode#enter_with('bufmove', 'n', '', '<C-w>,', '<C-w>>')
+call submode#enter_with('bufmove', 'n', '', '<C-w>.', '<C-w><')
+"" call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
+"" call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+call submode#map('bufmove', 'n', '', ',', '<C-w>>')
+call submode#map('bufmove', 'n', '', '.', '<C-w><')
+"" call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+"" call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 
 "" [keymap] ctrl+j to esc
 inoremap <C-j> <esc>
