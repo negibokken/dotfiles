@@ -156,10 +156,12 @@ augroup END
 
 "" [plug-config] 'w0rp/ale'
 let g:ale_statusline_format = ['E%d', 'W%d', '']
-let g:ale_linters = {'c':['clang'],'cpp':['clang']}
+let g:ale_linters = {'c':['clang'],'cpp':['clang'],'markdown':['prettier']}
+let g:ale_fixers = {'markdown':['prettier']}
 let g:ale_cpp_clang_executable="clang++"
 let g:ale_cpp_clang_options = "-std=c++14 -I/Users/bokken/blib/include"
 let g:ale_c_clang_options="-I/Users/bokken/blib/include"
+let g:ale_fix_on_save = 1
 
 "" [plug-conf] elzr/vim-json
 let g:vim_json_syntax_conceal = 0
