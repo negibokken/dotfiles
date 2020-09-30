@@ -27,3 +27,5 @@
 [diff]
   algorithm = histogram
 
+[ghq]
+  root = ~/go/src

@@ -40,6 +40,7 @@ export PATH=$PATH:/Users/bokken/.ghq/chromium.googlesource.com/chromium/tools/de
 # For flex & bison
 #export PATH="/usr/local/opt/flex/bin:$PATH"
 export PATH="/usr/local/opt/bison/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 
 # Hub
 function git(){hub "$@"}
@@ -178,7 +179,7 @@ mkdev () {
   local rootDir=$(ghq root)
   local githubUser="github.com/$(git config user.name)"
   if [[ dirName = */* ]]; then
-    githubUser = "github.com"
+    githubUser = "github.com/negibokken"
   fi
   local devPath="${rootDir}/${githubUser}/${dirName}"
   mkdir -p ${devPath}
