@@ -182,8 +182,16 @@ mkdev () {
     githubUser = "github.com/negibokken"
   fi
   local devPath="${rootDir}/${githubUser}/${dirName}"
+  if [ -e $devPath ]; then
+    echo "The directory '$1' is already exists"
+    return 1
+  fi
   mkdir -p ${devPath}
   cd ${devPath}
+  touch README.md
+  echo "#$1" >> README.md
+  git init
+  git add README.md && git commit -m "Initial commit"
 }
 
 mktemp () {
