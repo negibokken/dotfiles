@@ -141,8 +141,8 @@ alias kube="kubectl"
 alias k="kubectl"
 alias codegrep='find . -path ./.git -prune -o -path ./log -prune -o -type f -print0 | xargs -0 grep -n -E $1'
 
-alias atcoder="cd /Users/bokken/.ghq/github.com/negibokken/sandbox/atcoder"
-alias leetcode="cd /Users/bokken/.ghq/github.com/negibokken/sandbox/leetcode"
+alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
+alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
 ## global alias
 alias -g L="| less"
 alias -g X="| xargs"

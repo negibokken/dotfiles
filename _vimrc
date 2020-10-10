@@ -214,7 +214,7 @@ let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
 let g:previm_open_cmd = "open -a Google Chrome"
 
 "" [plug-conf] easymotion/vim-easymotion
-nmap s <Plug>(easymotion-s2)
+nmap s <Plug>(easymotion-overwin-f)
 
 "" [keymap] Delete highlight when press esc twice
 nmap <C-j><C-j> :nohlsearch<CR><ESC>
