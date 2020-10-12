@@ -229,12 +229,12 @@ nnoremap <C-w>t :<C-u>tabnew<CR>
 "" [keymap] vim window resize
 call submode#enter_with('bufmove', 'n', '', '<C-w>,', '<C-w>>')
 call submode#enter_with('bufmove', 'n', '', '<C-w>.', '<C-w><')
-"" call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
-"" call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+call submode#enter_with('bufmove', 'n', '', '<C-w>+', '<C-w>+')
+call submode#enter_with('bufmove', 'n', '', '<C-w>-', '<C-w>-')
 call submode#map('bufmove', 'n', '', ',', '<C-w>>')
 call submode#map('bufmove', 'n', '', '.', '<C-w><')
-"" call submode#map('bufmove', 'n', '', '+', '<C-w>+')
-"" call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 
 "" [keymap] ctrl+j to esc
 inoremap <C-j> <esc>
