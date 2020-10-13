@@ -291,6 +291,15 @@ function peco-cdr() {
 zle -N peco-cdr
 bindkey '^x' peco-cdr
 
+function gb() {
+  local branch=$(git branch | peco | sed -e 's/[ *]//g')
+  if [ "$branch" = "" ]; then
+    return
+  fi
+  echo $branch
+  git checkout $branch
+}
+
 ## peco
 alias gh='cd $(ghq list -p | peco)'
 alias pro='cd ~/Project/$(ls ~/Project | peco)'
