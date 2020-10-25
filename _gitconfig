@@ -7,7 +7,7 @@
 	precomposeUnicode = true
 
 [alias]
-  push = push -u
+  # push = push -u
   pu = !git push origin `git branch --show-current`
   puc = !git add . && git cm -m "WIP" && git push origin `git branch --show-current`
   tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
@@ -23,7 +23,7 @@
   rs = reset --soft
   ds = diff --staged
   dc = diff --cached
-  pushup = "!gitbranchname() { git symbolic-ref --short HEAD; }; gitpushupstream() { git push --set-upstream origin `gitbranchname`; }; gitpushupstream"
+  push = "!gitbranchname() { git symbolic-ref --short HEAD; }; gitpushupstream() { git push --set-upstream origin `gitbranchname`; }; gitpushupstream"
 [diff]
   algorithm = histogram
 
