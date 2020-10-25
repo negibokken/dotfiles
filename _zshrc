@@ -35,7 +35,7 @@ export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/2.40.1/bin/dot
 
 # Chromium tools
 # export PATH=$PATH:/usr/local/bin/depot_tools
-export PATH=$PATH:/Users/bokken/.ghq/chromium.googlesource.com/chromium/tools/depot_tools
+export PATH=$PATH:$(ghq root)/chromium.googlesource.com/chromium/tools/depot_tools
 
 # For flex & bison
 #export PATH="/usr/local/opt/flex/bin:$PATH"
@@ -141,8 +141,12 @@ alias kube="kubectl"
 alias k="kubectl"
 alias codegrep='find . -path ./.git -prune -o -path ./log -prune -o -type f -print0 | xargs -0 grep -n -E $1'
 
+alias python="python3"
+alias pip="pip3"
+
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
+
 ## global alias
 alias -g L="| less"
 alias -g X="| xargs"

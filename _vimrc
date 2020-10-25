@@ -252,12 +252,6 @@ nnoremap <C-y> :cnext<CR>
 nnoremap [Q :<C-u>cfirst<CR>
 nnoremap ]Q :<C-u>clast<CR>
 
-"" [keymap] simple keymap
-inoremap <C-e> <Esc>$a
-inoremap <C-a> <Esc>^i
-noremap <C-e> <Esc>$a
-noremap <C-a> <Esc>^i
-
 "" [keymap] fugitive keymap
 source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
 
