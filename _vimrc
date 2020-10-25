@@ -211,11 +211,6 @@ let g:go_fmt_command = "goimports"
 let g:go_imports_autosave = 1
 let g:go_auto_type_info = 1
 
-" [plug-conf] 'previm/previm'
-let g:previm_disable_default_css = 1
-let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
-let g:previm_open_cmd = "open -a Google Chrome"
-
 "" [plug-conf] easymotion/vim-easymotion
 nmap s <Plug>(easymotion-overwin-f)
 
@@ -234,12 +229,12 @@ nnoremap <C-w>t :<C-u>tabnew<CR>
 "" [keymap] vim window resize
 call submode#enter_with('bufmove', 'n', '', '<C-w>,', '<C-w>>')
 call submode#enter_with('bufmove', 'n', '', '<C-w>.', '<C-w><')
-"" call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
-"" call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+call submode#enter_with('bufmove', 'n', '', '<C-w>+', '<C-w>+')
+call submode#enter_with('bufmove', 'n', '', '<C-w>-', '<C-w>-')
 call submode#map('bufmove', 'n', '', ',', '<C-w>>')
 call submode#map('bufmove', 'n', '', '.', '<C-w><')
-"" call submode#map('bufmove', 'n', '', '+', '<C-w>+')
-"" call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 
 "" [keymap] ctrl+j to esc
 inoremap <C-j> <esc>
