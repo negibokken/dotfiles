@@ -107,8 +107,8 @@ Plug 'mzlogin/vim-markdown-toc'
 Plug 'previm/previm'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Shougo/neocomplcache'
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
+""Plug 'Shougo/neosnippet'
+""Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
@@ -121,6 +121,20 @@ Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'previm/previm'
 Plug 'easymotion/vim-easymotion'
+
+""candidastes
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 call plug#end()
 
 " [plug-conf] 'rhysd/vim-clang-format'
@@ -257,3 +271,60 @@ source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
 
 "" [keymap] reload all files
 noremap <C-r><C-r>  :bufdo e<CR>
+
+"" candidates
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+  setlocal signcolumn=yes
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> <C-]> <plug>(lsp-definition)
+  nmap <buffer> <f2> <plug>(lsp-rename)
+  nmap <buffer> <Leader>d <plug>(lsp-type-definition)
+  nmap <buffer> <Leader>r <plug>(lsp-references)
+  nmap <buffer> <Leader>i <plug>(lsp-implementation)
+  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
+
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 1
+let g:asyncomplete_popup_delay = 50
+let g:lsp_text_edit_enabled = 1
+let g:lsp_preview_float = 1
+let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
+
+let g:lsp_settings = {}
+let g:lsp_settings['gopls'] = {
+  \  'workspace_config': {
+  \    'usePlaceholders': v:true,
+  \    'analyses': {
+  \      'fillstruct': v:true,
+  \    },
+  \  },
+  \  'initialization_options': {
+  \    'usePlaceholders': v:true,
+  \    'analyses': {
+  \      'fillstruct': v:true,
+  \    },
+  \  },
+  \}
+
+" For snippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+set completeopt+=menuone
+
+"" tab completion
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
