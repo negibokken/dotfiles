@@ -26,6 +26,8 @@ export PATH=$PATH:$HOME/.config/yarn/global/node_modules/.bin
 
 # sbin
 export PATH="/usr/local/sbin:$PATH"
+
+# Android
 export PATH="/Users/bokken/Library/Android/sdk/platform-tools:$PATH"
 
 # vscode plantuml
@@ -128,7 +130,7 @@ setopt hist_reduce_blanks
 # 補完の選択を楽にする
 zstyle ':completion:*' menu select
 
-## complete using history
+## complte using history
 autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
@@ -139,10 +141,9 @@ bindkey "^b" history-beginning-search-forward-end
 source $HOME/dotfiles/zshconf/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ls color setting
-export LSCOLORS=Exfxcxdxbxegedabagacad
-# color setting of completion
-export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-autoload -U colors ; colors ; zstyle ':completion:*' list-colors "${LS_COLORS}"
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;91:bd=44;33:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export LSCOLORS=gxfxcxdxbxegedabagacag
+autoload -U colors ; colors ; zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # aliases
 alias ls="ls -G"
@@ -171,6 +172,9 @@ alias pip="pip3"
 
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
+
+# reload shell quickly
+alias x="exec $SHELL -l"
 
 ## global alias
 alias -g L="| less"
