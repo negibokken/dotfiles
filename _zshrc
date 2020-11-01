@@ -341,6 +341,10 @@ function peco-pkill() {
 }
 alias pk="peco-pkill"
 
+function printColors() {
+  for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done;echo
+}
+
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
 [[ -f /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/serverless.zsh
