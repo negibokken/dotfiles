@@ -328,7 +328,7 @@ let g:lsp_settings['gopls'] = {
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories="~/dotfiles/vimconf/snippets"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/vimconf/snippets']
 
 set completeopt+=menuone
 
@@ -341,6 +341,11 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 nnoremap <C-p> <Nop>
 nnoremap <silent> <C-p> :GFiles<CR>
 nnoremap <silent> <C-r> :LspReferences<CR>
+"" <C-o> back to original place
+nnoremap <C-d> <Nop>
+nnoremap <silent> <C-d> :LspDefinition<CR>
+nnoremap <silent> <C-i> :LspImplementation<CR>
+nnoremap <silent> <C-a> :Ag<CR>
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {

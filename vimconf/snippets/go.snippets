@@ -1,0 +1,12 @@
+snippet iferr "if ... error"
+if err != nil; then
+  return errors.WithStack(err)
+fi
+endsnippet
+
+snippet func "func"
+func ${1}() {
+  $2
+}
+endsnippet
+
