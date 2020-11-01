@@ -127,6 +127,7 @@ Plug 'easymotion/vim-easymotion'
 
 ""candidastes
 Plug '/usr/local/opt/fzf'
+""Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
