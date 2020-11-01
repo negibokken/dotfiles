@@ -232,47 +232,6 @@ mktemp () {
   cd ${devPath}
 }
 
-compp() {
-  if [[ ! (-n "$1") || ! (-n "$2") ]] ; then
-    echo "Usage: mktemp compname question"
-    echo "Example: mktemp abc040 A"
-    return
-  fi
-  local contest=""
-  local number=""
-  local question=$2
-  local pat="([a-zA-Z]+)([0-9]+)"
-  if [[ $1 =~ $pat ]]; then
-    contest=${match[1]}
-    number=${match[2]}
-  else
-    echo "Usage: mktemp compname question"
-    echo "Example: mktemp abc040 A"
-    return
-  fi
-  local dirName=${contest}/${1}
-  local rootDir="${HOME}/.ghq/github.com/negibokken/sandbox/atcoder"
-  local devPath="${rootDir}/${dirName}"
-  if [ ! -e ${devPath} ]; then
-    mkdir -p ${devPath}
-  fi
-  cd "${devPath}"
-  cppdev question$2 comp
-  cd "${devPath}/question${2}"
-}
-
-gotemp () {
-  if [ ! -n "$1" ]; then
-    echo "Usage: gotemp dir-name"
-    return
-  fi
-  local dirName=$1
-  local rootDir="$HOME/go/src/github.com/negibokken"
-  local devPath="${rootDir}/${dirName}"
-  mkdir -p ${devPath}
-  cd ${devPath}
-}
-
 gat () {
   git add .
   git cm -m "Add $(basename $(cd .. && pwd)) $(basename $(pwd))"
@@ -335,7 +294,7 @@ alias cb='git checkout `git branch |
   sed -e "s/\* //g" |
   awk "{print \$1}"`'
 
-#pecoでkill
+## kill using peco
 function peco-pkill() {
   for pid in `ps aux | peco | awk '{ print $2 }'`
   do
@@ -345,6 +304,7 @@ function peco-pkill() {
 }
 alias pk="peco-pkill"
 
+## print 256 colors for configuring terminal
 function printColors() {
   for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done;echo
 }
