@@ -176,6 +176,10 @@ alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
 alias -g L="| less"
 alias -g X="| xargs"
 alias -g H="| head"
+alias '..'='cd ..'
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
 
 # Application alias
 alias 0xED="open -a 0xED"
