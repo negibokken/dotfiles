@@ -59,6 +59,9 @@ set wildmenu
 set wildmode=full
 "" [basic] show num of row & col
 set ruler
+set cursorline
+
+""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
 noremap PP "0p
 noremap x  "_x
