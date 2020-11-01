@@ -7,7 +7,7 @@ function! s:open_junk_file()
     call mkdir(l:junk_dir, 'p')
   endif
 
-  let l:filename = input('Junk Code: ', l:junk_dir.strftime('/%Y-%m-%d-%H%M%S.md'))
+  let l:filename = input('Junk Code: ', l:junk_dir.strftime('/%Y-%m-%d.md'))
   if l:filename != ''
     execute 'edit ' . l:filename
   endif

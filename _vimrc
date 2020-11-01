@@ -152,6 +152,8 @@ let g:previm_open_cmd = 'open -a Google\ Chrome'
 let g:previm_enable_realtime = 1
 let g:previm_disable_default_css = 1
 let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
+nnoremap <C-m> <Nop>
+nnoremap <silent> <C-m> :PrevimOpen<CR>
 
 "" [plug-conf] elzr/vim-json JSON syntax
 let g:vim_json_syntax_conceal = 0
@@ -216,7 +218,7 @@ autocmd QuickFixCmdPost *grep* cwindow
 
 " [plug-conf] 'MattesGroeger/vim-bookmarks'
 highlight BookmarkSign ctermbg=NONE ctermfg=160
-highlight BookmarkLine ctermbg=194 ctermfg=NONE
+highlight BookmarkLine ctermbg=031 ctermfg=007
 let g:bookmark_sign = '♥'
 let g:bookmark_highlight_lines = 1
 
@@ -281,12 +283,12 @@ noremap <C-r><C-r>  :bufdo e<CR>
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
   setlocal signcolumn=yes
-  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> gd <plug>(lsp-peek-definition)
   nmap <buffer> <C-]> <plug>(lsp-definition)
   nmap <buffer> <f2> <plug>(lsp-rename)
   nmap <buffer> <Leader>d <plug>(lsp-type-definition)
-  nmap <buffer> <Leader>r <plug>(lsp-references)
-  nmap <buffer> <Leader>i <plug>(lsp-implementation)
+  nmap <buffer> gr <plug>(lsp-peek-references)
+  nmap <buffer> gi <plug>(lsp-peek-implementation)
   inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
 endfunction
 
