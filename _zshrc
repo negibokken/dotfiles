@@ -69,8 +69,7 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
 
 # prompt
-PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
-%# "
+PROMPT=$'%{\e[30;48;5;240m%}%{\e[38;5;038m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;240m}\e[38;5;007m%}%~ %{${reset_color}%}(%*) \n%#'
 
 # word cursor movement
 bindkey '^f' forward-word
@@ -119,6 +118,16 @@ setopt extended_glob
 ## delete redundant spaces
 setopt hist_reduce_blanks
 
+## complete using history
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^b" history-beginning-search-forward-end
+
+## syntax highlight
+source $HOME/dotfiles/zshconf/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # aliases
 alias ls="ls -G"
 alias l="ls -lt"
@@ -151,13 +160,6 @@ alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
 alias -g L="| less"
 alias -g X="| xargs"
 alias -g H="| head"
-
-yarnb () {
-  yarn add $@
-  local types=`echo $@ | sed -E 's/([^ ]*)/@types\/\1/g'`
-  echo $types
-  yarn add -D $types
-}
 
 # Application alias
 alias 0xED="open -a 0xED"
@@ -335,17 +337,6 @@ if [ -f '/Users/bokken/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/bok
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bokken/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/bokken/google-cloud-sdk/completion.zsh.inc'; fi
-
-# candidates
-# fbr - checkout git branch
-function fzf-checkout-branch() {
-  local branches branch
-  branches=$(git branch | sed -e 's/\(^\* \|^  \)//g' | cut -d " " -f 1) &&
-  branch=$(echo "$branches" | fzf --preview "git show --color=always {}") &&
-  git checkout $(echo "$branch")
-}
-zle     -N  fzf-checkout-branch
-bindkey "^b" fzf-checkout-branch
 
 #candidates
 export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
