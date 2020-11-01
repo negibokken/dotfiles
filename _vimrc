@@ -110,8 +110,8 @@ Plug 'mzlogin/vim-markdown-toc'
 Plug 'previm/previm'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Shougo/neocomplcache'
-""Plug 'Shougo/neosnippet'
-""Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
@@ -119,16 +119,15 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'MattesGroeger/vim-bookmarks'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+""Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'previm/previm'
 Plug 'easymotion/vim-easymotion'
 
 ""candidastes
-Plug '/usr/local/opt/fzf'
-""Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -231,6 +230,8 @@ let g:go_auto_type_info = 1
 
 "" [plug-conf] easymotion/vim-easymotion
 nmap s <Plug>(easymotion-overwin-f)
+map <Leader> <Plug>(easymotion-prefix)
+let g:EasyMotion_smartcase = 1
 
 "" [keymap] Delete highlight when press esc twice
 nmap <C-j><C-j> :nohlsearch<CR><ESC>
@@ -299,8 +300,10 @@ let g:lsp_diagnostics_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:asyncomplete_auto_popup = 1
 let g:asyncomplete_auto_completeopt = 1
-let g:asyncomplete_popup_delay = 100
+let g:asyncomplete_popup_delay = 50
 let g:lsp_text_edit_enabled = 1
+let g:lsp_auto_enable= 1
+let g:lsp_highlight_references_delay = 200
 let g:lsp_preview_float = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
@@ -325,6 +328,7 @@ let g:lsp_settings['gopls'] = {
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsSnippetDirectories="~/dotfiles/vimconf/snippets"
 
 set completeopt+=menuone
 
@@ -332,3 +336,17 @@ set completeopt+=menuone
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+"" [plug-conf] junegunn/fzf
+nnoremap <C-p> <Nop>
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-r> :LspReferences<CR>
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+let g:fzf_action = {
+  \ 'ctrl-s': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
