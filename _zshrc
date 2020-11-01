@@ -43,7 +43,14 @@ export PATH="/usr/local/opt/bison/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 
 # Hub
-function git(){hub "$@"}
+function git(){
+  # Refuse if push target branch is important branches
+  if [[ "$1" = push  && "$2" = origin && ( "$3" = develop || "$3" = master || "$3" = main) ]]; then
+    echo "\e[31;3mpush to develop, master or main is invalid"
+    return
+  fi
+  hub "$@"
+}
 
 # history
 HISTFILE=~/.zsh_history
