@@ -135,7 +135,7 @@ autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^p" history-beginning-search-backward-end
-bindkey "^b" history-beginning-search-forward-end
+bindkey "^n" history-beginning-search-forward-end
 
 ## syntax highlight
 source $HOME/dotfiles/zshconf/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -150,7 +150,7 @@ alias ls="ls -G"
 alias l="ls -lt"
 alias la="ls -lta"
 
-alias vi="vim"
+Alias vi="vim"
 alias vio="vim -O"
 
 alias grep="grep --color"
