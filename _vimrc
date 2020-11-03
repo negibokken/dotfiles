@@ -290,6 +290,9 @@ function! s:on_lsp_buffer_enabled() abort
   nmap <buffer> gr <plug>(lsp-peek-references)
   nmap <buffer> gi <plug>(lsp-peek-implementation)
   inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+  nmap gt :tab LspDefinition<cr>
+  nmap gs :sp<cr>:LspDefinition<cr>
+  nmap <c-l> :rightbelow vertical LspDefinition<cr>
 endfunction
 
 augroup lsp_install
