@@ -43,7 +43,14 @@ export PATH="/usr/local/opt/bison/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 
 # Hub
-function git(){hub "$@"}
+function git(){
+  # Refuse if push target branch is important branches
+  if ! [[ $(git remote get-url origin) =~ /github.com\/negibokken/ ]] && [[ "$1" = push  && "$2" = origin && ( "$3" = develop || "$3" = master || "$3" = main) ]]; then
+    echo "\e[31;3mpush to develop, master or main is invalid"
+    return
+  fi
+  hub "$@"
+}
 
 # history
 HISTFILE=~/.zsh_history
@@ -335,3 +342,8 @@ if [ -f '/Users/bokken/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/bok
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bokken/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/bokken/google-cloud-sdk/completion.zsh.inc'; fi
+
+#candidates
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob !.git --glob !vendor --glob !node_modules"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
