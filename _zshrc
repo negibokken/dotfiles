@@ -46,7 +46,12 @@ export PATH="/usr/local/bin:$PATH"
 function git(){
   # Refuse if push target branch is important branches
   repo=`hub remote get-url origin`
-  if ! [[ $repo =~ "github.com/negibokken" ]] && [[ "$1" = push  && "$2" = origin && ( "$3" = develop || "$3" = master || "$3" = main) ]]; then
+  # Allow to push to main branch directly when my own repository
+  if [[ $repo =~ "github.com/negibokken" ]] || [[ $repo =~ "github.com:negibokken" ]]; then
+    hub "$@"
+    return
+  fi
+  if [[ "$1" = push  && "$2" = origin && ( "$3" = develop || "$3" = master || "$3" = main) ]]; then
     echo "\e[31;3mpush to develop, master or main is invalid"
     return
   fi
