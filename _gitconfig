@@ -29,3 +29,5 @@
 
 [ghq]
   root = ~/go/src
+[pull]
+	rebase = false
