@@ -18,6 +18,7 @@
   cm = commit
   ca = commit -a
   a = "!git status --short | peco | awk '{print $2}' | xargs git add"
+  aa = add .
   ad = add
   br = branch
   ba = branch -a
