@@ -98,7 +98,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'xavierd/clang_complete'
 Plug 'w0rp/ale'
-Plug 'itchyny/lightline.vim'
+""Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'rhysd/vim-clang-format'
@@ -159,7 +159,16 @@ nnoremap <silent> <C-m><C-o> :PrevimOpen<CR>
 let g:vim_json_syntax_conceal = 0
 
 "" [plug-conf] itchny/lightline
-let g:lightline = { 'colorscheme': 'seoul256' }
+""let g:lightline = {
+""      \ 'active': {
+""      \   'left': [ [ 'mode', 'paste' ],
+""      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+""      \ },
+""      \ 'component_function': {
+""      \   'gitbranch': 'gitbranch#name'
+""      \ },
+""      \ }
+
 
 "" [plug-conf] scrooloose/nerdtree
 let NERDTreeShowHidden=1
@@ -372,11 +381,19 @@ let g:fzf_action = {
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-set laststatus=2
-set statusline=%f%m%r%h%w\%{fugitive#statusline()}\%=[TYPE=%Y]\[FORMAT=%{&ff}]\[ENC=%{&fileencoding}]\[LOW=%l/%L]
-
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 let g:deoplete#enable_at_startup = 1
 
+set t_Co=256
+Plug 'vim-airline/vim-airline'
+" Execute below commands before install vim-airline-themes
+" :pythonx print ( sys.version) ; print (sys.path)
+" /path/to/your/python/bin/python3.7 -m pip install pynvim
+Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/vim-gitbranch'
+""let g:airline_theme="minimalist"
+let g:airline_theme="base16"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
