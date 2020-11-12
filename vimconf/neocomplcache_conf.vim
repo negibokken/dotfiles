@@ -1,4 +1,4 @@
-"""" Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+"""" neocomplcache
 """ Disable AutoComplPop.
 ""let g:acp_enableAtStartup = 0
 """ Use neocomplcache.
@@ -11,16 +11,8 @@
 ""
 """ Define dictionary.
 ""let g:neocomplcache_dictionary_filetype_lists = {
-""    \ 'default' : '',
-""    \ 'vimshell' : $HOME.'/.vimshell_hist',
-""    \ 'scheme' : $HOME.'/.gosh_completions'
-""        \ }
-""
-""" Define keyword.
-""if !exists('g:neocomplcache_keyword_patterns')
-""    let g:neocomplcache_keyword_patterns = {}
-""endif
-""let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+""    \ 'default' : ''
+""    \ }
 ""
 """ Plugin key-mappings.
 ""inoremap <expr><C-g>     neocomplcache#undo_completion()
@@ -31,8 +23,6 @@
 ""inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 ""function! s:my_cr_function()
 ""  return neocomplcache#smart_close_popup() . "\<CR>"
-""  " For no inserting <CR> key.
-""  "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
 ""endfunction
 """ <TAB>: completion.
 ""inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -42,31 +32,5 @@
 ""inoremap <expr><C-y>  neocomplcache#close_popup()
 ""inoremap <expr><C-e>  neocomplcache#cancel_popup()
 ""
-""" Enable omni completion.
-""autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-""autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-""autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-""autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-""autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-""
-""" Enable heavy omni completion.
-""if !exists('g:neocomplcache_force_omni_patterns')
-""  let g:neocomplcache_force_omni_patterns = {}
-""endif
-""let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-""let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-""let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-""let g:neocomplcache_force_overwrite_completefunc = 1
-""let g:clang_complete_auto = 0
-""let g:clang_auto_select = 0
-""
-""" For perlomni.vim setting.
-""" https://github.com/c9s/perlomni.vim
-""let g:neocomplcache_force_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-""
-""" Plugin key-mappings.
-""imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-""smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-""xmap <C-k>     <Plug>(neosnippet_expand_target)
-""let g:neosnippet#snippets_directory='~/dotfiles/.vim/neosnippets/'
-""
+""au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+""au BufNewFile,BufRead,BufEnter *.go set omnifunc=omni#go#complete#Main

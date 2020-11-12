@@ -153,7 +153,7 @@ let g:previm_enable_realtime = 1
 let g:previm_disable_default_css = 1
 let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
 nnoremap <C-m> <Nop>
-nnoremap <silent> <C-m> :PrevimOpen<CR>
+nnoremap <silent> <C-m><C-o> :PrevimOpen<CR>
 
 "" [plug-conf] elzr/vim-json JSON syntax
 let g:vim_json_syntax_conceal = 0
@@ -308,10 +308,21 @@ let g:asyncomplete_auto_completeopt = 1
 let g:asyncomplete_popup_delay = 50
 let g:lsp_text_edit_enabled = 1
 let g:lsp_auto_enable= 1
-let g:lsp_highlight_references_delay = 200
+let g:lsp_highlight_references_delay = 50
 let g:lsp_preview_float = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
+
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+call lsp#register_server({
+    \ 'name': 'clangd',
+    \ 'cmd': {server_info->['clangd']},
+    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+    \ })
+
+" オムニ補完設定
+autocmd FileType typescript setlocal omnifunc=lsp#complete
 
 let g:lsp_settings = {}
 let g:lsp_settings['gopls'] = {
@@ -360,3 +371,12 @@ let g:fzf_action = {
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+set laststatus=2
+set statusline=%f%m%r%h%w\%{fugitive#statusline()}\%=[TYPE=%Y]\[FORMAT=%{&ff}]\[ENC=%{&fileencoding}]\[LOW=%l/%L]
+
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+let g:deoplete#enable_at_startup = 1
+
