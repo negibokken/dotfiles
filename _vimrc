@@ -380,8 +380,5 @@ Plug 'vim-airline/vim-airline'
 " :pythonx print ( sys.version) ; print (sys.path)
 " /path/to/your/python/bin/python3.7 -m pip install pynvim
 Plug 'vim-airline/vim-airline-themes'
-Plug 'itchyny/vim-gitbranch'
 let g:airline_theme="minimalist"
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
+
