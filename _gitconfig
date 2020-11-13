@@ -7,13 +7,14 @@
 	precomposeUnicode = true
 
 [alias]
-  # push = push -u
+  p = push
   ps = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)"
   pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)"
   pu = !git push origin `git branch --show-current`
   puc = !git add . && git cm -m "WIP" && git push origin `git branch --show-current`
   tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
   st = status
+  sh = stash
   ck = checkout
   cm = commit
   ca = commit -a
