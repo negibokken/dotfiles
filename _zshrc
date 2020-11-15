@@ -26,6 +26,8 @@ export PATH=$PATH:$HOME/.config/yarn/global/node_modules/.bin
 
 # sbin
 export PATH="/usr/local/sbin:$PATH"
+
+# Android
 export PATH="/Users/bokken/Library/Android/sdk/platform-tools:$PATH"
 
 # vscode plantuml
@@ -45,12 +47,6 @@ export PATH="/usr/local/bin:$PATH"
 # Hub
 function git(){
   # Refuse if push target branch is important branches
-  repo=`hub remote get-url origin`
-  # Allow to push to main branch directly when my own repository
-  if [[ $repo =~ "github.com/negibokken" ]] || [[ $repo =~ "github.com:negibokken" ]]; then
-    hub "$@"
-    return
-  fi
   if [[ "$1" = push  && "$2" = origin && ( "$3" = develop || "$3" = master || "$3" = main) ]]; then
     echo "\e[31;3mpush to develop, master or main is invalid"
     return
@@ -82,8 +78,7 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
 
 # prompt
-PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
-%# "
+PROMPT=$'%{\e[30;48;5;235m%}%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%} %~ %{${reset_color}%}(%*) \n%#'
 
 # word cursor movement
 bindkey '^f' forward-word
@@ -101,7 +96,7 @@ autoload -Uz add-zsh-hook
 setopt prompt_subst
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' disable bzr svn hg
-zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
+zstyle ':vcs_info:*' formats '%F{cyan}(%s)-[%b]%f'
 zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
 
 function _update_vcs_info_msg() {
@@ -132,12 +127,30 @@ setopt extended_glob
 ## delete redundant spaces
 setopt hist_reduce_blanks
 
+# 補完の選択を楽にする
+zstyle ':completion:*' menu select
+
+## complte using history
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^n" history-beginning-search-forward-end
+
+## syntax highlight
+source $HOME/dotfiles/zshconf/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# ls color setting
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;91:bd=44;33:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export LSCOLORS=gxfxcxdxbxegedabagacag
+autoload -U colors ; colors ; zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
 # aliases
 alias ls="ls -G"
 alias l="ls -lt"
 alias la="ls -lta"
 
-alias vi="vim"
+Alias vi="vim"
 alias vio="vim -O"
 
 alias grep="grep --color"
@@ -156,21 +169,23 @@ alias codegrep='find . -path ./.git -prune -o -path ./log -prune -o -type f -pri
 
 alias python="python3"
 alias pip="pip3"
+alias v="vim"
+alias g="git"
 
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
+
+# reload shell quickly
+alias x="exec $SHELL -l"
 
 ## global alias
 alias -g L="| less"
 alias -g X="| xargs"
 alias -g H="| head"
-
-yarnb () {
-  yarn add $@
-  local types=`echo $@ | sed -E 's/([^ ]*)/@types\/\1/g'`
-  echo $types
-  yarn add -D $types
-}
+alias '..'='cd ..'
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
 
 # Application alias
 alias 0xED="open -a 0xED"
@@ -218,47 +233,6 @@ mktemp () {
   fi
   local dirName=$1
   local rootDir="$HOME/temp"
-  local devPath="${rootDir}/${dirName}"
-  mkdir -p ${devPath}
-  cd ${devPath}
-}
-
-compp() {
-  if [[ ! (-n "$1") || ! (-n "$2") ]] ; then
-    echo "Usage: mktemp compname question"
-    echo "Example: mktemp abc040 A"
-    return
-  fi
-  local contest=""
-  local number=""
-  local question=$2
-  local pat="([a-zA-Z]+)([0-9]+)"
-  if [[ $1 =~ $pat ]]; then
-    contest=${match[1]}
-    number=${match[2]}
-  else
-    echo "Usage: mktemp compname question"
-    echo "Example: mktemp abc040 A"
-    return
-  fi
-  local dirName=${contest}/${1}
-  local rootDir="${HOME}/.ghq/github.com/negibokken/sandbox/atcoder"
-  local devPath="${rootDir}/${dirName}"
-  if [ ! -e ${devPath} ]; then
-    mkdir -p ${devPath}
-  fi
-  cd "${devPath}"
-  cppdev question$2 comp
-  cd "${devPath}/question${2}"
-}
-
-gotemp () {
-  if [ ! -n "$1" ]; then
-    echo "Usage: gotemp dir-name"
-    return
-  fi
-  local dirName=$1
-  local rootDir="$HOME/go/src/github.com/negibokken"
   local devPath="${rootDir}/${dirName}"
   mkdir -p ${devPath}
   cd ${devPath}
@@ -318,7 +292,7 @@ function gb() {
 }
 
 ## peco
-alias gh='cd $(ghq list -p | peco)'
+alias gp='cd $(ghq list -p | peco)'
 alias pro='cd ~/Project/$(ls ~/Project | peco)'
 alias temp='cd ~/temp/$(ls ~/temp | peco)'
 alias cb='git checkout `git branch |
@@ -326,7 +300,7 @@ alias cb='git checkout `git branch |
   sed -e "s/\* //g" |
   awk "{print \$1}"`'
 
-#pecoでkill
+## kill using peco
 function peco-pkill() {
   for pid in `ps aux | peco | awk '{ print $2 }'`
   do
@@ -336,20 +310,22 @@ function peco-pkill() {
 }
 alias pk="peco-pkill"
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/bokken/go/src/github.com/negibokken/serverless-test/node_modules/tabtab/.completions/sls.zsh
+function delete-merged-branches() {
+  git branch --merged|egrep -v '\*|develop|master|main'|xargs git branch -d
+}
+
+
+## print 256 colors for configuring terminal
+function printColors() {
+  for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done;echo
+}
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/bokken/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/bokken/google-cloud-sdk/path.zsh.inc'; fi
-
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bokken/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/bokken/google-cloud-sdk/completion.zsh.inc'; fi
 
 #candidates
-export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob !.git --glob !vendor --glob !node_modules"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
+

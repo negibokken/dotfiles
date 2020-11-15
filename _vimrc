@@ -59,6 +59,11 @@ set wildmenu
 set wildmode=full
 "" [basic] show num of row & col
 set ruler
+set cursorline
+"" [basic] color
+set t_Co=256
+
+""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
 noremap PP "0p
 noremap x  "_x
@@ -95,7 +100,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'xavierd/clang_complete'
 Plug 'w0rp/ale'
-Plug 'itchyny/lightline.vim'
+""Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'rhysd/vim-clang-format'
@@ -116,11 +121,25 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'MattesGroeger/vim-bookmarks'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+""Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'previm/previm'
 Plug 'easymotion/vim-easymotion'
+
+""candidastes
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 call plug#end()
 
 " [plug-conf] 'rhysd/vim-clang-format'
@@ -135,12 +154,11 @@ let g:previm_open_cmd = 'open -a Google\ Chrome'
 let g:previm_enable_realtime = 1
 let g:previm_disable_default_css = 1
 let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
+nnoremap <C-m> <Nop>
+nnoremap <silent> <C-m><C-o> :PrevimOpen<CR>
 
 "" [plug-conf] elzr/vim-json JSON syntax
 let g:vim_json_syntax_conceal = 0
-
-"" [plug-conf] itchny/lightline
-let g:lightline = { 'colorscheme': 'seoul256' }
 
 "" [plug-conf] scrooloose/nerdtree
 let NERDTreeShowHidden=1
@@ -199,7 +217,7 @@ autocmd QuickFixCmdPost *grep* cwindow
 
 " [plug-conf] 'MattesGroeger/vim-bookmarks'
 highlight BookmarkSign ctermbg=NONE ctermfg=160
-highlight BookmarkLine ctermbg=194 ctermfg=NONE
+highlight BookmarkLine ctermbg=031 ctermfg=007
 let g:bookmark_sign = '♥'
 let g:bookmark_highlight_lines = 1
 
@@ -213,6 +231,8 @@ let g:go_auto_type_info = 1
 
 "" [plug-conf] easymotion/vim-easymotion
 nmap s <Plug>(easymotion-overwin-f)
+map <Leader> <Plug>(easymotion-prefix)
+let g:EasyMotion_smartcase = 1
 
 "" [keymap] Delete highlight when press esc twice
 nmap <C-j><C-j> :nohlsearch<CR><ESC>
@@ -257,3 +277,108 @@ source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
 
 "" [keymap] reload all files
 noremap <C-r><C-r>  :bufdo e<CR>
+
+"" candidates
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+  setlocal signcolumn=yes
+  nmap <buffer> gd <plug>(lsp-peek-definition)
+  nmap <buffer> <C-]> <plug>(lsp-definition)
+  nmap <buffer> <f2> <plug>(lsp-rename)
+  nmap <buffer> <Leader>d <plug>(lsp-type-definition)
+  nmap <buffer> gr <plug>(lsp-peek-references)
+  nmap <buffer> gi <plug>(lsp-peek-implementation)
+  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+  nmap gt :tab LspDefinition<cr>
+  nmap gs :sp<cr>:LspDefinition<cr>
+  nmap <c-l> :rightbelow vertical LspDefinition<cr>
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
+
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 1
+let g:asyncomplete_popup_delay = 50
+let g:lsp_text_edit_enabled = 1
+let g:lsp_auto_enable= 1
+let g:lsp_highlight_references_delay = 50
+let g:lsp_preview_float = 1
+let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
+
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+call lsp#register_server({
+    \ 'name': 'clangd',
+    \ 'cmd': {server_info->['clangd']},
+    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+    \ })
+
+" オムニ補完設定
+autocmd FileType typescript setlocal omnifunc=lsp#complete
+
+let g:lsp_settings = {}
+let g:lsp_settings['gopls'] = {
+  \  'workspace_config': {
+  \    'usePlaceholders': v:true,
+  \    'analyses': {
+  \      'fillstruct': v:true,
+  \    },
+  \  },
+  \  'initialization_options': {
+  \    'usePlaceholders': v:true,
+  \    'analyses': {
+  \      'fillstruct': v:true,
+  \    },
+  \  },
+  \}
+
+" For snippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/vimconf/snippets']
+
+set completeopt+=menuone
+
+"" tab completion
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+"" [plug-conf] junegunn/fzf
+nnoremap <C-p> <Nop>
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-r> :LspReferences<CR>
+"" <C-o> back to original place
+nnoremap <C-d> <Nop>
+nnoremap <silent> <C-d> :LspDefinition<CR>
+nnoremap <silent> <C-i> :LspImplementation<CR>
+nnoremap <silent> <C-a> :Ag<CR>
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+let g:fzf_action = {
+  \ 'ctrl-s': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+let g:deoplete#enable_at_startup = 1
+Plug 'vim-airline/vim-airline'
+" Execute below commands before install vim-airline-themes
+" :pythonx print ( sys.version) ; print (sys.path)
+" /path/to/your/python/bin/python3.7 -m pip install pynvim
+Plug 'vim-airline/vim-airline-themes'
+let g:airline_theme="minimalist"
+
