@@ -106,7 +106,7 @@ LS="#[fg=$G04,bg=$TC,bold] $user_icon $user@#h #[fg=$TC,bg=$G06,nobold]$right_ar
 if "$show_upload_speed"; then
     LS="$LS#[fg=$G06,bg=$G05]$right_arrow_icon#[fg=$TC,bg=$G05] $upload_speed_icon#{upload_speed} #[fg=$G05,bg=$BG]$right_arrow_icon"
 else
-    LS="$LS#[fg=$G06,bg=$BG]$right_arrow_icon #[fg=$TC,bg=$BG] #(cd #{pane_current_path}; git branch | grep '*' | cut -d ' ' -f2)"
+    LS="$LS#[fg=$G06,bg=$BG]$right_arrow_icon"
 fi
 if [[ $prefix_highlight_pos == 'L' || $prefix_highlight_pos == 'LR' ]]; then
     LS="$LS#{prefix_highlight}"
@@ -117,7 +117,7 @@ tmux_set status-left "$LS"
 tmux_set status-right-bg "$G04"
 tmux_set status-right-fg "G12"
 tmux_set status-right-length 150
-RS="#[fg=$TC,bg=$G06] $time_icon %T #[fg=$TC,bg=$G06]$left_arrow_icon#[fg=$G04,bg=$TC] $date_icon %F "
+RS="#[fg=$TC,bg=$G06]  #(cd #{pane_current_path}; git branch | grep '*' | cut -d ' ' -f2) #[fg=$TC,bg=$G06]$left_arrow_icon#[fg=$G06,bg=$TC] %T %F "
 if "$show_download_speed"; then
     $show_web_reachable && web_reachable_status=' #{web_reachable_status}'
     RS="#[fg=$G05,bg=$BG]$left_arrow_icon#[fg=$TC,bg=$G05] $download_speed_icon#{download_speed}$web_reachable_status #[fg=$G06,bg=$G05]$left_arrow_icon$RS"
@@ -137,7 +137,7 @@ tmux_set window-status-current-format "#[fg=$BG,bg=$G06]$right_arrow_icon#[fg=$T
 tmux_set window-status-separator ""
 
 # Window status alignment
-tmux_set status-justify centre
+#tmux_set status-justify centre
 
 # Current window status
 tmux_set window-status-current-statys "fg=$TC,bg=$BG"
