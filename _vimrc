@@ -321,7 +321,7 @@ call lsp#register_server({
     \ })
 
 " オムニ補完設定
-autocmd FileType typescript setlocal omnifunc=lsp#complete
+autocmd FileType typescript,go,cpp,ruby setlocal omnifunc=lsp#complete
 
 let g:lsp_settings = {}
 let g:lsp_settings['gopls'] = {
