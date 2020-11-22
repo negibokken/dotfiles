@@ -1,1 +1,5 @@
 # README
+
+```sh
+install.sh
+```
