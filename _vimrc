@@ -320,7 +320,7 @@ call lsp#register_server({
     \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
     \ })
 
-" オムニ補完設定
+" configuration
 autocmd FileType typescript,go,cpp,ruby setlocal omnifunc=lsp#complete
 
 let g:lsp_settings = {}
