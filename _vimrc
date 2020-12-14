@@ -201,7 +201,7 @@ let g:prettier#config#print_width =  80
 let g:prettier#config#single_quote = 1
 let g:prettier#config#single_quote = 'true'
 let g:prettier#config#trailing_comma = 'all'
-let g:prettier#config#prose_wrap = 'preserve'
+let g:prettier#config#prose_wrap = 'never'
 
 "" [plug-conf] Shougo/neocomplcache
 source ${HOME}/dotfiles/vimconf/neocomplcache_conf.vim
