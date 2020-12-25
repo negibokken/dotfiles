@@ -1,6 +1,6 @@
 # README
 
-Execute below command to install files.
+Execute below command to install rc files.
 
 ```sh
 install.sh

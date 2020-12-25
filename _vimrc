@@ -175,7 +175,6 @@ augroup END
 "" [plug-config] 'w0rp/ale'
 let g:ale_statusline_format = ['E%d', 'W%d', '']
 let g:ale_linters = {'c':['clang'],'cpp':['clang'],'markdown':['prettier']}
-let g:ale_fixers = {'markdown':['prettier']}
 let g:ale_cpp_clang_executable="clang++"
 let g:ale_javascript_prettier_options = "--prose-wrap always"
 let g:ale_cpp_clang_options = "-std=c++14 -I/Users/bokken/blib/include"
@@ -197,7 +196,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=237
 "" [plug-conf] prettier/vim-prettier vim prettier setting
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.html PrettierAsync"
 let g:prettier#autoformat = 1
-let g:prettier#config#print_width =  80
+""let g:prettier#config#print_width =  80
 let g:prettier#config#single_quote = 1
 let g:prettier#config#single_quote = 'true'
 let g:prettier#config#trailing_comma = 'all'
