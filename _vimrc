@@ -370,14 +370,3 @@ let g:fzf_action = {
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-let g:deoplete#enable_at_startup = 1
-Plug 'vim-airline/vim-airline'
-" Execute below commands before install vim-airline-themes
-" :pythonx print ( sys.version) ; print (sys.path)
-" /path/to/your/python/bin/python3.7 -m pip install pynvim
-Plug 'vim-airline/vim-airline-themes'
-let g:airline_theme="minimalist"
-
