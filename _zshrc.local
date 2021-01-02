@@ -1,4 +1,0 @@
-# esp32 configuration
-export PATH=$HOME/temp/esp/xtensa-esp32-elf/bin:$PATH
-alias get_esp32="export PATH=$HOME/temp/esp/xtensa-esp32-elf/bin:$PATH"
-export IDF_PATH=$HOME/temp/esp/esp-idf
