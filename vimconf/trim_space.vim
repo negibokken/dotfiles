@@ -1,1 +1,2 @@
-autocmd BufWritePre * :%s/\s\+$//ge
+autocmd BufWritePre * :%s/\w\s\+$//ge
+
