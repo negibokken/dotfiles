@@ -98,12 +98,12 @@ source ${HOME}/dotfiles/vimconf/junk_file.vim
 filetype plugin on
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
-Plug 'xavierd/clang_complete'
-Plug 'w0rp/ale'
+""Plug 'xavierd/clang_complete'
+""Plug 'w0rp/ale'
 ""Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'rhysd/vim-clang-format'
+""Plug 'rhysd/vim-clang-format'
 Plug 'elzr/vim-json'
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
@@ -134,6 +134,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/async.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'thomasfaingnaert/vim-lsp-snippets'

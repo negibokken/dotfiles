@@ -180,6 +180,7 @@ alias x="exec $SHELL -l"
 
 ## global alias
 alias -g L="| less"
+alias -g G="| grep"
 alias -g X="| xargs"
 alias -g H="| head"
 alias '..'='cd ..'
