@@ -163,6 +163,8 @@ alias mkdir="mkdir -p"
 
 alias sudo="sudo "
 alias gcp="gcloud"
+alias dcku="docker-compose up"
+alias dckd="docker-compose down"
 alias kube="kubectl"
 alias k="kubectl"
 alias codegrep='find . -path ./.git -prune -o -path ./log -prune -o -type f -print0 | xargs -0 grep -n -E $1'
@@ -237,6 +239,20 @@ mktemp () {
   local devPath="${rootDir}/${dirName}"
   mkdir -p ${devPath}
   cd ${devPath}
+}
+
+mkcd () {
+  if [ ! -n "$1" ] ; then
+    echo "Usage: mkcd dir-name"
+    return
+  fi
+  if [ -e "$1" ] ; then
+    echo "Directory already exists"
+    return
+  fi
+  local dirName=$1
+  mkdir -p ${dirName}
+  cd ${dirName}
 }
 
 gat () {

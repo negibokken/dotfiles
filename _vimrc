@@ -261,6 +261,9 @@ inoremap <C-j> <esc>
 nnoremap <C-j> <esc>
 vnoremap <C-j> <esc>
 
+nnoremap j gj
+nnoremap k gk
+
 "" [keymap] delete line Ctrl+d
 inoremap <C-d> <esc>dd
 nnoremap <C-d> dd
