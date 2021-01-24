@@ -301,7 +301,7 @@ augroup lsp_install
   au!
   autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
-command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
+""command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
 
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
@@ -315,13 +315,13 @@ let g:lsp_preview_float = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_settings_filetype_go = ['gopls', 'golangci-lint-langserver']
 
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
-call lsp#register_server({
-    \ 'name': 'clangd',
-    \ 'cmd': {server_info->['clangd']},
-    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-    \ })
+""let g:lsp_log_verbose = 1
+""let g:lsp_log_file = expand('~/vim-lsp.log')
+""call lsp#register_server({
+""    \ 'name': 'clangd',
+""    \ 'cmd': {server_info->['clangd']},
+""    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+""    \ })
 
 " configuration
 autocmd FileType typescript,go,cpp,ruby setlocal omnifunc=lsp#complete
