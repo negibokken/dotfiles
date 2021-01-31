@@ -173,6 +173,7 @@ alias python="python3"
 alias pip="pip3"
 alias v="vim"
 alias g="git"
+alias alp="docker run -it --rm alpine /bin/sh"
 
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
