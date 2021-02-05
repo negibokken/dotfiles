@@ -103,7 +103,7 @@ Plug 'scrooloose/nerdtree'
 ""Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
-""Plug 'rhysd/vim-clang-format'
+Plug 'rhysd/vim-clang-format'
 Plug 'elzr/vim-json'
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
