@@ -311,13 +311,22 @@ function gb() {
 }
 
 ## peco
-alias gp='cd $(ghq list -p | peco)'
 alias pro='cd ~/Project/$(ls ~/Project | peco)'
 alias temp='cd ~/temp/$(ls ~/temp | peco)'
 alias cb='git checkout `git branch |
   peco |
   sed -e "s/\* //g" |
   awk "{print \$1}"`'
+
+function ghq-peco() {
+  dir=$(ghq list -p | peco)
+  if [ "$dir" = "" ]; then
+    echo "\e[31mdirectory not specified"
+    return
+  fi
+  cd $dir
+}
+alias gp='ghq-peco'
 
 ## kill using peco
 function peco-pkill() {
