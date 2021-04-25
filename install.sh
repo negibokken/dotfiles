@@ -13,5 +13,6 @@ if [[ -e ~/.vim/colors ]]; then
   mkdir -p ~/.vim/colors
 fi
 if ! [[ -e ~/.vim/colors/hybrid.vim ]]; then
+  mkdir -p ~/.vim/colors
   wget https://raw.githubusercontent.com/w0ng/vim-hybrid/master/colors/hybrid.vim -O ~/.vim/colors/hybrid.vim
 fi
