@@ -141,6 +141,7 @@ Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " [plug-conf] 'rhysd/vim-clang-format'
