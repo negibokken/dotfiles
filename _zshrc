@@ -1,5 +1,5 @@
 # language
-export LANG=ja_JP.UTF-8
+export LANG=en_JP.UTF-8
 
 # bin
 export PATH=$PATH:$HOME/.bin
@@ -146,7 +146,11 @@ export LSCOLORS=gxfxcxdxbxegedabagacag
 autoload -U colors ; colors ; zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # aliases
-alias ls="ls -G"
+if [ "$(uname)" = 'Darwin' ]; then
+  alias ls="ls -G"
+elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
+  alias ls="ls --color"
+fi
 alias l="ls -lt"
 alias la="ls -lta"
 
