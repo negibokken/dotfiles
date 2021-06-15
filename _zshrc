@@ -230,7 +230,7 @@ mkdev () {
   mkdir -p ${devPath}
   cd ${devPath}
   touch README.md
-  echo "#$1" >> README.md
+  echo "# $1" >> README.md
   git init
   git add README.md && git commit -m "Initial commit"
 }
@@ -268,7 +268,7 @@ gat () {
 }
 
 mkcode () {
-  e="D"
+  e="F"
   if [ -n "$1" ]; then
     e=$1
   fi
