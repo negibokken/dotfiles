@@ -62,6 +62,8 @@ set ruler
 set cursorline
 "" [basic] color
 set t_Co=256
+"" disable mouse
+set mouse=
 
 ""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
@@ -375,3 +377,4 @@ let g:fzf_action = {
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
+nmap / /\v

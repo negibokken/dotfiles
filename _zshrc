@@ -157,6 +157,7 @@ alias la="ls -lta"
 alias vi="vim"
 alias vio="vim -O"
 alias vic="vim -O *.(cc|h|sh)"
+alias vip="vim -O *.(py|sh)"
 
 alias grep="grep --color"
 alias egrep="egrep --color"

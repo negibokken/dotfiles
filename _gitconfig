@@ -2,7 +2,7 @@
   path = .gitconfig.local
 
 [core]
-  editor = vim
+	editor = vim
   excludesfile = ~/.gitignore_global
 	precomposeUnicode = true
 
