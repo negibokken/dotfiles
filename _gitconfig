@@ -5,6 +5,7 @@
 	editor = vim
   excludesfile = ~/.gitignore_global
 	precomposeUnicode = true
+  pager = "LESSCHARSET=utf-8 less"
 
 [alias]
   p = push
