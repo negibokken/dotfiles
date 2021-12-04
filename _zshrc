@@ -180,8 +180,10 @@ alias python="python3"
 alias pip="pip3"
 alias v="vim"
 alias g="git"
+alias gstat="git log --since=\"$(date +'%Y-%m-%d')T00:00:00+09:00\" --shortstat --oneline | grep 'changed' | awk '{ s += \$4+\$6} END {print s}'"
 alias alp="docker run -it --rm alpine /bin/sh"
 
+alias hb="hub browse"
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
 
@@ -193,6 +195,9 @@ alias -g L="| less"
 alias -g G="| grep"
 alias -g X="| xargs"
 alias -g H="| head"
+# alias -g T="| tee \"/var/log/sh-$(date +'%y-%m-%d_%H-%m-%d.log').log\""
+alias -g T="| tee -a \"/tmp/sh-$(date +'%y-%m-%d.log')\""
+alias dw="docker run -v $(pwd):/work -w /work -it ubuntu /bin/bash"
 alias '..'='cd ..'
 alias -g ...='../..'
 alias -g ....='../../..'
