@@ -7,6 +7,9 @@
 	precomposeUnicode = true
   pager = "LESSCHARSET=utf-8 less"
 
+[init]
+    defaultBranch = main
+
 [alias]
   p = push
   ps = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)"
