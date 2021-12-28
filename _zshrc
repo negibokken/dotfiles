@@ -350,6 +350,15 @@ function peco-pkill() {
 }
 alias pk="peco-pkill"
 
+# incremental search for node scripts
+function peco-node-scripts() {
+  script=`cat package.json| jq -r '.scripts | to_entries | map(.key + " => " + .value) | .[]'|peco`
+  script=`echo $script | awk -F " => " '{ print $1 }'`
+  echo "yarn ${script}" | pbcopy
+  yarn ${script}
+}
+alias ns="peco-node-scripts"
+
 function delete-merged-branches() {
   git branch --merged|egrep -v '\*|develop|master|main'|xargs git branch -d
 }
@@ -386,6 +395,7 @@ function cecho() {
   esac
   echo "$cntl$message"
 }
+
 #candidates
 export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
