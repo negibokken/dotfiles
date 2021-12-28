@@ -21,6 +21,7 @@
   s = status
   st = status
   sh = stash
+  shi = stash save --include-untracked
   ck = checkout
   cm = commit
   ca = commit -a
