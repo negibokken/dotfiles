@@ -217,6 +217,9 @@ source ${HOME}/dotfiles/vimconf/unite_conf.vim
 "" [plug-conf] unite-grep
 source ${HOME}/dotfiles/vimconf/quick_grep.vim
 
+"" [conf] python
+source ${HOME}/dotfiles/vimconf/ftplugin/python.vim
+
 "" [plug-conf] 'tpope/vim-fugitive'
 autocmd QuickFixCmdPost *grep* cwindow
 
