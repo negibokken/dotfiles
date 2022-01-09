@@ -166,6 +166,7 @@ alias egrep="egrep --color"
 alias rm="rm -rf"
 
 alias cp="cp -i"
+alias chx="chmod +x"
 
 alias mkdir="mkdir -p"
 
