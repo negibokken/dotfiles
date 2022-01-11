@@ -2,9 +2,9 @@
   path = .gitconfig.local
 
 [core]
-	editor = vim
+  editor = vim
   excludesfile = ~/.gitignore_global
-	precomposeUnicode = true
+  precomposeUnicode = true
   pager = "LESSCHARSET=utf-8 less"
 
 [init]
@@ -57,4 +57,5 @@
 [ghq]
   root = ~/go/src
 [pull]
-	rebase = false
+  rebase = false
+

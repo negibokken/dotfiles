@@ -1,0 +1,24 @@
+# This is required for using gnu-sed
+PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+
+# homebrew
+export PATH=/opt/homebrew/bin:$PATH
+
+# Puppetter settings see: https://github.com/Nikkei/k2/wiki/setup#rnikkei-modules
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+# optional for k2
+export NODE_ENV=development
+
+## kill using peco
+function peco-node-scripts() {
+  script=`cat package.json| jq -r '.scripts | to_entries | map(.key + " => " + .value) | .[]'|peco`
+  script=`echo $script | awk -F " => " '{ print $1 }'`
+  echo "yarn ${script}" | pbcopy
+  yarn ${script}
+}
+alias ns="peco-node-scripts"
+alias ys="yarn storybook"
+alias gr='cd $(git rev-parse --show-toplevel)'
+alias bt="ls btools"
+alias chx="chmod +x"

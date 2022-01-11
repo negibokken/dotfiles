@@ -4,7 +4,7 @@ export LC_ALL=en_US.UTF-8
 
 # bin
 export PATH=$PATH:$HOME/.bin
-export PATH=$PATH:$(PWD)/btools
+export PATH=$(PWD)/btools:$PATH
 
 # rbenv
 export PATH=$HOME/.rbenv/shims:$PATH
@@ -396,6 +396,9 @@ function cecho() {
       "" ;;
   esac
   echo "$cntl$message"
+}
+function nfind() {
+  find . -type d -name node_modules -prune -o -type f -name $1 -print
 }
 
 function gdraft() {

@@ -137,7 +137,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/async.vim'
-Plug 'SirVer/ultisnips'
+""Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
@@ -311,7 +311,7 @@ augroup lsp_install
 augroup END
 ""command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
 
-let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
 let g:asyncomplete_auto_popup = 1
 let g:asyncomplete_auto_completeopt = 1
@@ -381,3 +381,10 @@ let g:fzf_action = {
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+command! Profile call s:command_profile()
+function! s:command_profile() abort
+  profile start ~/profile.txt
+  profile func *
+  profile file *
+endfunction
