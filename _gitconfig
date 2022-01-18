@@ -44,6 +44,7 @@
   dump = cat-file -p
   r = rebase
   rbh = rebase -i HEAD~~
+  rbc = rebase --continue
   m = merge
   diffc = diff --cached
   rh = reset --hard
