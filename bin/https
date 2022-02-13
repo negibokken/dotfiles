@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 import os
+import sys
 import ssl
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 PORT = 443
+if len(sys.argv) > 1:
+    PORT = int(sys.argv[1])
 DOTFILES = os.environ["DOTFILES"]
 FULLCHAIN_FILE = DOTFILES + "/keys/fullchain.pem"
 PRIV_KEY_FILE = DOTFILES + "/keys/privkey.pem"
