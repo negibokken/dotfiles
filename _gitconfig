@@ -43,7 +43,8 @@
   add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
   dump = cat-file -p
   r = rebase
-  rbh = rebase -i HEAD~~
+  rbc = rebase --continue
+  rbh = "!f() { git rebase -i HEAD~$1; }; f"
   m = merge
   diffc = diff --cached
   rh = reset --hard
