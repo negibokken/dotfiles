@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#!/bin/bash
+PROGNAME=$(basename $0)
+VERSION="1.0"
+usage_exit() {
+  cat << EOS
+Usage: $PROGNAME [OPTION] <hex>
+    Options:
+      -h, --help     show help
+          --version  show version
+EXAMPLE:
+  $PROGNAME FF # pass hex string without 0x
+EOS
+  exit 1
+}
+
+for OPT in "$@"
+do
+    case $OPT in
+        -h | --help)
+            usage_exit; exit 1;;
+        --version)
+            echo $VERSION; exit 1;;
+        -- | -)
+            shift 1
+            param+=( "$@" )
+            break
+            ;;
+        -*)
+            echo "$PROGNAME: illegal option -- '$(echo $1 | sed 's/^-*//')'" 1>&2
+            exit 1
+            ;;
+        *)
+            if [[ ! -z "$1" ]] && [[ ! "$1" =~ ^-+ ]]; then
+                param+=( "$1" )
+                shift 1
+            fi
+            ;;
+    esac
+done
+
+if [ ${#param[@]} != 1 ]; then
+  usage_exit
+fi
+
+HEX=${param[0]^^}
+echo $((16#$HEX))

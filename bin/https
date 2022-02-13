@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+import os
+import ssl
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+
+PORT = 443
+DOTFILES = os.environ["DOTFILES"]
+FULLCHAIN_FILE = DOTFILES + "/keys/fullchain.pem"
+PRIV_KEY_FILE = DOTFILES + "/keys/privkey.pem"
+
+Handler = SimpleHTTPRequestHandler
+
+context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+context.load_cert_chain(certfile=FULLCHAIN_FILE, keyfile=PRIV_KEY_FILE)
+
+with HTTPServer(("", PORT), Handler) as httpd:
+    print("serving at address", httpd.server_address,
+          "using key file", PRIV_KEY_FILE,
+          "using fullchain file", FULLCHAIN_FILE)
+    httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
+    httpd.serve_forever()

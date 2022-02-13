@@ -1,0 +1,58 @@
+#!/bin/bash
+#!/bin/bash
+PROGNAME=$(basename $0)
+VERSION="1.0"
+
+usage_exit() {
+  cat << EOS
+Usage: $PROGNAME [OPTION] <len> <num>
+    Options:
+      -h, --help     show help
+          --version  show version
+EXAMPLE:
+  $PROGNAME arg1
+EOS
+  exit 1
+}
+
+flag=0
+for OPT in "$@"
+do
+    case $OPT in
+        -h | --help)
+            usage_exit; exit 1;;
+        --version)
+            echo $VERSION; exit 1;;
+        -l )
+            flag=1
+            shift 1
+            ;;
+        -- | -)
+            shift 1
+            param+=( "$@" )
+            break
+            ;;
+        -*)
+            echo "$PROGNAME: illegal option -- '$(echo $1 | sed 's/^-*//')'" 1>&2
+            exit 1
+            ;;
+        *)
+            if [[ ! -z "$1" ]] && [[ ! "$1" =~ ^-+ ]]; then
+                param+=( "$1" )
+                shift 1
+            fi
+            ;;
+    esac
+done
+
+if [ ${#param[@]} != 2 ]; then
+  usage_exit
+fi
+
+len=${param[0]}
+num=${param[1]}
+if [ "$len" == 0 ] || [ "$num" == 0 ]; then
+  usage_exit
+fi
+
+ cat /dev/urandom | base64 | fold -w $len | head -n $num

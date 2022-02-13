@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function _trim() {
+  cat - | sed -e 's/^[ \t]//g' | sed -e 's/[ \t]$//g'
+}
+
+if [ -p /dev/stdin ]; then
+    cat -
+else
+    echo $@
+fi | _trim

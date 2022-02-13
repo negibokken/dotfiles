@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+########################################
+# HELP
+########################################
+HELP=<<EOS
+show ip address
+$ addr
+en0: 192.168.1.2
+$ addr -a
+lo0: 127.0.0.1
+en0: 192.168.1.2
+EOS
+
+if ARGV[0] == "-h"
+  puts HELP
+  exit 0
+end
+
+
+########################################
+# Main
+########################################
+require 'socket'
+
+all = ARGV[0] == "-a"
+
+# size for rjust default to size of "global"
+longest = "global".size
+
+addrs = Socket
+  .getifaddrs
+  .select{|interface|
+    interface.addr.ipv4? or interface.addr.ipv6?
+  }
+  .reject{|interface|
+    interface.name.start_with?("lo") unless all
+  }
+  .map{|interface|
+    longest = interface.name.size if longest < interface.name.size
+    [interface.name, interface.addr.ip_address.gsub(/\%.*/, '') ]
+  }.sort
+
+# get global address
+global = `curl -s 'https://api.ipify.org?format=json' | jq .ip`.gsub('"', '').strip
+addrs.push(["global", global])
+
+addrs.each {|name, ip|
+  puts "#{name.rjust(longest)}: #{ip}"
+}
