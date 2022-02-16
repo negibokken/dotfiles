@@ -11,7 +11,10 @@ DOTFILES = os.environ["DOTFILES"]
 FULLCHAIN_FILE = DOTFILES + "/keys/fullchain.pem"
 PRIV_KEY_FILE = DOTFILES + "/keys/privkey.pem"
 
-Handler = SimpleHTTPRequestHandler
+class Handler (SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header('SameSite', 'Strict')
+        SimpleHTTPRequestHandler.end_headers(self)
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 context.load_cert_chain(certfile=FULLCHAIN_FILE, keyfile=PRIV_KEY_FILE)
