@@ -11,7 +11,19 @@ DOTFILES = os.environ["DOTFILES"]
 FULLCHAIN_FILE = DOTFILES + "/keys/fullchain.pem"
 PRIV_KEY_FILE = DOTFILES + "/keys/privkey.pem"
 
+favicon = open(DOTFILES+"/assets/favicon.ico", 'rb').read()
+
 class Handler (SimpleHTTPRequestHandler):
+    def do_GET(self):
+        # favicon
+        if self.path == "/favicon.ico":
+            self.send_response(200)
+            self.send_header("Content-Type", "image/x-icon")
+            self.wfile.write(favicon)
+
+        SimpleHTTPRequestHandler.do_GET(self)
+
+
     def end_headers(self):
         self.send_header('SameSite', 'Strict')
         SimpleHTTPRequestHandler.end_headers(self)
