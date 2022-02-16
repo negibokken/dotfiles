@@ -20,6 +20,7 @@ class Handler (SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "image/x-icon")
             self.wfile.write(favicon)
+            return
 
         SimpleHTTPRequestHandler.do_GET(self)
 
