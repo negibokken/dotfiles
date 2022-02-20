@@ -9,6 +9,9 @@
 
 [init]
     defaultBranch = main
+	precomposeUnicode = true
+	autocrlf = false
+	filemode = false
 
 [alias]
   p = push
@@ -58,5 +61,9 @@
 [ghq]
   root = ~/go/src
 [pull]
-  rebase = false
-
+	rebase = false
+[user]
+	name = Ryo Ogawa
+	email = negibokken@gmail.com
+[http]
+	cookiefile = /home/bokken/.gitcookies

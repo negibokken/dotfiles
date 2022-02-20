@@ -388,3 +388,4 @@ function! s:command_profile() abort
   profile func *
   profile file *
 endfunction
+let g:rustfmt_autosve = 1
