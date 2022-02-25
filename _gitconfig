@@ -28,6 +28,7 @@
   ck = checkout
   cm = commit
   ca = commit -a
+  chp = cherry-pick
   a = "!git status --short | peco | awk '{print $2}' | xargs git add"
   aa = add .
   ad = add
@@ -46,6 +47,8 @@
   add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
   dump = cat-file -p
   r = rebase
+  rb = rebase
+  rbp = rebase --show-current-patch
   rbc = rebase --continue
   rbh = "!f() { git rebase -i HEAD~$1; }; f"
   m = merge
