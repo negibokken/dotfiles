@@ -162,8 +162,16 @@ alias la="ls -lta"
 alias vi="vim"
 alias vio="vim -O"
 alias vic="vim -O *.(cc|h|sh)"
-alias vip="vim -O *.(py|sh)"
-alias vit='vim -O /tmp/$(uuid)'
+ alias vit='vim -O /tmp/$(uuid)'
+# alias vip="vim -O *.(py|sh)"
+function vip() {
+    target=$1
+    if [ "$target" = "" ]; then
+        vim -O *.(py|sh)
+    else
+        vim -O *($target)*.py *sh
+    fi
+}
 
 alias grep="grep --color"
 alias egrep="egrep --color"
