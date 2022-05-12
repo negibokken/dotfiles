@@ -429,3 +429,11 @@ export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --lin
 # include local .zshrc
 source ~/.zshrc.local
 
+function ere() {
+    project=$(cargo run --example |& tail -n +4 | sed -e 's/ //g' | sed -e '$d' | peco)
+    if [ $project = "" ]; then
+        echo "\e[31mproject not specified"
+        return
+    fi
+    cargo run --example $project
+}
