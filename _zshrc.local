@@ -1,4 +1,0 @@
-export PATH=$PATH:$HOME/.cargo/bin
-
-alias chx="chmod +x"
-alias bl="ls -1 btools"
