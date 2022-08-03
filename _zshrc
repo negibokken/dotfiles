@@ -201,6 +201,7 @@ alias gr='cd $(git rev-parse --show-toplevel)'
 alias grt='git rev-parse --show-toplevel'
 alias gstat="git log --since=\"$(date +'%Y-%m-%d')T00:00:00+09:00\" --shortstat --oneline | grep 'changed' | awk '{ s += \$4+\$6} END {print s}'"
 alias alp="docker run -it --rm alpine /bin/sh"
+alias bl="ls -1 btools"
 
 alias hb="hub browse"
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
