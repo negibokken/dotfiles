@@ -1,5 +1,5 @@
 [include]
-  path = .gitconfig.local
+  path = ~/.gitconfig.local
 
 [core]
   editor = vim
@@ -68,9 +68,6 @@
   root = ~/go/src
 [pull]
 	rebase = false
-[user]
-	name = Ryo Ogawa
-	email = negibokken@gmail.com
 [http]
 	cookiefile = /home/bokken/.gitcookies
 [rebase]
