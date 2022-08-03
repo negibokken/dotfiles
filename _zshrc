@@ -290,7 +290,8 @@ mkcd () {
 gat () {
   git add .
   git cm -m "Add $(basename $(cd .. && pwd)) $(basename $(pwd))"
-  git push origin master
+  git push origin `git branch --show-current`
+}
 }
 
 mkcode () {
