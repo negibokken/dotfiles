@@ -244,7 +244,7 @@ mkdev () {
   fi
   local dirName=$1
   local rootDir=$(ghq root)
-  local githubUser="github.com/$(git config user.name)"
+  local githubUser="github.com/negibokken"
   if [[ dirName = */* ]]; then
     githubUser = "github.com/negibokken"
   fi
@@ -262,14 +262,14 @@ mkdev () {
 }
 
 mktemp () {
-  if [ ! -n "$1" ] ; then
-    echo "Usage: mktemp dir-name"
-    return
-  fi
   local dirName=$1
+  if [ ! -n "$1" ] ; then
+    dirName=`date +"%Y-%m-%d-%H-%M-%S"`
+  fi
   local rootDir="$HOME/temp"
   local devPath="${rootDir}/${dirName}"
   mkdir -p ${devPath}
+  echo "Created ${devPath}"
   cd ${devPath}
 }
 
