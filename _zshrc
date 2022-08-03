@@ -38,7 +38,7 @@ export PATH="/Users/bokken/Library/Android/sdk/platform-tools:$PATH"
 # vscode plantuml
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 export PLANTUML_JAR=/usr/local/Cellar/plantuml/8048/libexec/plantuml.jar
-export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/2.40.1/bin/dot
+export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/3.0.0/bin/dot
 
 # Chromium tools
 # export PATH=$PATH:/usr/local/bin/depot_tools
@@ -240,7 +240,7 @@ fi
 mkdev () {
   if [ ! -n "$1" ]; then
     echo "Usage: mkdev dir-name"
-  return
+    return
   fi
   local dirName=$1
   local rootDir=$(ghq root)
