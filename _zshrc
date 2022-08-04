@@ -293,7 +293,6 @@ gat () {
   git cm -m "Add $(basename $(cd .. && pwd)) $(basename $(pwd))"
   git push origin `git branch --show-current`
 }
-}
 
 mkcode () {
   e="F"
