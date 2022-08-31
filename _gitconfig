@@ -52,6 +52,7 @@
   rbr = rebase -i --root
   rbp = rebase --show-current-patch
   rbc = rebase --continue
+  dch = "!f() { git diff --cached HEAD~$1; }; f"
   rbh = "!f() { git rebase -i HEAD~$1; }; f"
   m = merge
   mc = merge --continue
