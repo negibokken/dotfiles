@@ -62,8 +62,12 @@ set ruler
 set cursorline
 "" [basic] color
 set t_Co=256
-"" disable mouse
+"" [basic] disable mouse
 set mouse=
+"" [basic] enable to multi byte for formatting
+set formatoptions+=mM
+"" [basic] textwidth
+set textwidth=80
 
 ""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
@@ -101,15 +105,15 @@ filetype plugin on
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 ""Plug 'xavierd/clang_complete'
-""Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 ""Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'rhysd/vim-clang-format'
 Plug 'elzr/vim-json'
-Plug 'prettier/vim-prettier', {
-      \ 'do': 'yarn install',
-      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html',]}
+""Plug 'prettier/vim-prettier', {
+""      \ 'do': 'yarn install',
+""      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html',]}
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'previm/previm'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -173,16 +177,25 @@ augroup NERDTreeExec
   filetype on
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd VimEnter * wincmd l
-  map <C-n> :NERDTreeTabsToggle<CR>
+  map <C-b> :NERDTreeTabsToggle<CR>
 augroup END
 
-"" [plug-config] 'w0rp/ale'
-let g:ale_statusline_format = ['E%d', 'W%d', '']
-let g:ale_linters = {'c':['clang'],'cpp':['clang'],'markdown':['prettier']}
-let g:ale_cpp_clang_executable="clang++"
-let g:ale_javascript_prettier_options = "--prose-wrap always"
-let g:ale_cpp_clang_options = "-std=c++14 -I/Users/bokken/blib/include"
-let g:ale_c_clang_options="-I/Users/bokken/blib/include"
+"" [plug-config] 'dense-analysis/ale'
+let g:ale_statusline_format = ['E%d', 'W%d', 'OK']
+""let g:ale_linters = {'c':['clang'],'cpp':['clang'],'markdown':['prettier']}
+let g:ale_fixers = {
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier'],
+\   'javascript': ['prettier'],
+\   'javascriptreact': ['prettier'],
+\   'css': ['prettier'],
+\}
+let g:ale_linters_explicit = 1
+let g:ale_cpp_clang_executable='clang++'
+let g:ale_javascript_prettier_use_local_config = 1
+let g:ale_javascript_prettier_options = '--config ${HOME}/.prettierrc'
+""let g:ale_cpp_clang_options = '-std=c++14 -I/Users/bokken/blib/include'
+""let g:ale_c_clang_options='-I/Users/bokken/blib/include'
 let g:ale_fix_on_save = 1
 
 "" [plug-conf] elzr/vim-json
@@ -278,8 +291,8 @@ nnoremap <C-d> dd
 
 "" [keymap] vim grep
 nnoremap <C-y> <Nop>
-nnoremap <C-p> :cprevious<CR>
-nnoremap <C-y> :cnext<CR>
+nnoremap <C-y> :cprevious<CR>
+nnoremap <C-n> :cnext<CR>
 nnoremap [Q :<C-u>cfirst<CR>
 nnoremap ]Q :<C-u>clast<CR>
 
@@ -289,6 +302,9 @@ source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
 "" [keymap] reload all files
 noremap <C-r><C-r>  :bufdo e<CR>
 
+"" [keymap] reload vimrc
+nnoremap <Space>s :source $HOME/.vimrc<CR>
+
 "" candidates
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
@@ -297,7 +313,7 @@ function! s:on_lsp_buffer_enabled() abort
   nmap <buffer> <C-]> <plug>(lsp-definition)
   nmap <buffer> <f2> <plug>(lsp-rename)
   nmap <buffer> <Leader>d <plug>(lsp-type-definition)
-  nmap <buffer> gr <plug>(lsp-peek-references)
+  nmap <buffer> <Leader>r <plug>(lsp-peek-references)
   nmap <buffer> gi <plug>(lsp-peek-implementation)
   inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
   nmap gt :tab LspDefinition<cr>
@@ -388,4 +404,28 @@ function! s:command_profile() abort
   profile func *
   profile file *
 endfunction
-let g:rustfmt_autosve = 1
+let g:rustfmt_autosave = 1
+
+"" status line
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
