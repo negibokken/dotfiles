@@ -162,7 +162,8 @@ alias la="ls -lta"
 alias vi="vim"
 alias vio="vim -O"
 alias vic="vim -O *.(cc|h|sh)"
- alias vit='vim -O /tmp/$(uuid)'
+alias vit='vim -O /tmp/$(uuid)'
+alias viu="vim -u NONE"
 # alias vip="vim -O *.(py|sh)"
 function vip() {
     target=$1
