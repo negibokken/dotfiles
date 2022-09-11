@@ -177,7 +177,7 @@ augroup NERDTreeExec
   filetype on
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd VimEnter * wincmd l
-  map <C-b> :NERDTreeTabsToggle<CR>
+  map <C-n> :NERDTreeTabsToggle<CR>
 augroup END
 
 "" [plug-config] 'dense-analysis/ale'
@@ -194,8 +194,8 @@ let g:ale_linters_explicit = 1
 let g:ale_cpp_clang_executable='clang++'
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_javascript_prettier_options = '--config ${HOME}/.prettierrc'
-""let g:ale_cpp_clang_options = '-std=c++14 -I/Users/bokken/blib/include'
-""let g:ale_c_clang_options='-I/Users/bokken/blib/include'
+let g:ale_cpp_clang_options = '-std=c++14 -I/Users/bokken/blib/include'
+let g:ale_c_clang_options='-I/Users/bokken/blib/include'
 let g:ale_fix_on_save = 1
 
 "" [plug-conf] elzr/vim-json
@@ -420,7 +420,7 @@ set statusline+=%#PmenuSel#
 set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
 set statusline+=\ %f
-set statusline+=%m\
+set statusline+=%m
 set statusline+=%=
 set statusline+=%#CursorColumn#
 set statusline+=\ %y
