@@ -177,7 +177,7 @@ augroup NERDTreeExec
   filetype on
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd VimEnter * wincmd l
-  map <C-n> :NERDTreeTabsToggle<CR>
+  map <C-b> :NERDTreeTabsToggle<CR>
 augroup END
 
 "" [plug-config] 'dense-analysis/ale'
