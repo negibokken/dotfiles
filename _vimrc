@@ -210,15 +210,6 @@ let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=236
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=237
 
-"" [plug-conf] prettier/vim-prettier vim prettier setting
-""autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.html PrettierAsync"
-""let g:prettier#autoformat = 1
-""""let g:prettier#config#print_width =  80
-""let g:prettier#config#single_quote = 1
-""let g:prettier#config#single_quote = 'true'
-""let g:prettier#config#trailing_comma = 'all'
-""let g:prettier#config#prose_wrap = 'never'
-
 autocmd BufWritePre *.py LspDocumentFormatSync
 
 "" [plug-conf] Shougo/neocomplcache
