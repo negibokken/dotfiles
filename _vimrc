@@ -177,7 +177,7 @@ augroup NERDTreeExec
   filetype on
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd VimEnter * wincmd l
-  map <C-b> :NERDTreeTabsToggle<CR>
+  map <C-n> :NERDTreeTabsToggle<CR>
 augroup END
 
 "" [plug-config] 'dense-analysis/ale'
@@ -291,8 +291,9 @@ nnoremap <C-d> dd
 
 "" [keymap] vim grep
 nnoremap <C-y> <Nop>
+nnoremap <C-u> <Nop>
 nnoremap <C-y> :cprevious<CR>
-nnoremap <C-n> :cnext<CR>
+nnoremap <C-u> :cnext<CR>
 nnoremap [Q :<C-u>cfirst<CR>
 nnoremap ]Q :<C-u>clast<CR>
 
