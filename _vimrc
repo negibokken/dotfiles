@@ -389,26 +389,11 @@ let g:fzf_action = {
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-command! Profile call s:command_profile()
-function! s:command_profile() abort
-  profile start ~/profile.txt
-  profile func *
-  profile file *
-endfunction
 let g:rustfmt_autosave = 1
 
 "" status line
-function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-endfunction
-
-function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
 set statusline=
 set statusline+=%#PmenuSel#
-set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
 set statusline+=%m
 set statusline+=%=
@@ -417,6 +402,6 @@ set statusline+=%#CursorColumn#
 set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
-set statusline+=\ %l:%c
+set statusline+=\ %3p%%
+set statusline+=\ %3l:%3c
 set statusline+=\ 
