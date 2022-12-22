@@ -29,16 +29,16 @@ set nocompatible
 set whichwrap=h,l,b,s,<,>,[,]
 "" [basic] no return head of the file when searching
 set nowrapscan
-"" [basic] no wrap line
-set nowrap
+"" [basic] wrap line
+set wrap
 "" [basic] show status bar
 set laststatus=2
 "" [basic] highlight search result
 set hlsearch
 "" [basic] encoding
-set encoding=UTF-8
-set fileencoding=UTF-8
-set termencoding=UTF-8
+set encoding=utf-8
+set fileencoding=utf-8
+set termencoding=utf-8
 "" [basic] complete file name in command line mode
 set wildmenu
 "" [basic] show title and path inforomation
@@ -67,8 +67,7 @@ set mouse=
 "" [basic] enable to multi byte for formatting
 set formatoptions+=mM
 "" [basic] textwidth
-set textwidth=80
-
+set textwidth=0
 ""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
 noremap PP "0p
@@ -105,11 +104,11 @@ filetype plugin on
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 ""Plug 'xavierd/clang_complete'
-Plug 'dense-analysis/ale'
+""Plug 'dense-analysis/ale'
 ""Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'rhysd/vim-clang-format'
+""Plug 'rhysd/vim-clang-format'
 Plug 'elzr/vim-json'
 ""Plug 'prettier/vim-prettier', {
 ""      \ 'do': 'yarn install',
@@ -148,6 +147,8 @@ Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'morhetz/gruvbox'
+Plug 'sheerun/vim-polyglot'
+Plug 'bronson/vim-trailing-whitespace'
 call plug#end()
 
 " [plug-conf] 'rhysd/vim-clang-format'
@@ -183,20 +184,20 @@ augroup END
 "" [plug-config] 'dense-analysis/ale'
 let g:ale_statusline_format = ['E%d', 'W%d', 'OK']
 ""let g:ale_linters = {'c':['clang'],'cpp':['clang'],'markdown':['prettier']}
-let g:ale_fixers = {
-\   'typescript': ['prettier'],
-\   'typescriptreact': ['prettier'],
-\   'javascript': ['prettier'],
-\   'javascriptreact': ['prettier'],
-\   'css': ['prettier'],
-\}
+""let g:ale_fixers = {
+""\   'typescript': ['prettier'],
+""\   'typescriptreact': ['prettier'],
+""\   'javascript': ['prettier'],
+""\   'javascriptreact': ['prettier'],
+""\   'css': ['prettier'],
+""\}
 let g:ale_linters_explicit = 1
 let g:ale_cpp_clang_executable='clang++'
-let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_javascript_prettier_options = '--config ${HOME}/.prettierrc'
+""let g:ale_javascript_prettier_use_local_config = 1
+""let g:ale_javascript_prettier_options = '--config ${HOME}/.prettierrc'
 let g:ale_cpp_clang_options = '-std=c++14 -I/Users/bokken/blib/include'
 let g:ale_c_clang_options='-I/Users/bokken/blib/include'
-let g:ale_fix_on_save = 1
+""let g:ale_fix_on_save = 1
 
 "" [plug-conf] elzr/vim-json
 let g:vim_json_syntax_conceal = 0
@@ -210,7 +211,7 @@ let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=236
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=237
 
-autocmd BufWritePre *.py LspDocumentFormatSync
+autocmd BufWritePre *.py,*.js,*.ts,*.rs,*.go LspDocumentFormatSync
 
 "" [plug-conf] Shougo/neocomplcache
 source ${HOME}/dotfiles/vimconf/neocomplcache_conf.vim
@@ -245,6 +246,14 @@ let g:go_auto_type_info = 1
 nmap s <Plug>(easymotion-overwin-f)
 map <Leader> <Plug>(easymotion-prefix)
 let g:EasyMotion_smartcase = 1
+
+"" [plug-conf] 
+let g:everforest_background = 'soft'
+colorscheme gruvbox
+highligh Normal ctermbg=none
+highlight LineNr ctermfg=243 ""hi Visual cterm=NONE ctermbg=037 ctermfg=007 guibg=darkred guifg=white
+hi CursorLine   cterm=NONE ctermbg=023 ctermfg=015 guibg=darkred guifg=white
+hi CursorColumn cterm=NONE ctermbg=023 ctermfg=015 guibg=darkred guifg=white
 
 "" [keymap] Delete highlight when press esc twice
 nmap <C-j><C-j> :nohlsearch<CR><ESC>
@@ -357,6 +366,13 @@ let g:lsp_settings['gopls'] = {
   \    },
   \  },
   \}
+"" LSP settings for JavaScript
+au User lsp_setup call lsp#register_server({
+  \ 'name': 'javascript support using typescript-language-server',
+  \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+  \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'package.json'))},
+  \ 'whitelist': ['javascript', 'javascript.jsx', 'javascriptreact'],
+  \ })
 
 " For snippets
 let g:UltiSnipsExpandTrigger="<tab>"
