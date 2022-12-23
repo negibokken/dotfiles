@@ -54,6 +54,7 @@
   rbc = rebase --continue
   dch = "!f() { git diff --cached HEAD~$1; }; f"
   rbh = "!f() { git rebase -i HEAD~$1; }; f"
+  rsh = "!f() { git reset --soft -i HEAD~$1; }; f"
   m = merge
   mc = merge --continue
   diffc = diff --cached
