@@ -12,9 +12,15 @@ ln -s ~/dotfiles/_nvimrc ~/.config/nvim/init.vim
 if [[ -e ~/.vim/colors ]]; then
   mkdir -p ~/.vim/colors
 fi
+
 if ! [[ -e ~/.vim/colors/hybrid.vim ]]; then
   mkdir -p ~/.vim/colors
   wget https://raw.githubusercontent.com/w0ng/vim-hybrid/master/colors/hybrid.vim -O ~/.vim/colors/hybrid.vim
+fi
+
+if ! [[ -e ~/.vim/after ]]; then
+    mkdir -p ~/.vim/after
+    ln -s ~/dotfiles/vimconf/ftplugin ~/.vim/after/
 fi
 
 # install vim-plug
