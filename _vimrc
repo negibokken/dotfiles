@@ -68,6 +68,9 @@ set mouse=
 set formatoptions+=mM
 "" [basic] textwidth
 set textwidth=80
+"" [basic] reload when files are changed
+set autoread
+au CursorHold * checktim
 
 ""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
@@ -292,7 +295,7 @@ nnoremap ]Q :<C-u>clast<CR>
 source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
 
 "" [keymap] reload all files
-noremap <C-r><C-r>  :bufdo e<CR>
+noremap <C-r><C-r>  :bufdo e!<CR>
 
 "" [keymap] reload vimrc
 nnoremap <Space>s :source $HOME/.vimrc<CR>
