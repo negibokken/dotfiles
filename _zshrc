@@ -371,6 +371,25 @@ function peco-pkill() {
 }
 alias pk="peco-pkill"
 
+## kill docker process using peco
+function peco-dpkill() {
+  for pid in `docker ps | tail +2 | peco | awk '{ print $1 }'`
+  do
+    docker kill $pid
+    echo "Killed ${pid}"
+  done
+}
+alias dpk="peco-dpkill"
+
+## exec /bin/bash in docker container
+function peco-dpexec() {
+  for pid in `docker ps | tail +2 | peco | awk '{ print $1 }'`
+  do
+    docker exec -it $pid /bin/bash
+  done
+}
+alias dex="peco-dpexec"
+
 # incremental search for node scripts
 function peco-node-scripts() {
   script=`cat package.json| jq -r '.scripts | to_entries | map(.key + " => " + .value) | .[]'|peco`
