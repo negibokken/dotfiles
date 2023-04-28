@@ -376,7 +376,7 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 "" [plug-conf] junegunn/fzf
 nnoremap <C-p> <Nop>
-nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <C-r> :LspReferences<CR>
 "" <C-o> back to original place
 nnoremap <C-d> <Nop>
