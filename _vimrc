@@ -67,7 +67,11 @@ set mouse=
 "" [basic] enable to multi byte for formatting
 set formatoptions+=mM
 "" [basic] textwidth
-set textwidth=0
+set textwidth=80
+"" [basic] reload when files are changed
+set autoread
+au CursorHold * checktim
+
 ""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
 noremap PP "0p
@@ -301,7 +305,7 @@ nnoremap ]Q :<C-u>clast<CR>
 source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
 
 "" [keymap] reload all files
-noremap <C-r><C-r>  :bufdo e<CR>
+noremap <C-r><C-r>  :bufdo e!<CR>
 
 "" [keymap] reload vimrc
 nnoremap <Space>s :source $HOME/.vimrc<CR>
@@ -389,7 +393,7 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 "" [plug-conf] junegunn/fzf
 nnoremap <C-p> <Nop>
-nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <C-r> :LspReferences<CR>
 "" <C-o> back to original place
 nnoremap <C-d> <Nop>
