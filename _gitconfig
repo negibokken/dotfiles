@@ -13,6 +13,9 @@
 	autocrlf = false
 	filemode = false
 
+[branch]
+    autosetuprebase = always
+
 [alias]
   p = push
   ps = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)"
