@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+const https = require('https');
+const fs = require('fs');
+const assert = require('assert');
+
+const dotfilesPath = process.env["DOTFILES"];
+assert(dotfilesPath !== '');
+
+const port = process.argv[2];
+assert(!!port);
+
+const ssl_server_key = dotfilesPath + '/keys/privkey.pem';
+const ssl_server_crt =  dotfilesPath + '/keys/fullchain.pem';
+
+const options = {
+    key: fs.readFileSync(ssl_server_key, 'utf-8'),
+    cert: fs.readFileSync(ssl_server_crt, 'utf-8')
+};
+
+const favicon = fs.readFileSync(dotfilesPath+"/assets/favicon.ico");
+
+console.log(`listen: localhost:${port}`)
+https.createServer(options, (req,res) => {
+    if(req.url === '/favicon.ico') {
+        res.writeHead(200, { 'Content-Type': 'image/x-icon' });
+        return res.end(favicon);
+    }
+    res.statusCode = 200;
+    res.end("hello world!");
+}).listen(port);
