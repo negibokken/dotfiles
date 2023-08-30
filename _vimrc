@@ -30,7 +30,7 @@ set whichwrap=h,l,b,s,<,>,[,]
 "" [basic] no return head of the file when searching
 set nowrapscan
 "" [basic] wrap line
-set wrap
+"" set wrap
 "" [basic] show status bar
 set laststatus=2
 "" [basic] highlight search result
