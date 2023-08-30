@@ -203,9 +203,6 @@ let g:ale_cpp_clang_options = '-std=c++14 -I/Users/bokken/blib/include'
 let g:ale_c_clang_options='-I/Users/bokken/blib/include'
 ""let g:ale_fix_on_save = 1
 
-"" [plug-conf] elzr/vim-json
-let g:vim_json_syntax_conceal = 0
-
 "" [plug-conf] plasticboy/vim-markdown options
 let g:vim_markdown_folding_disabled = 1
 
