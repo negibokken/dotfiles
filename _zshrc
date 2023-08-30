@@ -83,7 +83,7 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
 
 # prompt
-PROMPT=$'%{\e[30;48;5;235m%}%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%} %~ %{${reset_color}%}(%*)\n\$'
+PROMPT=$'%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%}%{${reset_color}%} %~ (%*)\n\$'
 
 # word cursor movement
 bindkey '^f' forward-word
