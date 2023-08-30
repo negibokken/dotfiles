@@ -77,7 +77,7 @@ au CursorHold * checktim
 noremap PP "0p
 noremap x  "_x
 " [basic] conceallevel
-set conceallevel=2 concealcursor=niv
+set conceallevel=0 concealcursor=niv
 
 "" [conf] spell check
 source ${HOME}/dotfiles/vimconf/spell_check.vim
