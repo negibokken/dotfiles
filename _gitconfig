@@ -8,7 +8,7 @@
   pager = "LESSCHARSET=utf-8 less"
 
 [init]
-    defaultBranch = main
+	defaultBranch = main
 	precomposeUnicode = true
 	autocrlf = false
 	filemode = false
