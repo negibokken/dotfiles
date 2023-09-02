@@ -206,6 +206,7 @@ alias ub='docker run -it  -v $(pwd):/app -w /app --rm ubuntu /bin/bash'
 alias bl="ls -1 btools"
 
 alias hb="hub browse"
+alias hprc="hub pull-request -d"
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
 
@@ -403,6 +404,15 @@ function delete-merged-branches() {
   git branch --merged|egrep -v '\*|develop|master|main'|xargs git branch -d
 }
 
+function peco-pull-request() {
+    pr_number=`hub pr list --limit 20 | peco | awk '{print $1}' | sed -e 's/#//'`
+    if [[ "$pr_number" == "" ]]; then
+        echo "Skipped"
+        return
+    fi
+    hub pr show $pr_number
+}
+alias hpr="peco-pull-request"
 
 ## print 256 colors for configuring terminal
 function printColors() {
