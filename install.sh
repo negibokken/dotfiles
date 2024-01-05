@@ -23,6 +23,11 @@ if ! [[ -e ~/.vim/after ]]; then
     ln -s ~/dotfiles/vimconf/ftplugin ~/.vim/after/
 fi
 
+if ! [[ -e ~/.gitconfig.local ]]; then
+    printf "\e[31mPlease fill out ~/.gitconfig.local\e[m\n"
+    printf "[user]\n    name = \n    email = \n" > ~/.gitconfig.local
+fi
+
 # install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
