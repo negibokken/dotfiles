@@ -5,7 +5,7 @@ ln -s ~/dotfiles/_vimrc ~/.vimrc
 ln -s ~/dotfiles/_tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/_gitconfig ~/.gitconfig
 if ! [[ -e ~/.config/nvim ]]; then
-  mkdir ~/.config/nvim
+  mkdir -p ~/.config/nvim
 fi
 ln -s ~/dotfiles/_nvimrc ~/.config/nvim/init.vim
 
