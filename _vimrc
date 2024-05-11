@@ -415,7 +415,7 @@ set statusline+=%#PmenuSel#
 set statusline+=%#LineNr#
 set statusline+=%m
 set statusline+=%=
-set statusline+=%f
+set statusline+=%f\ 
 set statusline+=%#CursorColumn#
 set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
@@ -423,3 +423,4 @@ set statusline+=\[%{&fileformat}\]
 set statusline+=\ %3p%%
 set statusline+=\ %3l:%3c
 set statusline+=\ 
+set statusline+=%#lite#\ %{get(wordcount(),'visual_chars',wordcount().chars)}/%{wordcount().chars}
