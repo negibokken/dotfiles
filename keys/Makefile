@@ -11,10 +11,11 @@ gen-dev:
 	sudo certbot certonly --manual -d localhost.bokken.dev --preferred-challenges dns
 
 mv:
-	sudo cp /etc/letsencrypt/live/localhost.bokken.io/fullchain.pem .
-	sudo chown bokken fullchain.pem
-	sudo cp /etc/letsencrypt/live/localhost.bokken.io/privkey.pem .
-	sudo chown bokken privkey.pem
+	if ! [ -d "localhost.bokken.io" ]; then mkdir localhost.bokken.io; fi
+	sudo cp /etc/letsencrypt/live/localhost.bokken.io/fullchain.pem localhost.bokken.io/
+	sudo chown bokken localhost.bokken.io/fullchain.pem
+	sudo cp /etc/letsencrypt/live/localhost.bokken.io/privkey.pem localhost.bokken.io/
+	sudo chown bokken localhost.bokken.io/privkey.pem
 
 mv1:
 	if ! [ -d "localhost1.bokken.io" ]; then mkdir localhost1.bokken.io; fi
