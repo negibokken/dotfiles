@@ -16,6 +16,7 @@ mv:
 	sudo chown bokken localhost.bokken.io/fullchain.pem
 	sudo cp /etc/letsencrypt/live/localhost.bokken.io/privkey.pem localhost.bokken.io/
 	sudo chown bokken localhost.bokken.io/privkey.pem
+	sudo cp localhost.bokken.io/* .
 
 mv1:
 	if ! [ -d "localhost1.bokken.io" ]; then mkdir localhost1.bokken.io; fi
