@@ -396,6 +396,10 @@ alias dex="peco-dpexec"
 function peco-node-scripts() {
   script=`cat package.json| jq -r '.scripts | to_entries | map(.key + " => " + .value) | .[]'|peco`
   script=`echo $script | awk -F " => " '{ print $1 }'`
+  if [[ "${script}" == "" ]]; then
+      echo "\e[31mscript is not specified"
+      return
+  fi
   echo "yarn ${script}" | pbcopy
   yarn ${script}
 }
