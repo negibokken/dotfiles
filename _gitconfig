@@ -60,9 +60,11 @@
   rsh = "!f() { git reset --soft -i HEAD~$1; }; f"
   m = merge
   mc = merge --continue
+  mpl = "!f () { current=$(git rev-parse --abbrev-ref HEAD);  git switch main; git pl; git switch $current; git rebase main; }; f"
   diffc = diff --cached
   rh = reset --hard
   rs = reset --soft
+  sw = switch
   ds = diff --staged
   dc = diff --cached
   push = "!gitbranchname() { git symbolic-ref --short HEAD; }; gitpushupstream() { git push --set-upstream origin `gitbranchname`; }; gitpushupstream"
