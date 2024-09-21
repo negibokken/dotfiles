@@ -266,17 +266,7 @@ mkdev () {
   git add README.md && git commit -m "Initial commit"
 }
 
-mktemp () {
-  local dirName=$1
-  if [ ! -n "$1" ] ; then
-    dirName=`date +"%Y-%m-%d-%H-%M-%S"`
-  fi
-  local rootDir="$HOME/temp"
-  local devPath="${rootDir}/${dirName}"
-  mkdir -p ${devPath}
-  echo "Created ${devPath}"
-  cd ${devPath}
-}
+source $HOME/dotfiles/shell_functions/mktemp.sh
 
 mkcd () {
   if [ ! -n "$1" ] ; then
