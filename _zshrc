@@ -337,7 +337,7 @@ function gb() {
 
 ## peco
 alias pro='cd ~/Project/$(ls ~/Project | peco)'
-alias temp='cd ~/temp/$(ls ~/temp | peco)'
+alias temp='cd ~/temp/$(for f in $(ls); do echo -n $f; if [ -e $f/README.md ]; then head -n 5 $f/README.md | tr -d "\n"; fi; echo ""; done | peco)'
 alias cb='git checkout `git branch |
   peco |
   sed -e "s/\* //g" |
