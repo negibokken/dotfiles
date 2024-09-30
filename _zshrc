@@ -337,7 +337,16 @@ function gb() {
 
 ## peco
 alias pro='cd ~/Project/$(ls ~/Project | peco)'
-alias temp='cd ~/temp/$(for f in $(ls); do echo -n $f; if [ -e $f/README.md ]; then head -n 5 $f/README.md | tr -d "\n"; fi; echo ""; done | peco)'
+# alias temp='cd ~/temp/$(for f in $(ls ~/temp); do echo -n "$f "; if [ -e ~/temp/$f/README.md ]; then head -n 5 $f/README.md | tr -d "\n"; fi; echo ""; done | peco | awk '\''{ print $1; }'\'')'
+temp() {
+  cd ~/temp/$(for f in $(ls ~/temp); do
+    echo -n "$f "
+    if [ -e ~/temp/$f/README.md ]; then
+      head -n 5 ~/temp/$f/README.md | tr -d "\n"
+    fi
+    echo ""
+  done | peco | awk '{ print $1; }')
+}
 alias cb='git checkout `git branch |
   peco |
   sed -e "s/\* //g" |
