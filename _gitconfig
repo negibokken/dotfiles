@@ -35,6 +35,7 @@
   chp = cherry-pick
   a = "!git status --short | peco | awk '{print $2}' | xargs git add"
   aa = add .
+  ac = !git add -A && git commit -m
   ad = add
   br = branch
   ba = branch -a
@@ -44,6 +45,7 @@
   df = "!git hist | peco | awk '{print $2}' | xargs -I {} git diff {}^ {}"
   hist = log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all
   llog = log --graph --name-status --pretty=format:\"%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset\" --date=relative
+  logs = log --pretty=format:'%C(Yellow)%h %C(reset)%s (%C(green)%an %C(red)[%cd])'
   open = "!hub browse"
   type = cat-file -t
   find = "!f() { git log --pretty=format:\"%h %cd [%cn] %s%d\" --date=relative -S'pretty' -S\"$@\" | peco | awk '{print $1}' | xargs -I {} git diff {}^ {}; }; f"
