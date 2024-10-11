@@ -249,9 +249,11 @@ mkdev () {
   fi
   local dirName=$1
   local rootDir=$(ghq root)
-  local githubUser="github.com/negibokken"
-  if [[ dirName = */* ]]; then
-    githubUser = "github.com/negibokken"
+  local githubUser=""
+  if [ "$B_PROFILE" != "" ]; then
+    githubUser=$B_PROFILE;
+  else
+    githubUser="github.com/negibokken"
   fi
   local devPath="${rootDir}/${githubUser}/${dirName}"
   if [ -e $devPath ]; then
