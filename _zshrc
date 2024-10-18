@@ -237,7 +237,7 @@ tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
   echo '% tmux list-windows -a'
   tmux list-windows -a
 fi
-if [[ ! $TMUX ]] ; then
+if [[ ! $TMUX && $IS_TMUX != "true" && $TERM_PROGRAM != "vscode" ]] ; then
   tmux new-session
 fi
 
