@@ -71,6 +71,8 @@ set textwidth=80
 "" [basic] reload when files are changed
 set autoread
 au CursorHold * checktim
+"" [basic] To avoid redrawtime exceed error
+set re=0
 
 ""highlight CursorLine cterm=NONE ctermfg=white ctermbg=white
 " [basic] no update yank register when push down x key
@@ -86,7 +88,7 @@ source ${HOME}/dotfiles/vimconf/restore_cursor.vim
 "" [conf] auto complete when enter '(', '[', '{', '\'', '"'
 source ${HOME}/dotfiles/vimconf/auto_bracket.vim
 "" [conf] delete last space per line
-source ${HOME}/dotfiles/vimconf/trim_space.vim
+""source ${HOME}/dotfiles/vimconf/trim_space.vim
 "" [conf] spell check
 source ${HOME}/dotfiles/vimconf/spell_check.vim
 "" [conf] set filetype
@@ -396,7 +398,7 @@ nnoremap <silent> <C-r> :LspReferences<CR>
 nnoremap <C-d> <Nop>
 nnoremap <silent> <C-d> :LspDefinition<CR>
 nnoremap <silent> <C-i> :LspImplementation<CR>
-nnoremap <silent> <C-a> :Ag<CR>
+""nnoremap <silent> <C-a> :Ag<CR>
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {

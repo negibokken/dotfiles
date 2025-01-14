@@ -221,7 +221,7 @@ alias -g X="| xargs"
 alias -g H="| head"
 # alias -g T="| tee \"/var/log/sh-$(date +'%y-%m-%d_%H-%m-%d.log').log\""
 alias -g T="| tee -a \"/tmp/sh-$(date +'%y-%m-%d.log')\""
-alias dw="docker run --rm -v $(pwd):/work -w /work -it ubuntu /bin/bash"
+alias dw="docker run --rm -v $(pwd):/work -w /work -it myubuntu /bin/bash"
 alias '..'='cd ..'
 alias -g ...='../..'
 alias -g ....='../../..'
@@ -249,9 +249,11 @@ mkdev () {
   fi
   local dirName=$1
   local rootDir=$(ghq root)
-  local githubUser="github.com/negibokken"
-  if [[ dirName = */* ]]; then
-    githubUser = "github.com/negibokken"
+  local githubUser=""
+  if [ "$B_PROFILE" != "" ]; then
+    githubUser=$B_PROFILE;
+  else
+    githubUser="github.com/negibokken"
   fi
   local devPath="${rootDir}/${githubUser}/${dirName}"
   if [ -e $devPath ]; then
@@ -399,8 +401,13 @@ function peco-node-scripts() {
       echo "\e[31mscript is not specified"
       return
   fi
-  echo "yarn ${script}" | pbcopy
-  yarn ${script}
+  if [ -e "yarn.lock" ]; then
+    echo "yarn ${script}" | pbcopy
+    yarn ${script}
+  else
+    echo "npm run ${script}" | pbcopy
+    npm run ${script}
+  fi
 }
 alias ns="peco-node-scripts"
 
