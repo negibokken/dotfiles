@@ -7,7 +7,7 @@ ln -s ~/dotfiles/_gitconfig ~/.gitconfig
 if ! [[ -e ~/.config/nvim ]]; then
   mkdir -p ~/.config/nvim
 fi
-ln -s ~/dotfiles/_nvimrc ~/.config/nvim/init.vim
+ln -s ~/dotfiles/nvim ~/.config/nvim
 
 if [[ -e ~/.vim/colors ]]; then
   mkdir -p ~/.vim/colors
