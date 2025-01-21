@@ -205,7 +205,7 @@ alias alp='docker run -it -v $(pwd):/app -w /app --rm alpine /bin/sh'
 alias ub='docker run -it  -v $(pwd):/app -w /app --rm ubuntu /bin/bash'
 alias bl="ls -1 btools"
 
-alias hb="hub browse"
+alias hb="gh browse"
 alias hprc="hub pull-request -d"
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
