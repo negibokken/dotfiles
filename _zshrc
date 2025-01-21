@@ -403,6 +403,9 @@ function peco-node-scripts() {
   if [ -e "yarn.lock" ]; then
     echo "yarn ${script}" | pbcopy
     yarn ${script}
+  elif [ -e "pnpm-lock.yaml" ]; then
+    echo "pnpm ${script}" | pbcopy
+    pnpm ${script}
   else
     echo "npm run ${script}" | pbcopy
     npm run ${script}
