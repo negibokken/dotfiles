@@ -13,6 +13,9 @@ export PATH=$PATH:$HOME/.local/bin
 export DOTFILES=$HOME/dotfiles
 export PATH=$DOTFILES/bin:$PATH
 
+# SECOND BRAIN
+export SECOND_BRAIN="$HOME/Documents/obsidian/notes"
+
 # rbenv
 export PATH=$HOME/.rbenv/shims:$PATH
 
