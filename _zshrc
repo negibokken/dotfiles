@@ -155,6 +155,8 @@ fi
 alias l="ls -lt"
 alias la="ls -lta"
 
+alias dotfiles="cd ~/dotfiles"
+
 alias br="cd $SECOND_BRAIN"
 
 alias v="nvim"
