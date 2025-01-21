@@ -18,9 +18,8 @@ return {
 		"hrsh7th/nvim-cmp",
 		"nvim-telescope/telescope.nvim",
 		"nvim-treesitter/nvim-treesitter",
-
-		-- see below for full list of optional dependencies 👇
-	},
+    -- see below for full list of optional dependencies 👇
+    },
 	opts = {
 		workspaces = {
 			{
@@ -37,8 +36,6 @@ return {
 			-- Trigger completion at 2 chars.
 			min_chars = 2,
 		},
-
-		log_level = vim.log.levels.DEBUG,
 
 		mappings = {
 			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
