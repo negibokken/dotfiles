@@ -15,6 +15,10 @@ return {
 		-- Required.
 		"nvim-lua/plenary.nvim",
 
+		"hrsh7th/nvim-cmp",
+		"nvim-telescope/telescope.nvim",
+		"nvim-treesitter/nvim-treesitter",
+
 		-- see below for full list of optional dependencies 👇
 	},
 	opts = {
@@ -26,6 +30,65 @@ return {
 			},
 		},
 
-		-- see below for full list of options 👇
+		-- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
+		completion = {
+			-- Set to false to disable completion.
+			nvim_cmp = true,
+			-- Trigger completion at 2 chars.
+			min_chars = 2,
+		},
+
+		log_level = vim.log.levels.DEBUG,
+
+		mappings = {
+			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+			["gf"] = {
+				action = function()
+					return require("obsidian").util.gf_passthrough()
+				end,
+				opts = { noremap = false, expr = true, buffer = true },
+			},
+			-- Toggle check-boxes.
+			["<leader>ch"] = {
+				action = function()
+					return require("obsidian").util.toggle_checkbox()
+				end,
+				opts = { buffer = true },
+			},
+			-- Smart action depending on context, either follow link or toggle checkbox.
+			["<cr>"] = {
+				action = function()
+					return require("obsidian").util.smart_action()
+				end,
+				opts = { buffer = true, expr = true },
+			},
+		},
+
+		-- Optional, customize how wiki links are formatted. You can set this to one of:
+		--  * "use_alias_only", e.g. '[[Foo Bar]]'
+		--  * "prepend_note_id", e.g. '[[foo-bar|Foo Bar]]'
+		--  * "prepend_note_path", e.g. '[[foo-bar.md|Foo Bar]]'
+		--  * "use_path_only", e.g. '[[foo-bar.md]]'
+		-- Or you can set it to a function that takes a table of options and returns a string, like this:
+		wiki_link_func = function(opts)
+			return require("obsidian.util").wiki_link_id_prefix(opts)
+		end,
+
+		markdown_link_func = function(opts)
+			return require("obsidian.util").markdown_link(opts)
+		end,
+
+		preferred_link_style = "wiki",
 	},
+
+	-- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
+	-- URL it will be ignored but you can customize this behavior here.
+	---@param url string
+	follow_url_func = function(url)
+		-- Open the URL in the default web browser.
+		-- vim.fn.jobstart({ "open", url }) -- Mac OS
+		-- vim.fn.jobstart({"xdg-open", url})  -- linux
+		-- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
+		vim.ui.open(url) -- need Neovim 0.10.0+
+	end,
 }
