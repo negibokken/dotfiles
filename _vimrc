@@ -67,7 +67,7 @@ set mouse=
 "" [basic] enable to multi byte for formatting
 set formatoptions+=mM
 "" [basic] textwidth
-set textwidth=80
+"" set textwidth=80
 "" [basic] reload when files are changed
 set autoread
 au CursorHold * checktim
@@ -109,16 +109,9 @@ source ${HOME}/dotfiles/vimconf/junk_file.vim
 filetype plugin on
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
-""Plug 'xavierd/clang_complete'
-""Plug 'dense-analysis/ale'
-""Plug 'itchyny/lightline.vim'
 Plug 'kana/vim-submode'
 Plug 'jistr/vim-nerdtree-tabs'
-""Plug 'rhysd/vim-clang-format'
 Plug 'elzr/vim-json'
-""Plug 'prettier/vim-prettier', {
-""      \ 'do': 'yarn install',
-""      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html',]}
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'previm/previm'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -132,7 +125,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'MattesGroeger/vim-bookmarks'
-""Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'previm/previm'
@@ -146,16 +138,19 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/async.vim'
-""Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'morhetz/gruvbox'
-Plug 'sheerun/vim-polyglot'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+Plug 'rust-lang/rust.vim'
 call plug#end()
+
+" Enable copying from vim to the system-clipboard
+" set clipboard=unnamedplus
 
 " [plug-conf] 'rhysd/vim-clang-format'
 let g:clang_format#auto_format = 1
@@ -165,12 +160,28 @@ let g:clang_format#code_style = 'google'
 let g:clang_library_path='/usr/local/opt/llvm/lib'
 
 "" [plug-conf] previm/previm
-let g:previm_open_cmd = 'open -a Google\ Chrome'
-let g:previm_enable_realtime = 1
-let g:previm_disable_default_css = 1
-let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
+let g:previm_open_cmd = 'open -a Google\ Chrome\ Beta'
+""let g:previm_enable_realtime = 1
+""let g:previm_disable_default_css = 1
+"" let g:previm_custom_css_path = '~/dotfiles/vimconf/markdown.css'
 nnoremap <C-m> <Nop>
 nnoremap <silent> <C-m><C-o> :PrevimOpen<CR>
+
+"" [plug-conf] iamcco/markdown-preview.nvim
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {},
+    \ 'flowchart_diagrams': {},
+    \ 'content_editable': v:false,
+    \ 'disable_filename': 0,
+    \ 'toc': {}
+    \ }
 
 "" [plug-conf] elzr/vim-json JSON syntax
 let g:vim_json_syntax_conceal = 0
@@ -237,14 +248,6 @@ highlight BookmarkLine ctermbg=031 ctermfg=007
 let g:bookmark_sign = '♥'
 let g:bookmark_highlight_lines = 1
 
-" [plug-conf] 'fatih/vim-go'
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_fmt_command = "goimports"
-let g:go_imports_autosave = 1
-let g:go_auto_type_info = 1
-
 "" [plug-conf] easymotion/vim-easymotion
 nmap s <Plug>(easymotion-overwin-f)
 map <Leader> <Plug>(easymotion-prefix)
@@ -292,6 +295,9 @@ nnoremap k gk
 inoremap <C-d> <esc>dd
 nnoremap <C-d> dd
 
+inoremap <C-k> <esc>d0
+nnoremap <C-k> d0
+
 "" [keymap] vim grep
 nnoremap <C-y> <Nop>
 nnoremap <C-u> <Nop>
@@ -304,7 +310,7 @@ nnoremap ]Q :<C-u>clast<CR>
 source ${HOME}/dotfiles/vimconf/fugitive_keymap.vim
 
 "" [keymap] reload all files
-noremap <C-r><C-r>  :bufdo e!<CR>
+""noremap <C-r><C-r>  :bufdo e!<CR>
 
 "" [keymap] reload vimrc
 nnoremap <Space>s :source $HOME/.vimrc<CR>
