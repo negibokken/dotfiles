@@ -21,7 +21,7 @@ export PATH=$HOME/.rbenv/shims:$PATH
 
 # golang
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
-export GOROOT=/usr/local/opt/go/libexec
+# export GOROOT=/usr/local/opt/go/libexec
 export GOPATH=$HOME/go:$HOME/.ghq/
 export PATH=$PATH:$HOME/go/bin:$PATH:$GOROOT/bin:$HOME/.go/bin
 export MYGO=$GOPATH/src/github.com/negibokken
