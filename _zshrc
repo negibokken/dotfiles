@@ -155,18 +155,22 @@ fi
 alias l="ls -lt"
 alias la="ls -lta"
 
-alias vi="vim"
-alias vio="vim -O"
-alias vic="vim -O *.(cc|h|sh)"
-alias vit='vim -O /tmp/$(uuid)'
-alias viu="vim -u NONE"
+alias br="cd $SECOND_BRAIN"
+
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
+alias vio="nvim -O"
+alias vic="nvim -O *.(cc|h|sh)"
+alias vit='nvim -O /tmp/$(uuid)'
+alias viu="nvim -u NONE"
 # alias vip="vim -O *.(py|sh)"
 function vip() {
     target=$1
     if [ "$target" = "" ]; then
-        vim -O *.(py|sh)
+        nvim -O *.(py|sh)
     else
-        vim -O *($target)*.py *sh
+        nvim -O *($target)*.py *sh
     fi
 }
 
