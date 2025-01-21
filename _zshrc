@@ -7,6 +7,8 @@ export PATH=$PATH:$HOME/.bin
 export PATH=$(pwd)/btools:$PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
+export PATH=$PATH:$HOME/.local/bin
+
 # dotfiles
 export DOTFILES=$HOME/dotfiles
 export PATH=$DOTFILES/bin:$PATH
