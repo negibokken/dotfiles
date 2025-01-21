@@ -38,6 +38,10 @@ vim.opt.whichwrap = "h,l,b,s,<,>,[,]"
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
+-- [basic] spelling this should be placed after encoding to avoid reload
+vim.opt.spell = true
+vim.opt.spelllang = { "en_us", "cjk" }
+
 -- [basic] copy to clipboard when yank
 vim.opt.clipboard:append({ "unnamedplus" })
 
