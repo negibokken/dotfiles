@@ -18,9 +18,10 @@ if ! [[ -e ~/.config/ghostty ]]; then
   mkdir -p ~/.config/ghostty
 fi
 ln -s ~/dotfiles/ghostty/config ~/.config/ghostty/config
-if [[ -e "$HOME/Library/Application\ Support/com.mitchellh.ghostty" ]]; then
-  ln -s ~/dotfiles/ghostty/config "~/Library/Application\ Support/com.mitchellh.ghostty/"
+if ! [[ -e "~/Library/Application\ Support/com.mitchellh.ghostty" ]]; then
+  mkdir -p "~/Library/Application\ Support/com.mitchellh.ghostty"
 fi
+ln -s ~/dotfiles/ghostty/config "~/Library/Application\ Support/com.mitchellh.ghostty/"
 
 if ! [[ -e ~/.vim/colors/hybrid.vim ]]; then
   mkdir -p ~/.vim/colors
