@@ -4,3 +4,5 @@ macos-option-as-alt = true
 font-feature = -calt
 font-feature = -dlig
 theme = Espresso
+clipboard-read = allow
+clipboard-write = allow
