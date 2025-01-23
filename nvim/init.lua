@@ -2,6 +2,7 @@ require("config.lazy")
 require("config.create-zettelkasten")
 require("config.open-today-file")
 require("config.tab-operation")
+require("config.no-neck-pane")
 
 vim.api.nvim_set_keymap("i", "<C-j>", "<Esc>", { noremap = true, silent = true })
 
