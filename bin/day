@@ -35,4 +35,4 @@ if [ ! -f "$file" ]; then
   new_note
 fi
 
-nvim '+ normal Gzzo' "$file" -c :NoNeckPain
+nvim '+ normal Gzzo' "$file"
