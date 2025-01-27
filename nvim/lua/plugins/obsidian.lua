@@ -18,8 +18,8 @@ return {
 		"hrsh7th/nvim-cmp",
 		"nvim-telescope/telescope.nvim",
 		"nvim-treesitter/nvim-treesitter",
-    -- see below for full list of optional dependencies 👇
-    },
+		-- see below for full list of optional dependencies 👇
+	},
 	opts = {
 		workspaces = {
 			{
@@ -60,6 +60,8 @@ return {
 				opts = { buffer = true, expr = true },
 			},
 		},
+
+		open_notes_in = "vsplit",
 
 		-- Optional, customize how wiki links are formatted. You can set this to one of:
 		--  * "use_alias_only", e.g. '[[Foo Bar]]'
