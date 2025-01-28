@@ -18,8 +18,8 @@ return {
 		"hrsh7th/nvim-cmp",
 		"nvim-telescope/telescope.nvim",
 		"nvim-treesitter/nvim-treesitter",
-    -- see below for full list of optional dependencies 👇
-    },
+		-- see below for full list of optional dependencies 👇
+	},
 	opts = {
 		workspaces = {
 			{
@@ -61,6 +61,8 @@ return {
 			},
 		},
 
+		open_notes_in = "vsplit",
+
 		-- Optional, customize how wiki links are formatted. You can set this to one of:
 		--  * "use_alias_only", e.g. '[[Foo Bar]]'
 		--  * "prepend_note_id", e.g. '[[foo-bar|Foo Bar]]'
@@ -76,16 +78,16 @@ return {
 		end,
 
 		preferred_link_style = "wiki",
-	},
 
-	-- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
-	-- URL it will be ignored but you can customize this behavior here.
-	---@param url string
-	follow_url_func = function(url)
-		-- Open the URL in the default web browser.
-		-- vim.fn.jobstart({ "open", url }) -- Mac OS
-		-- vim.fn.jobstart({"xdg-open", url})  -- linux
-		-- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
-		vim.ui.open(url) -- need Neovim 0.10.0+
-	end,
+		-- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
+		-- URL it will be ignored but you can customize this behavior here.
+		---@param url string
+		follow_url_func = function(url)
+			-- Open the URL in the default web browser.
+			-- vim.fn.jobstart({ "open", url }) -- Mac OS
+			-- vim.fn.jobstart({"xdg-open", url})  -- linux
+			-- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
+			vim.ui.open(url) -- need Neovim 0.10.0+
+		end,
+	},
 }

@@ -12,4 +12,4 @@ _G.open_today_note = function()
 	end
 end
 -- キーマッピング (Alt + c)
-vim.keymap.set("n", "<A-c>", ":lua open_today_note()<CR>:NoNeckPain<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<A-c>", ":lua open_today_note()<CR>", { noremap = true, silent = true })
