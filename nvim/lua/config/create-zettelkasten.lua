@@ -6,7 +6,7 @@ _G.create_zettelkasten_note = function()
 	end
 
 	local filename = second_brain .. os.date("/%Y%m%d%H%M%S") .. ".md"
-	local obsidian_path = "/00 --zettelkasten" .. os.date("/%Y%m%d%H%M%S") .. ".md"
+	local obsidian_path = "/00--zettelkasten" .. os.date("/%Y%m%d%H%M%S") .. ".md"
 	local link_name = os.date("zettelkasten-%Y%m%d%H%M%S") .. ".md"
 
 	local current_win = vim.api.nvim_get_current_win()
