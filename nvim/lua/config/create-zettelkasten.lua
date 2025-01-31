@@ -24,6 +24,7 @@ _G.create_zettelkasten_note = function()
 	)
 
 	if filename ~= "" then
+		vim.cmd("vsplit")
 		vim.cmd("edit " .. filename)
 	end
 end
