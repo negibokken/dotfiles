@@ -52,12 +52,12 @@ return {
 			-- 	opts = { buffer = true },
 			-- },
 			-- -- Smart action depending on context, either follow link or toggle checkbox.
-			-- ["<cr>"] = {
-			-- 	action = function()
-			-- 		return require("obsidian").util.smart_action()
-			-- 	end,
-			-- 	opts = { buffer = true, expr = true },
-			-- },
+			["<A-Enter>"] = {
+				action = function()
+					return require("obsidian").util.smart_action()
+				end,
+				opts = { buffer = true, expr = true },
+			},
 		},
 
 		open_notes_in = "vsplit",
