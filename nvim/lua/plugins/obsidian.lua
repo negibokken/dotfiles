@@ -18,7 +18,6 @@ return {
 		"hrsh7th/nvim-cmp",
 		"nvim-telescope/telescope.nvim",
 		"nvim-treesitter/nvim-treesitter",
-		-- see below for full list of optional dependencies 👇
 	},
 	opts = {
 		workspaces = {
@@ -38,20 +37,20 @@ return {
 
 		mappings = {
 			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-			-- ["gf"] = {
-			-- 	action = function()
-			-- 		return require("obsidian").util.gf_passthrough()
-			-- 	end,
-			-- 	opts = { noremap = false, expr = true, buffer = true },
-			-- },
-			-- -- Toggle check-boxes.
-			-- ["<leader>ch"] = {
-			-- 	action = function()
-			-- 		return require("obsidian").util.toggle_checkbox()
-			-- 	end,
-			-- 	opts = { buffer = true },
-			-- },
-			-- -- Smart action depending on context, either follow link or toggle checkbox.
+			["gf"] = {
+				action = function()
+					return require("obsidian").util.gf_passthrough()
+				end,
+				opts = { noremap = false, expr = true, buffer = true },
+			},
+			-- Toggle check-boxes.
+			["<leader>ch"] = {
+				action = function()
+					return require("obsidian").util.toggle_checkbox()
+				end,
+				opts = { buffer = true },
+			},
+			-- Smart action depending on context, either follow link or toggle checkbox.
 			["<A-Enter>"] = {
 				action = function()
 					return require("obsidian").util.smart_action()
@@ -61,8 +60,6 @@ return {
 		},
 
 		open_notes_in = "vsplit",
-
-		-- disable_frontmatter = true,
 
 		-- Optional, alternatively you can customize the frontmatter data.
 		---@return table
