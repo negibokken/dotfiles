@@ -1,0 +1,65 @@
+#!/bin/bash
+
+year=""
+this_week=""
+next_week=""
+previous_week=""
+if [[ "$1" == "-n" ]]; then
+  year=$(gdate -d "next week" +"%Y")
+  this_week=$(gdate -d "next week" +"%Y-Week%V")
+  next_week=$(gdate -d "next week +1 week" +"%Y-Week%V")
+  prev_week=$(gdate -d "next week -1 week" +"%Y-Week%V")
+else
+  year=$(gdate +"%Y")
+  this_week=$(gdate +"%Y-Week%V")
+  next_week=$(gdate -d "+1 week" +"%Y-Week%V")
+  prev_week=$(gdate -d "-1 week" +"%Y-Week%V")
+fi
+
+REL_PATH="/periodic-notes/weekly-notes/${year}/"
+file="$SECOND_BRAIN"${REL_PATH}${this_week}.md
+
+next_week_path=$REL_PATH${next_week}
+prev_week_path=$REL_PATH${prev_week}
+
+cd "$SECOND_BRAIN" || exit
+
+new_note() {
+  touch "$file"
+
+  cat <<EOF >"$file"
+# $this_week
+
+[[$prev_week_path|$prev_week]] | [[$next_week_path|$next_week]]
+
+## 今週の目標
+
+- 
+
+## 今週やったこと、分かったこと
+
+- 
+
+## 反省点
+
+- 
+
+## 次にすること
+
+- 
+
+## チェックリスト
+
+- [ ] 今週のメモを空にする
+- [ ] 次週にやることを選び翌週のWeekly-Reviewを作る
+
+EOF
+
+}
+
+if [ ! -f "$file" ]; then
+  echo "File does not exist, creating new weekly note"
+  new_note
+fi
+
+nvim '+ normal Gzz' "$file"
