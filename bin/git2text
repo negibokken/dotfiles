@@ -35,6 +35,9 @@ function walkDir(dir) {
 
     files.forEach(file => {
         const filePath = path.join(dir, file);
+        // Skip .git directory
+        if (path.basename(filePath) === '.git') return;
+
         const stat = fs.statSync(filePath);
 
         if (stat.isDirectory()) {
