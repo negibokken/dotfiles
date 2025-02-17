@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// Get directory path from command line argument or use current directory
+const dirPath = process.argv[2] || '.';
 
 const fs = require('fs');
 const path = require('path');
@@ -44,4 +46,4 @@ function walkDir(dir) {
 }
 
 // Start processing from current directory
-walkDir('.');
+walkDir(dirPath);
