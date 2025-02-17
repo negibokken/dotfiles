@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+
+function isTextFile(filename) {
+    try {
+        const buffer = fs.readFileSync(filename);
+        // Check for null bytes which typically indicate binary content
+        for (let i = 0; i < buffer.length; i++) {
+            if (buffer[i] === 0) return false;
+        }
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
+function processFile(filePath) {
+    if (isTextFile(filePath)) {
+        console.log('======================================');
+        console.log(filePath);
+        console.log('======================================');
+        console.log();
+        console.log(fs.readFileSync(filePath, 'utf8'));
+        console.log();
+        console.log();
+    }
+}
+
+function walkDir(dir) {
+    const files = fs.readdirSync(dir);
+
+    files.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+
+        if (stat.isDirectory()) {
+            walkDir(filePath);
+        } else {
+            processFile(filePath);
+        }
+    });
+}
+
+// Start processing from current directory
+walkDir('.');
