@@ -7,3 +7,5 @@ MD007:
   start_indent: 2
 # MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.37.4/doc/md013.md
 MD013: false
+# MD034 - Bare URL used
+MD034: false
