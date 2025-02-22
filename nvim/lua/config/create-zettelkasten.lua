@@ -20,7 +20,7 @@ _G.create_zettelkasten_note = function()
 		cursor_pos[2],
 		cursor_pos[1] - 1,
 		cursor_pos[2],
-		{ "[[" .. obsidian_path .. "|" .. link_name .. "]]" }
+		{ "[[" .. link_name .. "|" .. link_name .. "]]" }
 	)
 
 	if filename ~= "" then
