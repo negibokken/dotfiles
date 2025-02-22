@@ -4,6 +4,7 @@ require("config.open-today-file")
 require("config.tab-operation")
 require("config.no-neck-pane")
 require("config.mv-file-with-telescope")
+require("config.rename-to-h1")
 
 vim.api.nvim_set_keymap("i", "<C-j>", "<Esc>", { noremap = true, silent = true })
 
