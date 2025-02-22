@@ -1,10 +1,10 @@
 MD007:
   # Spaces for indent
-  indent: 2
+  indent: 4
   # Whether to indent the first level of the list
   start_indented: false
   # Spaces for first level indent (when start_indented is set)
-  start_indent: 2
+  start_indent: 4
 # MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.37.4/doc/md013.md
 MD013: false
 # MD034 - Bare URL used
