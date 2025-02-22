@@ -76,7 +76,7 @@
 [ghq]
   root = ~/go/src
 [pull]
-	rebase = false
+	rebase = true
 [http]
 	cookiefile = /home/bokken/.gitcookies
 [rebase]
