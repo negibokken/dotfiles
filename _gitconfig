@@ -57,6 +57,7 @@
   rbr = rebase -i --root
   rbp = rebase --show-current-patch
   rbc = rebase --continue
+  rp= "!git log --pretty=format:'%C(Yellow)%h %s (%an [%cd])' | peco | awk '{ print $1; }' | xargs -I {} git revert {}"
   dch = "!f() { git diff --cached HEAD~$1; }; f"
   rbh = "!f() { git rebase -i HEAD~$1; }; f"
   rsh = "!f() { git reset --soft -i HEAD~$1; }; f"
