@@ -33,7 +33,7 @@
   ca = commit -a
   cf = "!git log --pretty=format:'%C(Yellow)%h %s (%an [%cd])' | peco | awk '{ print $1; }' | xargs -I {} git commit --fixup {}"
   chp = cherry-pick
-  a = "!git status --short | peco | awk '{print $2}' | xargs git add"
+  ap = "!git status --short | peco | awk '{print $2}' | xargs git add"
   aa = add .
   ac = !git add -A && git commit -m
   ad = add
