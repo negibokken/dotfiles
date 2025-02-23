@@ -150,7 +150,7 @@ Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " Enable copying from vim to the system-clipboard
-" set clipboard=unnamedplus
+set clipboard=unnamedplus
 
 " [plug-conf] 'rhysd/vim-clang-format'
 let g:clang_format#auto_format = 1
