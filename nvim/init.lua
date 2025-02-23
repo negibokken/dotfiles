@@ -58,3 +58,10 @@ vim.opt.listchars = "tab:..,trail:_,eol:↲,extends:>,precedes:<,nbsp:%"
 
 -- [basic] To avoid redrawtime exceed error
 vim.opt.re = 0
+
+-- [basic] Auto reload when the files are changed
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+	command = "if mode() != 'c' | checktime | endif",
+	pattern = { "*" },
+})
