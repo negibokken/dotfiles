@@ -54,6 +54,7 @@
   dump = cat-file -p
   r = rebase
   rb = rebase
+  rbb =  "!f() { base_branch=`git show-branch | grep '*' | grep -v "$(git rev-parse --abbrev-ref HEAD)" | head -1 | awk -F'[]~^[]' '{print $2}'`; git rebase -i $(git merge-base $base_branch HEAD) --autosquash; }; f"
   rbr = rebase -i --root
   rbp = rebase --show-current-patch
   rbc = rebase --continue
