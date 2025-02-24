@@ -485,3 +485,15 @@ function ere() {
     fi
     cargo run --example $project
 }
+
+function vex() {
+    local tmpfile=/tmp/$(uuidgen)
+    ${EDITOR:-nvim} "$tmpfile"
+    local cmd
+    cmd=$(awk 'NR==1 {printf "%s", $0} NR>1 {printf "\\n%s", $0}' "$tmpfile")
+    BUFFER=$cmd
+    CURSOR=${#cmd}
+    zle reset-prompt
+}
+zle -N vex
+bindkey '^X^E' vex
