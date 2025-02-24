@@ -12,4 +12,5 @@ return {
 		require("cmp").setup({})
 	end,
 	event = { "InsertEnter", "CmdlineEnter" },
+	lazy = true,
 }
