@@ -1,0 +1,38 @@
+#!/bin/bash
+
+today=$(date +"%Y-%m-%d")
+tomorrow='/periodic-notes/daily-notes/'$(gdate -d "tomorrow" '+%Y-%m-%d')
+yesterday='/periodic-notes/daily-notes/'$(gdate -d "yesterday" '+%Y-%m-%d')
+file="$SECOND_BRAIN"'/periodic-notes/daily-notes/'$(date +"%Y-%m-%d").md
+month_path='/periodic-notes/monthly-notes/'$(date +'%Y-%m')
+year_path='/periodic-notes/yearly-notes/'$(date +'%Y')
+
+cd "$SECOND_BRAIN" || exit
+
+new_note() {
+  touch "$file"
+
+  cat <<EOF >"$file"
+# $today
+
+<!-- markdownlint-disable-next-line -->
+[[$yesterday |Yesterday]] | [[$tomorrow |Tomorrow]] | [[$month_path |This Month]] | [[$year_path |This Year]]
+
+## intention
+
+What do I want to achieve today and tomorrow?
+
+## Log
+
+- 
+
+EOF
+
+}
+
+if [ ! -f "$file" ]; then
+  echo "File does not exist, creating new daily note" 1>&2
+  new_note
+fi
+
+echo $file
