@@ -15,7 +15,7 @@ return {
 			},
 		},
 		filesystem = {
-			follow_current_file = false, -- 現在開いているファイルをNeo-Treeでハイライトする
+			follow_current_file = true, -- 現在開いているファイルをNeo-Treeでハイライトする
 			-- group_empty_dirs = true, -- 空のディレクトリをグループ化する
 			hide_dot_files = false, -- ドットファイルを非表示にする
 			hijack_netrw_behavior = "open_current", -- netrwの挙動を乗っ取る
