@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# 引数の数が正しいか確認
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 owner/repo/directory"
+  exit 1
+fi
+
+# 引数を解析
+input=$1
+owner=$(echo $input | cut -d'/' -f1)
+repo=$(echo $input | cut -d'/' -f2)
+directory=$(echo $input | cut -d'/' -f3-)
+
+# ディレクトリを再帰的にダウンロードする関数
+download_directory() {
+  local owner=$1
+  local repo=$2
+  local directory=$3
+
+  echo $owner $repo $directory
+
+  # APIエンドポイントを構築
+  api_url="https://api.github.com/repos/$owner/$repo/contents/$directory"
+
+  # ファイルの一覧を取得
+  files=$(curl -s "$api_url")
+
+  # JSONを解析
+  items=$(echo "$files" | jq -r '.[] | .type + " " + .name + "\n"')
+
+  # ファイルとディレクトリを処理
+  while IFS=$' ' read -r type name; do
+    echo "type: $type, name: $name"
+    if [ "$type" == "file" ]; then
+      # ファイルをダウンロード
+      download_url="https://raw.githubusercontent.com/$owner/$repo/main/$directory/$name"
+      curl -s -o "$directory/$name" "$download_url"
+      echo "Downloaded: $directory/$name"
+    elif [ "$type" == "dir" ]; then
+      # ディレクトリを作成
+      mkdir -p "$directory/$name"
+      # サブディレクトリを再帰的にダウンロード
+      download_directory "$owner" "$repo" "$directory/$name"
+    fi
+  done < <(echo "$items")
+}
+
+# ローカルディレクトリを作成
+mkdir -p "$directory"
+
+# ディレクトリをダウンロード
+download_directory "$owner" "$repo" "$directory"
+
+echo "Done."
