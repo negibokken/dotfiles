@@ -1,0 +1,60 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+format = """
+$username$hostname$directory$time
+$character"""
+right_format = """
+$git_branch$git_commit$git_state$git_metrics
+"""
+
+add_newline = false
+
+[username]
+style_user = 'green bold'
+style_root = 'red bold'
+format = '[$user]($style)'
+disabled = false
+show_always = true
+
+[hostname]
+style = 'red bold'
+format = "@[$hostname]($style) "
+ssh_only = false
+trim_at = ".local"
+disabled = false
+
+[time]
+disabled = false
+use_12hr = false
+style = "white"
+format = '[\($time\)]($style) '
+time_format = '%H:%M:%S'
+#utc_time_offset = '-5'
+time_range = '00:00:00-23:59:59'
+
+[status]
+symbol = 'x'
+success_symbol = 'o'
+format = '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
+map_symbol = true
+disabled = false
+
+[directory]
+truncation_length = 255
+style = "white"
+# truncation_symbol = '…/'
+truncate_to_repo = false
+use_logical_path = false
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+
+# Replace the '❯' symbol in the prompt with '➜'
+[character] # The name of the module we are configuring is 'character'
+success_symbol = '[>](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true

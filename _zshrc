@@ -80,7 +80,7 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
 
 # prompt
-PROMPT=$'%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%}%{${reset_color}%} %~ (%*)\n\$'
+# PROMPT=$'%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%}%{${reset_color}%} %~ (%*)\n\$'
 
 # word cursor movement
 bindkey '^f' forward-word
@@ -93,19 +93,19 @@ zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
 # vcs prompt
-autoload -Uz vcs_info
-autoload -Uz add-zsh-hook
-setopt prompt_subst
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' disable bzr svn hg
-zstyle ':vcs_info:*' formats '%F{cyan}(%s)-[%b]%f'
-zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
-
-function _update_vcs_info_msg() {
-  LANG=en_US.UTF-8 vcs_info
-  RPROMPT="${vcs_info_msg_0_}"
-}
-add-zsh-hook precmd _update_vcs_info_msg
+# autoload -Uz vcs_info
+# autoload -Uz add-zsh-hook
+# setopt prompt_subst
+# zstyle ':vcs_info:*' enable git
+# zstyle ':vcs_info:*' disable bzr svn hg
+# zstyle ':vcs_info:*' formats '%F{cyan}(%s)-[%b]%f'
+# zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
+# 
+# function _update_vcs_info_msg() {
+#   LANG=en_US.UTF-8 vcs_info
+#   RPROMPT="${vcs_info_msg_0_}"
+# }
+# add-zsh-hook precmd _update_vcs_info_msg
 
 # Options
 ## print_eight_bit

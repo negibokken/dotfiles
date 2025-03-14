@@ -8,6 +8,7 @@ if ! [[ -e ~/.config/nvim ]]; then
   mkdir -p ~/.config/nvim
 fi
 ln -s ~/dotfiles/nvim ~/.config/nvim
+ln -s ~/dotfiles/starship/starship.toml ~/.config/starship.toml
 
 if [[ -e ~/.vim/colors ]]; then
   mkdir -p ~/.vim/colors
