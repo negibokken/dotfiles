@@ -18,14 +18,6 @@ new_note() {
 <!-- markdownlint-disable-next-line -->
 [[$yesterday |Yesterday]] | [[$tomorrow |Tomorrow]] | [[$month_path |This Month]] | [[$year_path |This Year]]
 
-## intention
-
-What do I want to achieve today and tomorrow?
-
-## Log
-
-- 
-
 EOF
 
 }
