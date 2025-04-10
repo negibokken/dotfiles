@@ -1,6 +1,6 @@
 local second_brain = os.getenv("SECOND_BRAIN")
 _G.open_today_note = function()
-	local today = os.date("%Y-%m-%d")
+	local today = os.date("%Y/%m/%Y-%m-%d")
 	local file_path = second_brain .. "/periodic-notes/daily-notes/" .. today .. ".md"
 
 	local file = io.open(file_path, "r")

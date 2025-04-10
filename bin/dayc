@@ -1,15 +1,17 @@
 #!/bin/bash
 
 today=$(date +"%Y-%m-%d")
-tomorrow='/periodic-notes/daily-notes/'$(gdate -d "tomorrow" '+%Y-%m-%d')
-yesterday='/periodic-notes/daily-notes/'$(gdate -d "yesterday" '+%Y-%m-%d')
-file="$SECOND_BRAIN"'/periodic-notes/daily-notes/'$(date +"%Y-%m-%d").md
-month_path='/periodic-notes/monthly-notes/'$(date +'%Y-%m')
+tomorrow='/periodic-notes/daily-notes/'$(gdate -d "tomorrow" '+%Y/%m/%Y-%m-%d')
+yesterday='/periodic-notes/daily-notes/'$(gdate -d "yesterday" '+%Y/%m/%Y-%m-%d')
+file="$SECOND_BRAIN"'/periodic-notes/daily-notes/'$(date +"%Y/%m/%Y-%m-%d").md
+month_path='/periodic-notes/monthly-notes/'$(date +'%Y/%m/%Y-%m')
 year_path='/periodic-notes/yearly-notes/'$(date +'%Y')
 
 cd "$SECOND_BRAIN" || exit
 
 new_note() {
+  # Create directory if it doesn't exist
+  mkdir -p "$(dirname "$file")"
   touch "$file"
 
   cat <<EOF >"$file"
