@@ -9,8 +9,10 @@ _G.open_quarterly_note = function()
 	local file = io.open(file_path, "r")
 	if file then
 		file:close()
+		vim.cmd("vsplit")
 		vim.cmd("edit " .. file_path)
 	else
+		vim.cmd("vsplit")
 		vim.cmd("edit " .. file_path)
 	end
 end
