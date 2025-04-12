@@ -1,0 +1,89 @@
+#!/bin/bash
+
+year=""
+this_quarter=""
+next_quarter=""
+prev_quarter=""
+
+# Get current quarter or next quarter if -n flag is provided
+get_quarter() {
+    local date_str=$1
+    local y=$(gdate -d "$date_str" +"%Y")
+    local m=$(gdate -d "$date_str" +"%m")
+    local q=$(( (m - 1) / 3 + 1 ))
+    echo "${y}-Q${q}"
+}
+
+if [[ "$1" == "-n" ]]; then
+    # Add 3 months for next quarter
+    year=$(gdate -d "+3 month" +"%Y")
+    this_quarter=$(get_quarter "+3 month")
+    next_quarter=$(get_quarter "+6 month")
+    prev_quarter=$(get_quarter "")
+else
+    year=$(gdate +"%Y")
+    this_quarter=$(get_quarter "")
+    next_quarter=$(get_quarter "+3 month")
+    prev_quarter=$(get_quarter "-3 month")
+fi
+
+REL_PATH="/periodic-notes/quarterly-notes/${year}/"
+file="$SECOND_BRAIN"${REL_PATH}${this_quarter}.md
+
+next_quarter_path=$REL_PATH${next_quarter}
+prev_quarter_path=$REL_PATH${prev_quarter}
+
+cd "$SECOND_BRAIN" || exit
+
+new_note() {
+    mkdir -p $(basename "$file")
+    touch "$file"
+
+    cat <<EOF >"$file"
+# $this_quarter
+
+[[$prev_quarter_path|$prev_quarter]] | [[$next_quarter_path|$next_quarter]]
+
+## 年間目標
+
+[[/periodic-notes/yearly-notes/$year]]
+
+## 四半期の目標
+
+- Objectives
+    -
+- Key Results
+    -
+
+## 主な成果
+
+-
+
+## プロジェクトの進捗
+
+-
+
+## 学んだこと・気づき
+
+-
+
+## 課題と改善点
+
+-
+
+## チェックリスト
+
+- [ ] 四半期の振り返りを完了
+- [ ] 次の四半期の目標を設定
+- [ ] 主要プロジェクトの進捗を確認
+- [ ] KRの達成状況を確認
+
+EOF
+}
+
+if [ ! -f "$file" ]; then
+    echo "File does not exist, creating new quarterly note"
+    new_note
+fi
+
+nvim '+ normal Gzz' "$file"
