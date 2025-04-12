@@ -14,6 +14,19 @@ get_quarter() {
     echo "${y}-Q${q}"
 }
 
+# Get annual goals from the yearly note
+get_annual_goals() {
+    local year=$1
+    local yearly_file="$SECOND_BRAIN/periodic-notes/yearly-notes/${year}.md"
+
+    if [ -f "$yearly_file" ]; then
+        cat "$yearly_file"
+    else
+        echo "- 年間目標ファイルが見つかりません"
+        echo "- [[/periodic-notes/yearly-notes/${year}|${year}年目標]]"
+    fi
+}
+
 if [[ "$1" == "-n" ]]; then
     # Add 3 months for next quarter
     year=$(gdate -d "+3 month" +"%Y")
@@ -29,6 +42,7 @@ fi
 
 REL_PATH="/periodic-notes/quarterly-notes/${year}/"
 file="$SECOND_BRAIN"${REL_PATH}${this_quarter}.md
+dir=$(dirname "$file")
 
 next_quarter_path=$REL_PATH${next_quarter}
 prev_quarter_path=$REL_PATH${prev_quarter}
@@ -36,40 +50,39 @@ prev_quarter_path=$REL_PATH${prev_quarter}
 cd "$SECOND_BRAIN" || exit
 
 new_note() {
-    mkdir -p $(basename "$file")
+    # Create directory if it doesn't exist
+    mkdir -p "$dir"
     touch "$file"
+
+    # Get annual goals
+    annual_goals=$(get_annual_goals "$year")
 
     cat <<EOF >"$file"
 # $this_quarter
 
 [[$prev_quarter_path|$prev_quarter]] | [[$next_quarter_path|$next_quarter]]
 
-## 年間目標
+## ${year}年の目標
 
-[[/periodic-notes/yearly-notes/$year]]
+[[/periodic-notes/yearly-notes/$year.md]]
+
+${annual_goals}
 
 ## 四半期の目標
 
 - Objectives
-    -
+    - x
 - Key Results
-    -
+    - x
 
-## 主な成果
-
--
-
-## プロジェクトの進捗
+## この四半期で達成したこと課題、改善点
 
 -
 
-## 学んだこと・気づき
+## Weekly Notes
 
 -
 
-## 課題と改善点
-
--
 
 ## チェックリスト
 
@@ -77,6 +90,7 @@ new_note() {
 - [ ] 次の四半期の目標を設定
 - [ ] 主要プロジェクトの進捗を確認
 - [ ] KRの達成状況を確認
+- [ ] 年間目標の進捗確認
 
 EOF
 }
