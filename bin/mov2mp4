@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Check if ffmpeg is installed
-if ! command -v ffmpeg &> /dev/null; then
-    cat << EOF
+if ! command -v ffmpeg &>/dev/null; then
+  cat <<EOF
 Error: ffmpeg is not installed
 Please install ffmpeg to use this script
 Installation instructions:
@@ -10,14 +10,14 @@ Installation instructions:
   - macOS: brew install ffmpeg
   - Windows: https://ffmpeg.org/download.html
 EOF
-    exit 1
+  exit 1
 fi
 
 # Check arguments
 if [ $# -eq 0 ]; then
-    echo "Error: No input file specified"
-    echo "Usage: $(basename $0) <input_file.mov>"
-    exit 1
+  echo "Error: No input file specified"
+  echo "Usage: $(basename $0) <input_file.mov>"
+  exit 1
 fi
 
 # Input file
@@ -25,14 +25,14 @@ input_file="$1"
 
 # Check if input file exists
 if [ ! -f "$input_file" ]; then
-    echo "Error: File '$input_file' not found"
-    exit 1
+  echo "Error: File '$input_file' not found"
+  exit 1
 fi
 
 # Check if input file is .mov format
 if [[ "${input_file,,}" != *.mov ]]; then
-    echo "Error: Input file must be in .mov format"
-    exit 1
+  echo "Error: Input file must be in .mov format"
+  exit 1
 fi
 
 # Generate output filename (replace .mov with .mp4)
@@ -40,12 +40,14 @@ output_file="${input_file%.mov}.mp4"
 
 # Execute conversion
 echo "Converting: $input_file → $output_file"
-ffmpeg -i "$input_file" -vcodec libx264 -crf 23 -preset medium -acodec aac -b:a 128k "$output_file"
+# ffmpeg -i "$input_file" -vcodec libx264 -crf 23 -preset medium -acodec aac -b:a 128k "$output_file"
+# ffmpeg -i "$input_file" -c:v libx264 -profile:v high -level:v 4.0 -pix_fmt yuv420p -crf 23 -preset slow -c:a aac -b:a 128k -movflags +faststart "$output_file"
+ffmpeg -i "$input_file" -c:v libx264 -profile:v high -level:v 4.0 -pix_fmt yuv420p -crf 23 -preset slow -c:a aac -b:a 128k -movflags +faststart "$output_file"
 
 # Check conversion result
 if [ $? -eq 0 ]; then
-    echo "Conversion completed: $output_file"
+  echo "Conversion completed: $output_file"
 else
-    echo "Error: Conversion failed"
-    exit 1
+  echo "Error: Conversion failed"
+  exit 1
 fi
