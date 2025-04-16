@@ -1,0 +1,57 @@
+---
+description: 校正をお願いするときのルールを示しています。
+globs: *.md
+alwaysApply: false
+---
+## このproof-reading.mdcを読み込んだとき
+
+読み込んだときは「proof-reading.mdcを読み込みました。」と教えてください。
+これはAliceがこのルールを読み込んだことを確認するためです。
+
+# Your rule content
+
+* 訳文の誤字脱字を修正し、日本語として自然で違和感のない表現に整える。
+* 原文の意味が正確に反映されていない箇所があれば、元の英語文を確認し、正しく訳し直す。
+* 敬語や丁寧語の使い方を確認し、場面や文脈に適した表現に修正する。
+* 日本語訳の文末表現が単調にならないよう、語尾の表現を自然に変化させる。
+* 文法的に誤りのある文章、または意味が不明瞭な部分については、自然で理解しやすい日本語になるよう書き換える。
+* 主語・目的語が日本語として冗長であれば省略し、より自然な訳文になるよう調整する。
+* 不要なカタカナ語や直訳的すぎる表現を、日本語らしい語句やフレーズに置き換える。
+* 一文が長くなりすぎて読みづらい場合は、文を適切な長さに分割して読みやすく修正する。
+* 英語特有の言い回しや表現が直訳的になっている箇所を、日本語で自然に使われる表現や慣用句に置き換える。
+* 修正した箇所について、なぜ修正したかを簡潔にコメントとして付け加える。
+
+# Lintルール
+
+Lintルールとして次のチェックをしています。これらのチェックに違反しないように日本語を校正してください。
+
+* no-doubled-conjunction: 同じ接続詞が連続して使われていないかチェック
+* no-doubled-joshi: 同じ助詞が一文中に連続して使われていないかチェック
+* japanese/max-ten: 一文中の読点の数をチェック
+* japanese/no-doubled-conjunctive-particle-ga: 「が」が連続して使われていないかチェック
+* japanese/no-double-negative-ja: 二重否定をチェック
+* japanese/no-doubled-joshi: 同じ助詞が一文中に連続して使われていないかチェック
+* japanese/sentence-length: 文の長さをチェック
+* japanese/no-dropping-the-ra: ら抜き言葉をチェック
+* japanese/no-mix-dearu-desumasu: 「である」調と「ですます」調の混在をチェック
+* japanese/no-nfd: NFD（発音分解形）の文字が含まれていないかチェック
+* japanese/no-invalid-control-character: 不正な制御文字が含まれていないかチェック
+* japanese/no-zero-width-spaces: ゼロ幅スペースが含まれていないかチェック
+* japanese/no-kangxi-radicals: 康熙部首が含まれていないかチェック
+* ja-technical-writing/max-comma: 一文中のカンマの数をチェック
+* ja-technical-writing/max-kanji-continuous-len: 連続する漢字の長さをチェック
+* ja-technical-writing/no-mix-dearu-desumasu: 「である」調と「ですます」調の混在をチェック
+* ja-technical-writing/ja-no-mixed-period: 文末の句点の統一をチェック
+* ja-technical-writing/arabic-kanji-numbers: 算用数字と漢数字の使い分けをチェック
+* ja-technical-writing/no-hankaku-kana: 半角カナの使用をチェック
+* ja-technical-writing/ja-no-weak-phrase: 弱い表現をチェック
+* ja-technical-writing/ja-no-successive-word: 同一の単語が連続して使われていないかチェック
+* ja-technical-writing/ja-no-abusage: 誤用をチェック
+* ja-technical-writing/ja-no-redundant-expression: 冗長な表現をチェック
+* ja-technical-writing/ja-unnatural-alphabet: 不自然なアルファベットの使用をチェック
+* ja-technical-writing/no-unmatched-pair: 対応する括弧などのペアが正しいかチェック
+* ja-spacing/ja-nakaguro-or-halfwidth-space-between-katakana: カタカナ語間のスペースや中黒の使用をチェック
+* ja-spacing/ja-no-space-between-full-width: 全角文字同士の間のスペースをチェック
+* ja-spacing/ja-space-between-half-and-full-width: 半角文字と全角文字の間のスペースをチェック
+* ja-spacing/ja-space-after-exclamation: 感嘆符の後のスペースをチェック
+* ja-spacing/ja-space-after-question: 疑問符の後のスペースをチェック
