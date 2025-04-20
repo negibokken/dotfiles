@@ -1,3 +1,6 @@
+MD004:
+  # Unordered list indentation
+  style: consistent
 MD007:
   # Spaces for indent
   indent: 4
