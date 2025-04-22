@@ -2,109 +2,109 @@
 
 # Function to get workspace packages from pnpm-workspace.yaml
 get_workspace_packages() {
-    local workspace_file="pnpm-workspace.yaml"
-    if [ ! -f "$workspace_file" ]; then
-        echo "Error: pnpm-workspace.yaml not found" >&2
-        return 1
-    fi
+  local workspace_file="pnpm-workspace.yaml"
+  if [ ! -f "$workspace_file" ]; then
+    echo "Error: pnpm-workspace.yaml not found" >&2
+    return 1
+  fi
 
-    # Extract package paths from yaml file, removing quotes and leading spaces
-    grep "  - " "$workspace_file" | sed 's/  - "//;s/"//'
+  # Extract package paths from yaml file, removing quotes and leading spaces
+  yq ".packages.[]" <pnpm-workspace.yaml | xargs -I{} sh -c 'ls -d {}'
 }
 
 # Function to select a workspace package using peco
 select_workspace_package() {
-    local packages
-    packages=$(get_workspace_packages)
-    if [ $? -ne 0 ]; then
-        return 1
-    fi
+  local packages
+  packages=$(get_workspace_packages)
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
 
-    echo "$packages" | peco
+  echo "$packages" | peco
 }
 
 # Function to get npm scripts from package.json of selected workspace
 get_npm_scripts() {
-    local workspace="$1"
-    local package_json="$workspace/package.json"
+  local workspace="$1"
+  local package_json="$workspace/package.json"
 
-    if [ ! -f "$package_json" ]; then
-        echo "Error: package.json not found in $workspace" >&2
-        return 1
-    fi
+  if [ ! -f "$package_json" ]; then
+    echo "Error: package.json not found in $workspace" >&2
+    return 1
+  fi
 
-    # Extract script names from package.json
-    jq -r '.scripts | keys[]' "$package_json"
+  # Extract script names from package.json
+  jq -r '.scripts | keys[]' "$package_json"
 }
 
 # Function to select an npm script using peco
 select_npm_script() {
-    local workspace="$1"
-    local scripts
-    scripts=$(get_npm_scripts "$workspace")
-    if [ $? -ne 0 ]; then
-        return 1
-    fi
+  local workspace="$1"
+  local scripts
+  scripts=$(get_npm_scripts "$workspace")
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
 
-    echo "$scripts" | peco
+  echo "$scripts" | peco
 }
 
 # Function to get workspace name from package.json
 get_workspace_name() {
-    local workspace="$1"
-    local package_json="$workspace/package.json"
+  local workspace="$1"
+  local package_json="$workspace/package.json"
 
-    if [ ! -f "$package_json" ]; then
-        echo "Error: package.json not found in $workspace" >&2
-        return 1
-    fi
+  if [ ! -f "$package_json" ]; then
+    echo "Error: package.json not found in $workspace" >&2
+    return 1
+  fi
 
-    # Extract name from package.json
-    jq -r '.name' "$package_json"
+  # Extract name from package.json
+  jq -r '.name' "$package_json"
 }
 
 # Function to execute the selected npm script
 execute_npm_script() {
-    local workspace_name="$1"
-    local script="$2"
+  local workspace_name="$1"
+  local script="$2"
 
-    if [ -z "$workspace_name" ] || [ -z "$script" ]; then
-        echo "Error: workspace name and script must be provided" >&2
-        return 1
-    fi
+  if [ -z "$workspace_name" ] || [ -z "$script" ]; then
+    echo "Error: workspace name and script must be provided" >&2
+    return 1
+  fi
 
-    pnpm -F="$workspace_name" "$script"
+  pnpm -F="$workspace_name" "$script"
 }
 
 # Main function to orchestrate the process
 main() {
-    local selected_workspace
-    local selected_script
-    local selected_workspace_name
+  local selected_workspace
+  local selected_script
+  local selected_workspace_name
 
-    # Step 1: Select workspace package
-    selected_workspace=$(select_workspace_package)
-    if [ -z "$selected_workspace" ]; then
-        echo "No workspace selected" >&2
-        return 1
-    fi
+  # Step 1: Select workspace package
+  selected_workspace=$(select_workspace_package)
+  if [ -z "$selected_workspace" ]; then
+    echo "No workspace selected" >&2
+    return 1
+  fi
 
-    # Get the workspace name from package.json
-    selected_workspace_name=$(get_workspace_name "$selected_workspace")
-    if [ -z "$selected_workspace_name" ]; then
-        echo "Could not determine workspace name" >&2
-        return 1
-    fi
+  # Get the workspace name from package.json
+  selected_workspace_name=$(get_workspace_name "$selected_workspace")
+  if [ -z "$selected_workspace_name" ]; then
+    echo "Could not determine workspace name" >&2
+    return 1
+  fi
 
-    # Step 2: Select npm script
-    selected_script=$(select_npm_script "$selected_workspace")
-    if [ -z "$selected_script" ]; then
-        echo "No script selected" >&2
-        return 1
-    fi
+  # Step 2: Select npm script
+  selected_script=$(select_npm_script "$selected_workspace")
+  if [ -z "$selected_script" ]; then
+    echo "No script selected" >&2
+    return 1
+  fi
 
-    # Step 3: Execute the selected script using the workspace name
-    execute_npm_script "$selected_workspace_name" "$selected_script"
+  # Step 3: Execute the selected script using the workspace name
+  execute_npm_script "$selected_workspace_name" "$selected_script"
 }
 
 # Execute main function
