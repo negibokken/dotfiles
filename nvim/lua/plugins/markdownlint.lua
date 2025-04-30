@@ -2,6 +2,7 @@ local HOME = os.getenv("HOME")
 return {
 	"mfussenegger/nvim-lint",
 	optional = true,
+	enabled = false,
 	opts = {
 		linters_by_ft = {
 			markdown = { "markdownlint-cli2" },
