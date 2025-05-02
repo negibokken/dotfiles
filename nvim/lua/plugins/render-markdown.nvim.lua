@@ -7,6 +7,16 @@ return {
 					level = 2, -- Set conceallevel 2
 					syntax = true,
 				},
+				render_modes = true,
+				heading = {
+					width = "block",
+					left_pad = 0,
+					right_pad = 4,
+					icons = {},
+				},
+				code = {
+					width = "block",
+				},
 			})
 
 			-- Set conceallevel automatically when the files is Markdown
