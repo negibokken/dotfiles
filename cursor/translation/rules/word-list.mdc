@@ -1,6 +1,6 @@
 ---
 description: 複数の名前がある単語をどのように使ってほしいかを表す単語のリストです。
-globs: 
+globs:
 alwaysApply: true
 ---
 
@@ -9,3 +9,4 @@ alwaysApply: true
 - ウェブはWeb
 - PART1やPART2は第1部、第2部
 - 一つはひとつ
+- 応答はレスポンス
