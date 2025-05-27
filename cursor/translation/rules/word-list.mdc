@@ -10,3 +10,5 @@ alwaysApply: true
 - PART1やPART2は第1部、第2部
 - 一つはひとつ
 - 応答はレスポンス
+- 表示リストはdisplay list
+- フォントの文脈において、「leading」はレディング
