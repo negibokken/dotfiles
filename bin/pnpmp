@@ -73,6 +73,7 @@ execute_npm_script() {
     return 1
   fi
 
+  echo pnpm -F="$workspace_name" "$script"
   pnpm -F="$workspace_name" "$script"
 }
 
