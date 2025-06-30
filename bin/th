@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# th command - Add timestamped entries to daily notes
+# Usage: th "your text here"
+
+if [ $# -eq 0 ]; then
+    echo "Usage: th \"your text here\""
+    exit 1
+fi
+
+# Get the input text
+input_text="$*"
+
+# Check if SECOND_BRAIN environment variable is set
+if [ -z "$SECOND_BRAIN" ]; then
+    echo "Error: SECOND_BRAIN environment variable is not set"
+    exit 1
+fi
+
+# Get current date and time
+current_date=$(date '+%Y-%m-%d')
+current_time=$(date '+%H:%M:%S')
+year=$(date '+%Y')
+month=$(date '+%m')
+
+# Construct the file path
+notes_dir="$SECOND_BRAIN/periodic-notes/daily-notes/$year/$month"
+daily_note="$notes_dir/$current_date.md"
+
+# Create directories if they don't exist
+mkdir -p "$notes_dir"
+
+# Create the daily note file if it doesn't exist
+if [ ! -f "$daily_note" ]; then
+    cat > "$daily_note" << EOF
+---
+date: $current_date
+---
+
+# Daily Note - $current_date
+
+EOF
+fi
+
+# Append the timestamped entry to the file
+echo "- $current_time $input_text" >> "$daily_note"
+
+echo "Added to $daily_note: $current_time $input_text"
