@@ -4,8 +4,8 @@
 # Usage: th "your text here"
 
 if [ $# -eq 0 ]; then
-    echo "Usage: th \"your text here\""
-    exit 1
+  echo "Usage: th \"your text here\""
+  exit 1
 fi
 
 # Get the input text
@@ -13,8 +13,8 @@ input_text="$*"
 
 # Check if SECOND_BRAIN environment variable is set
 if [ -z "$SECOND_BRAIN" ]; then
-    echo "Error: SECOND_BRAIN environment variable is not set"
-    exit 1
+  echo "Error: SECOND_BRAIN environment variable is not set"
+  exit 1
 fi
 
 # Get current date and time
@@ -32,17 +32,18 @@ mkdir -p "$notes_dir"
 
 # Create the daily note file if it doesn't exist
 if [ ! -f "$daily_note" ]; then
-    cat > "$daily_note" << EOF
+  cat >"$daily_note" <<EOF
 ---
 date: $current_date
 ---
 
-# Daily Note - $current_date
+# $current_date
 
 EOF
 fi
 
 # Append the timestamped entry to the file
-echo "- $current_time $input_text" >> "$daily_note"
+echo "- $current_time $input_text" >>"$daily_note"
 
 echo "Added to $daily_note: $current_time $input_text"
+
