@@ -5,6 +5,43 @@ const dirPath = process.argv[2] || '.';
 const fs = require('fs');
 const path = require('path');
 
+// Read .gitignore patterns
+function loadGitIgnorePatterns(basePath) {
+    const gitignorePath = path.join(basePath, '.gitignore');
+    const patterns = [];
+    
+    if (fs.existsSync(gitignorePath)) {
+        const content = fs.readFileSync(gitignorePath, 'utf8');
+        const lines = content.split('\n').map(line => line.trim()).filter(line => line && !line.startsWith('#'));
+        patterns.push(...lines);
+    }
+    
+    return patterns;
+}
+
+// Check if a file should be ignored based on .gitignore patterns
+function shouldIgnore(filePath, patterns, basePath) {
+    const relativePath = path.relative(basePath, filePath);
+    
+    for (const pattern of patterns) {
+        // Simple pattern matching - handle basic wildcards and directory patterns
+        if (pattern.endsWith('/')) {
+            // Directory pattern
+            const dirPattern = pattern.slice(0, -1);
+            if (relativePath.includes(dirPattern)) {
+                return true;
+            }
+        } else {
+            // File pattern
+            if (relativePath === pattern || relativePath.includes(pattern)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
 function isTextFile(filename) {
     try {
         const buffer = fs.readFileSync(filename);
@@ -30,23 +67,28 @@ function processFile(filePath) {
     }
 }
 
-function walkDir(dir) {
+function walkDir(dir, patterns, basePath) {
     const files = fs.readdirSync(dir);
 
     files.forEach(file => {
         const filePath = path.join(dir, file);
+        
         // Skip .git directory
         if (path.basename(filePath) === '.git') return;
+        
+        // Skip files matching .gitignore patterns
+        if (shouldIgnore(filePath, patterns, basePath)) return;
 
         const stat = fs.statSync(filePath);
 
         if (stat.isDirectory()) {
-            walkDir(filePath);
+            walkDir(filePath, patterns, basePath);
         } else {
             processFile(filePath);
         }
     });
 }
 
-// Start processing from current directory
-walkDir(dirPath);
+// Load .gitignore patterns and start processing from current directory
+const gitignorePatterns = loadGitIgnorePatterns(dirPath);
+walkDir(dirPath, gitignorePatterns, dirPath);
