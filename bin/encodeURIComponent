@@ -1,0 +1,10 @@
+#! /usr/bin/env node
+
+// take one argument and return its encodeURLComponent version
+const arg = process.argv[2];
+if (!arg) {
+  console.error('Usage: encodeURIComponent <string>');
+  process.exit(1);
+}
+const encoded = encodeURIComponent(arg);
+console.log(encoded)
