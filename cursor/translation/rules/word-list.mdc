@@ -12,3 +12,4 @@ alwaysApply: true
 - 応答はレスポンス
 - 表示リストはdisplay list
 - フォントの文脈において、「leading」はレディング
+- parseはパース
