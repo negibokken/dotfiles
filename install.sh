@@ -39,6 +39,11 @@ if ! [[ -e ~/.gitconfig.local ]]; then
   printf "[user]\n    name = \n    email = \n" >~/.gitconfig.local
 fi
 
+if ! [[ -e ~/.claude/CLAUDE.md ]]; then
+  mkdir -p ~/.vim/colors
+  ln -s ~/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
+fi
+
 # install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
