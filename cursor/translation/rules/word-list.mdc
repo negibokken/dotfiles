@@ -9,7 +9,7 @@ alwaysApply: true
 - ウェブはWeb
 - PART1やPART2は第1部、第2部
 - 一つはひとつ
-- 応答はレスポンス
-- 表示リストはdisplay list
+- responseはレスポンス
+- display listはディスプレイリスト
 - フォントの文脈において、「leading」はレディング
 - parseはパース
