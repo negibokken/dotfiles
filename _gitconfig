@@ -5,7 +5,8 @@
   editor = vim
   excludesfile = ~/.gitignore_global
   precomposeUnicode = true
-  pager = "LESSCHARSET=utf-8 less"
+  # pager = "LESSCHARSET=utf-8 less"
+  pager = "delta"
 
 [init]
 	defaultBranch = main
@@ -83,3 +84,10 @@
 	cookiefile = /home/bokken/.gitcookies
 [rebase]
 	autosquash = true
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true # or light = true, or omit for auto-detection
+[interactive]
+    diffFilter = delta --color-only
+[merge]
+    conflictStyle = zdiff3
