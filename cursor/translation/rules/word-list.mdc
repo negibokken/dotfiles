@@ -11,5 +11,8 @@ alwaysApply: true
 - 一つはひとつ
 - responseはレスポンス
 - display listはディスプレイリスト
+- display itemはディスプレイアイテム
 - フォントの文脈において、「leading」はレディング
 - parseはパース
+- compositingはコンポジット処理
+- transformはトランスフォーム
