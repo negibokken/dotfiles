@@ -24,5 +24,6 @@
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.js"
-  }
+  },
+  "$schema": "https://json.schemastore.org/claude-code-settings.json"
 }
