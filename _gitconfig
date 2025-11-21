@@ -34,6 +34,7 @@
   ca = commit -a
   cf = "!git log --pretty=format:'%C(Yellow)%h %s (%an [%cd])' | peco | awk '{ print $1; }' | xargs -I {} git commit --fixup {}"
   chp = cherry-pick
+  cpp = "!f() { branch=\"$1\"; if [ -z \"$branch\" ]; then echo 'Usage: git cpp <source-branch>' >&2; return 1; fi; if ! git rev-parse --verify \"$branch\" >/dev/null 2>&1; then echo \"Branch '$branch' not found\" >&2; return 1; fi; commits=$(git log --no-merges --reverse --pretty=format:'%h %s' HEAD..\"$branch\" | peco --prompt 'cherry-pick> ' --on-cancel=error); status=$?; if [ $status -ne 0 ]; then return $status; fi; if [ -z \"$commits\" ]; then echo 'No commits selected.' >&2; return 1; fi; old_ifs=\"$IFS\"; IFS=$'\\n'; for line in $commits; do commit=${line%% *}; [ -z \"$commit\" ] && continue; git cherry-pick \"$commit\" || { rc=$?; IFS=\"$old_ifs\"; return $rc; }; done; IFS=\"$old_ifs\"; }; f"
   ap = "!git status --short | peco | awk '{print $2}' | xargs git add"
   aa = add .
   ac = !git add -A && git commit -m
