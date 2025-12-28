@@ -1,3 +1,10 @@
 _zshrc.local
 keys
 work
+claude/debug/
+claude/plugins/
+claude/projects/
+claude/shell-snapshots/
+claude/stats-cache.json
+claude/statsig/
+claude/todos/

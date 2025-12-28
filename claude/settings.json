@@ -17,8 +17,7 @@
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(fd:*)",
-      "Bash(cd:*)",
-      "WebSearch(*)"
+      "Bash(cd:*)"
     ],
     "deny": [
       "Read(**/.env)"
