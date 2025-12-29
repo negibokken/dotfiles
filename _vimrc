@@ -86,7 +86,7 @@ source ${HOME}/dotfiles/vimconf/spell_check.vim
 "" [conf] restore_cursor
 source ${HOME}/dotfiles/vimconf/restore_cursor.vim
 "" [conf] auto complete when enter '(', '[', '{', '\'', '"'
-source ${HOME}/dotfiles/vimconf/auto_bracket.vim
+"" source ${HOME}/dotfiles/vimconf/auto_bracket.vim
 "" [conf] delete last space per line
 ""source ${HOME}/dotfiles/vimconf/trim_space.vim
 "" [conf] spell check
