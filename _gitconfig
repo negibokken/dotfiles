@@ -2,7 +2,7 @@
   path = ~/.gitconfig.local
 
 [core]
-  editor = vim
+  editor = nvim
   excludesfile = ~/.gitignore_global
   precomposeUnicode = true
   # pager = "LESSCHARSET=utf-8 less"
