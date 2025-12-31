@@ -20,6 +20,10 @@ new_note() {
 <!-- markdownlint-disable-next-line -->
 [[$yesterday |Yesterday]] | [[$tomorrow |Tomorrow]] | [[$month_path |This Month]] | [[$year_path |This Year]]
 
+## 今日やること
+
+## 作業ログ
+
 EOF
 
 }
