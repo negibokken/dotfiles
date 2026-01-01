@@ -59,15 +59,7 @@ return {
 			},
 		},
 
-		open_notes_in = "tab",
-
-		-- パフォーマンス最適化設定
-		search_max_lines = 500,
-		ui = {
-			enable = true,
-			update_debounce = 300,
-			max_file_length = 3000,
-		},
+		open_notes_in = "vsplit",
 
 		-- Optional, alternatively you can customize the frontmatter data.
 		---@return table
