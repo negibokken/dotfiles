@@ -61,6 +61,12 @@ vim.opt.listchars = "tab:..,trail:_,eol:↲,extends:>,precedes:<,nbsp:%"
 -- [basic] To avoid redrawtime exceed error
 vim.opt.re = 0
 
+-- [basic] To disable relative number
+vim.opt.relativenumber = false
+
+-- [basic] enable auto indent
+vim.opt.autoindent = true
+
 -- [basic] Auto reload when the files are changed
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
@@ -70,3 +76,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 
 -- emmet-vim
 vim.g.user_emmet_leader_key = "<C-y>"
+
+-- open init.lua with F1
+vim.keymap.set("n", "<F1>", ":edit $MYVIMRC<CR>")
