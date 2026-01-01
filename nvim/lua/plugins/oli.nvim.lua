@@ -39,7 +39,30 @@ return {
 	-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
 	lazy = false,
 	keys = {
-		{ "<leader>e", "<cmd>Oil<CR>", desc = "Open Oil file explorer" },
+		{ 
+			"<leader>e", 
+			function()
+				local oil = require("oil")
+				local current_buf = vim.api.nvim_get_current_buf()
+				local current_win = vim.api.nvim_get_current_win()
+				
+				-- Check if we already have an oil window open
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+					local buf = vim.api.nvim_win_get_buf(win)
+					if vim.bo[buf].filetype == "oil" then
+						vim.api.nvim_set_current_win(win)
+						return
+					end
+				end
+				
+				-- Create vertical split on the left and open oil
+				vim.cmd("topleft vsplit")
+				local new_win = vim.api.nvim_get_current_win()
+				vim.api.nvim_win_set_width(new_win, 35)
+				oil.open()
+			end, 
+			desc = "Open Oil file explorer in side panel" 
+		},
 		{ "<leader>E", "<cmd>Oil --float<CR>", desc = "Open Oil file explorer in floating window" },
 	},
 }
