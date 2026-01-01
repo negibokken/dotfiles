@@ -79,3 +79,9 @@ vim.g.user_emmet_leader_key = "<C-y>"
 
 -- open init.lua with F1
 vim.keymap.set("n", "<F1>", ":edit $MYVIMRC<CR>")
+
+vim.keymap.set("i", "<C-j>", 'copilot#Accept("\\<CR>")', {
+	expr = true,
+	replace_keycodes = false,
+})
+vim.g.copilot_no_tab_map = true
