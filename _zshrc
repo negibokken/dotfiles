@@ -214,6 +214,8 @@ alias hb="gh browse"
 alias hprc="hub pull-request -d"
 alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
 alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
+# copy pwd to clipboard support macOS and Linux
+alias pwdc="pwd | tr -d '\n' | pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null"
 
 # reload shell quickly
 alias x="exec $SHELL -l"
