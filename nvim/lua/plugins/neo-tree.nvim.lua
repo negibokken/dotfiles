@@ -3,28 +3,46 @@ return {
 	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+		"nvim-tree/nvim-web-devicons",
 		"MunifTanjim/nui.nvim",
-		-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
 	},
-
-	config = {
-		window = {
-			mappings = {
-				["Z"] = "expand_all_nodes",
+	keys = {
+		{ "<leader>e", "<cmd>Neotree toggle left<CR>", desc = "Toggle Neo-tree (left)" },
+		{ "<leader>E", "<cmd>Neotree toggle float<CR>", desc = "Toggle Neo-tree (floating)" },
+	},
+	config = function()
+		require("neo-tree").setup({
+			window = {
+				position = "left",
+				width = 35,
+				mappings = {
+					["Z"] = "expand_all_nodes",
+					["<tab>"] = function(state)
+						local node = state.tree:get_node()
+						if node.type == "file" then
+							vim.cmd("tabedit " .. node.path)
+						end
+					end,
+				},
 			},
-		},
-		filesystem = {
-			follow_current_file = true, -- 現在開いているファイルをNeo-Treeでハイライトする
-			-- group_empty_dirs = true, -- 空のディレクトリをグループ化する
-			hide_dot_files = false, -- ドットファイルを非表示にする
-			hijack_netrw_behavior = "open_current", -- netrwの挙動を乗っ取る
-			use_libuv = true, -- libuvを使うことでパフォーマンスを向上させる
-			open_files_as_nodes = true, -- ファイルをノードとして開く
-			show_hidden = false, -- 隠しファイルを表示する
-			-- 再帰的なディレクトリ展開の設定
-			auto_expand_width = true, -- ウィンドウ幅に合わせて自動的に展開する
-			depth = 0, -- 0で無制限、1で1階層のみ展開
-		},
-	},
+			filesystem = {
+				follow_current_file = {
+					enabled = true,
+					leave_dirs_open = false, -- パフォーマンス向上のため
+				},
+				hide_dot_files = false,
+				hijack_netrw_behavior = "open_current",
+				use_libuv_file_watcher = true, -- ファイルウォッチャーを維持
+				-- パフォーマンス最適化設定
+				scan_mode = "shallow", -- 浅いスキャンでパフォーマンス向上
+				bind_to_cwd = false, -- cwdの変更に自動追随しない
+				-- 自動展開を無効化してパフォーマンス向上
+				never_show_by_pattern = {
+					".DS_Store",
+					"thumbs.db",
+					"node_modules",
+				},
+			},
+		})
+	end,
 }
