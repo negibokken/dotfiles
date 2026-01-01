@@ -7,6 +7,7 @@ require("config.mv-file-with-telescope")
 require("config.rename-to-h1")
 require("config.insert-quarter").setup()
 require("config.open-quartely-note")
+require("config.recent-file-with-telescope")
 
 vim.api.nvim_set_keymap("i", "<C-j>", "<Esc>", { noremap = true, silent = true })
 
