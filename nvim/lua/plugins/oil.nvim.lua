@@ -67,9 +67,31 @@ return {
 		{
 			"<leader>e",
 			function()
-				require("oil").toggle_float()
+				local oil = require("oil")
+				local oil_bufnr = nil
+				local oil_winid = nil
+				
+				-- Find if oil window is already open
+				for _, winid in ipairs(vim.api.nvim_list_wins()) do
+					local bufnr = vim.api.nvim_win_get_buf(winid)
+					if vim.bo[bufnr].filetype == "oil" then
+						oil_bufnr = bufnr
+						oil_winid = winid
+						break
+					end
+				end
+				
+				if oil_winid then
+					-- Close oil window if it's open
+					vim.api.nvim_win_close(oil_winid, false)
+				else
+					-- Open oil in left split
+					vim.cmd("topleft vsplit")
+					vim.cmd("vertical resize 35")
+					oil.open()
+				end
 			end,
-			desc = "Toggle Oil file explorer",
+			desc = "Toggle Oil file explorer in left pane",
 		},
 	},
 }
