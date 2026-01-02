@@ -28,7 +28,7 @@
   "mini.icons": { "branch": "main", "commit": "efc85e42262cd0c9e1fdbf806c25cb0be6de115c" },
   "mini.pairs": { "branch": "main", "commit": "d5a29b6254dad07757832db505ea5aeab9aad43a" },
   "mini.surround": { "branch": "main", "commit": "cc7b9d0a056b5fa6915ffac1cb91f29bf7c96f69" },
-  "neo-tree.nvim": { "branch": "main", "commit": "f3df514fff2bdd4318127c40470984137f87b62e" },
+  "neo-tree.nvim": { "branch": "main", "commit": "4925f31285940af2805f5bfe52dcffa2037ecab2" },
   "no-neck-pain.nvim": { "branch": "main", "commit": "434fed70b1ee553f8f27e6da7b3899f71b3c6f99" },
   "noice.nvim": { "branch": "main", "commit": "7bfd942445fb63089b59f97ca487d605e715f155" },
   "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" },
