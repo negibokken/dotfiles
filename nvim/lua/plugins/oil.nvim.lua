@@ -57,6 +57,20 @@ return {
 				winblend = 0,
 			},
 		},
+		-- プレビューウィンドウの設定（キー操作で中身をチラ見する機能）
+		preview = {
+			max_width = 0.9,
+			min_width = { 40, 0.4 },
+			width = nil,
+			max_height = 0.9,
+			min_height = { 5, 0.1 },
+			height = nil,
+			border = "rounded",
+			win_options = {
+				winblend = 0,
+			},
+			update_on_cursor_moved = true, -- カーソル移動だけでプレビューするか
+		},
 	},
 	-- Optional dependencies
 	dependencies = { { "nvim-mini/mini.icons", opts = {} } },
@@ -70,7 +84,7 @@ return {
 				local oil = require("oil")
 				local oil_bufnr = nil
 				local oil_winid = nil
-				
+
 				-- Find if oil window is already open
 				for _, winid in ipairs(vim.api.nvim_list_wins()) do
 					local bufnr = vim.api.nvim_win_get_buf(winid)
@@ -80,7 +94,7 @@ return {
 						break
 					end
 				end
-				
+
 				if oil_winid then
 					-- Close oil window if it's open
 					vim.api.nvim_win_close(oil_winid, false)
@@ -95,4 +109,3 @@ return {
 		},
 	},
 }
-
