@@ -15,7 +15,9 @@ return {
 			},
 		},
 		filesystem = {
-			follow_current_file = true,
+			follow_current_file = {
+				enabled = true,
+			},
 			visible = true,
 			hide_dot_files = false,
 			hijack_netrw_behavior = "open_current",
