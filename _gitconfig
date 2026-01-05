@@ -92,3 +92,7 @@
     diffFilter = delta --color-only
 [merge]
     conflictStyle = zdiff3
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh

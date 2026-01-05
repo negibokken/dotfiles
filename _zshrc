@@ -23,7 +23,7 @@ export PATH=$HOME/.rbenv/shims:$PATH
 # golang
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 # export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=$HOME/go:$HOME/.ghq/
+export GOPATH=$HOME/go
 export PATH=$PATH:$HOME/go/bin:$PATH:$GOROOT/bin:$HOME/.go/bin
 export MYGO=$GOPATH/src/github.com/negibokken
 
@@ -85,6 +85,12 @@ zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
 # word cursor movement
 bindkey '^f' forward-word
 bindkey '^b' backward-word
+
+# load edit-command-line
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
+bindkey '^[e' edit-command-line
 
 # word definition
 autoload -Uz select-word-style

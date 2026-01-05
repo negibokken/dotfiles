@@ -1,5 +1,5 @@
 {
-  "includeCoAuthoredBy": false,
+  "includeCoAuthoredBy": true,
   "permissions": {
     "allow": [
       "Read(*)",
@@ -8,7 +8,11 @@
       "Bash(gh issue view:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr diff:*)",
+      "Bash(gh label list)",
+      "Bash(gh auth status:*)",
+      "Bash(gh pr edit --add-label:*)",
       "Bash(git add:*)",
+      "Bash(git mv:*)",
       "Bash(git commit:*)",
       "Bash(git fetch:*)",
       "Bash(git checkout -b:*)",
@@ -17,7 +21,14 @@
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(fd:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "WebSearch",
+      "mcp__container-use__environment_file_read",
+      "mcp__container-use__environment_file_list",
+      "mcp__container-use__environment_run_cmd",
+      "mcp__figma-desktop__get_metadata",
+      "mcp__figma-desktop__get_screenshot",
+      "mcp__figma-desktop__get_design_context"
     ],
     "deny": [
       "Read(**/.env)"

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Get the remote URL
+remote_url=$(git config --get remote.origin.url)
+
+if [ -z "$remote_url" ]; then
+  echo "Error: Not a git repository or no remote origin configured"
+  exit 1
+fi
+
+# Convert SSH URL to HTTPS URL
+if [[ $remote_url == git@github.com:* ]]; then
+  # SSH format: git@github.com:owner/repo.git
+  https_url=$(echo "$remote_url" | sed 's/git@github.com:/https:\/\/github.com\//' | sed 's/\.git$//')
+elif [[ $remote_url == ssh://git@github.com/* ]]; then
+  # SSH format with protocol: ssh://git@github.com/owner/repo.git
+  https_url=$(echo "$remote_url" | sed 's/ssh:\/\/git@github.com\//https:\/\/github.com\//' | sed 's/\.git$//')
+elif [[ $remote_url == https://github.com/* ]]; then
+  # HTTPS format: https://github.com/owner/repo.git
+  https_url=$(echo "$remote_url" | sed 's/\.git$//')
+else
+  echo "Error: Unknown remote URL format: $remote_url"
+  exit 1
+fi
+
+# Get the current branch
+current_branch=$(git branch --show-current)
+
+if [ -z "$current_branch" ]; then
+  echo "Error: Could not determine current branch"
+  exit 1
+fi
+
+# Build the URL with the branch
+branch_url="${https_url}/tree/${current_branch}"
+
+# Open the URL in the default browser
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  open "$branch_url"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Linux
+  xdg-open "$branch_url"
+else
+  echo "Unsupported OS: $OSTYPE"
+  echo "URL: $branch_url"
+  exit 1
+fi
+
+echo "Opened: $branch_url"
