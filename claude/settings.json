@@ -2,8 +2,7 @@
   "includeCoAuthoredBy": true,
   "permissions": {
     "allow": [
-      "Read(*)",
-      "Search(*)",
+      "Read",
       "Bash(pnpm:*)",
       "Bash(gh issue view:*)",
       "Bash(gh pr view:*)",
@@ -43,11 +42,8 @@
     "DISABLE_ERROR_REPORTING": "true",
     "DISABLE_TELEMETRY": "true",
     "DISABLE_AUTOUPDATER": "true",
-    "DISABLE_MICROCOMPACT": "true"
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.js"
+    "DISABLE_MICROCOMPACT": "true",
+    "ENABLE_TOOL_SEARCH": "true"
   },
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "alwaysThinkingEnabled": false
