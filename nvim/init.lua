@@ -75,6 +75,10 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 	pattern = { "*" },
 })
 
+-- [basic] yank filename or path
+vim.keymap.set("n", "<leader>cpf", ":let @+ = expand('%:.')<CR>", { desc = "Copy relative path" })
+vim.keymap.set("n", "<leader>cpF", ":let @+ = expand('%:t')<CR>", { desc = "Copy file name" })
+
 -- emmet-vim
 vim.g.user_emmet_leader_key = "<C-y>"
 
@@ -113,3 +117,17 @@ local function toggle_profile()
 	end
 end
 vim.keymap.set("", "<f3>", toggle_profile)
+
+-- [gitlinker] GitHub Permalink
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>gp",
+	'<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboard})<cr>',
+	{ silent = true }
+)
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>gp",
+	'<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".copy_to_clipboard})<cr>',
+	{}
+)
