@@ -30,7 +30,17 @@ _G.create_zettelkasten_note = function(isInsertMode)
 		start_line = start_pos[2] - 1
 		start_col = start_pos[3] - 1
 		end_line = end_pos[2] - 1
-		end_col = end_pos[3]
+
+		-- end_pos[3] は選択された最後の文字の開始バイト位置（1-indexed）
+		-- マルチバイト文字を正しく扱うため、その文字の次のバイト位置を計算する
+		local end_line_content = vim.api.nvim_buf_get_lines(0, end_line, end_line + 1, false)[1]
+		local byte_pos = end_pos[3] - 1 -- 0-indexed
+		local char_idx = vim.fn.charidx(end_line_content, byte_pos)
+		local next_byte_pos = vim.fn.byteidx(end_line_content, char_idx + 1)
+		if next_byte_pos == -1 then
+			next_byte_pos = #end_line_content
+		end
+		end_col = next_byte_pos
 
 		local lines = vim.api.nvim_buf_get_text(0, start_line, start_col, end_line, end_col, {})
 		selected_text = table.concat(lines, " ")
