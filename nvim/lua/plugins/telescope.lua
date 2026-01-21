@@ -1,6 +1,6 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	tag = "master",
+	branch = "master",
 	dependencies = { "nvim-lua/plenary.nvim" },
 	config = function()
 		local actions = require("telescope.actions")
