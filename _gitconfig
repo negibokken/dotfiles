@@ -30,6 +30,7 @@
   sh = stash
   shi = stash save --include-untracked
   ck = checkout
+  ckp = "!f() { git log --pretty=format:'%C(Yellow)%h %s (%an [%cd])' $1 | peco | awk '{print $1}' | xargs git checkout; }; f"
   cm = commit
   ca = commit -a
   cf = "!git log --pretty=format:'%C(Yellow)%h %s (%an [%cd])' | peco | awk '{ print $1; }' | xargs -I {} git commit --fixup {}"
