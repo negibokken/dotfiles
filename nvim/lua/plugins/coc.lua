@@ -1,5 +1,5 @@
 return {
 	"neoclide/coc.nvim",
 	branch = "master",
-	build = "yarn install --immutable",
+	build = "npm install --immutable",
 }
