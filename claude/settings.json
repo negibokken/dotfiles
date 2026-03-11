@@ -49,6 +49,7 @@
       "Bash(git ls-tree:*)",
       "Bash(git ls-files:*)",
       "Bash(git rev-parse:*)",
+      "Bash(git wt:*)",
       "Bash(git stash list:*)",
       "Bash(git show-branch:*)",
       "Bash(git merge-base:*)",
