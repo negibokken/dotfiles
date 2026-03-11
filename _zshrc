@@ -442,6 +442,15 @@ function peco-pull-request() {
 }
 alias hpr="peco-pull-request"
 
+## difit aliases
+# diff between current branch and remote branch
+function difit-remote() {
+  local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+  difit "." "origin/${branch}"
+}
+# diff between current branch and main
+alias difit-main='difit . main'
+
 ## print 256 colors for configuring terminal
 function printColors() {
   for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done;echo
