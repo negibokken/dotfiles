@@ -82,6 +82,9 @@ zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
 # prompt
 # PROMPT=$'%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%}%{${reset_color}%} %~ (%*)\n\$'
 
+# EDITOR=nvim だと zsh が vi モードを選ぶため、emacs 風キーバインドを明示する
+bindkey -e
+
 # word cursor movement
 bindkey '^f' forward-word
 bindkey '^b' backward-word
