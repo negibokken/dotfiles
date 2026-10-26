@@ -253,7 +253,7 @@ if [[ "$IS_CRON" != "true" ]]; then
       echo '% tmux list-windows -a'
       tmux list-windows -a
     fi
-    if [[ ! $TMUX && $TERM_PROGRAM != "vscode" ]] ; then
+    if [[ ! $TMUX && $TERM_PROGRAM != "vscode" && $TERM_PROGRAM != "Orca" ]] ; then
       tmux new-session
     fi
 fi
