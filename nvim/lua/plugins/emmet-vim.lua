@@ -1,3 +1,0 @@
-return {
-	"olrtg/nvim-emmet",
-}
