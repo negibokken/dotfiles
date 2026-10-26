@@ -1,3 +1,5 @@
+vim.g.lazyvim_cmp = "nvim-cmp"
+
 require("config.lazy")
 require("config.create-zettelkasten")
 require("config.open-today-file")
@@ -84,12 +86,6 @@ vim.g.user_emmet_leader_key = "<C-y>"
 
 -- open init.lua with F1
 vim.keymap.set("n", "<F1>", ":edit $MYVIMRC<CR>")
-
-vim.keymap.set("i", "<C-e>", 'copilot#Accept("\\<CR>")', {
-	expr = true,
-	replace_keycodes = false,
-})
-vim.g.copilot_no_tab_map = true
 
 -- [profiel] Enable to profile when NVIM_PROFILE environment variable is set
 local should_profile = os.getenv("NVIM_PROFILE")
