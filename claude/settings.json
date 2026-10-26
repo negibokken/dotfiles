@@ -104,8 +104,11 @@
       "mcp__figma-desktop__get_screenshot",
       "mcp__figma-desktop__get_design_context"
     ],
-    "deny": [
-      "Read(**/.env)"
-    ]
-  }
+    "deny": ["Read(**/.env)"]
+  },
+  "model": "sonnet",
+  "statusLine": { "type": "command", "command": "bash ~/.claude/statusline-command.sh" },
+  "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true
 }
