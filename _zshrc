@@ -522,8 +522,8 @@ function vex() {
 zle -N vex
 bindkey '^X^E' vex
 
-export EDITOR='nvim'
-export VISUAL='nvim'
+# export EDITOR='nvim'
+# export VISUAL='nvim'
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/bokken/.rd/bin:$PATH"

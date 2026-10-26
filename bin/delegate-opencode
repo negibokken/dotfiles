@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+CLASS="${1:?task class required}"
+TASK="${2:?task file required}"
+
+case "$CLASS" in
+  CHEAP)
+    AGENT="worker-cheap"
+    ;;
+  NORMAL)
+    AGENT="worker-normal"
+    ;;
+  COMPLEX)
+    AGENT="worker-complex"
+    ;;
+  REASONING)
+    AGENT="worker-reasoning"
+    ;;
+  *)
+    echo "Unknown task class: $CLASS" >&2
+    echo "Expected: CHEAP | NORMAL | COMPLEX | REASONING" >&2
+    exit 2
+    ;;
+esac
+
+if [[ ! -f "$TASK" ]]; then
+  echo "Task file does not exist: $TASK" >&2
+  exit 2
+fi
+
+TITLE="$(basename "$TASK" .md)"
+
+exec opencode run \
+  --agent "$AGENT" \
+  --format json \
+  --file "$TASK" \
+  --auto \
+  --title "$TITLE" \
+  "Implement the attached task specification.
+
+Read AGENTS.md first.
+
+The task specification is authoritative.
+
+Do not redesign the task.
+
+Run every validation command defined in the task.
+
+Return the required implementation result format.
+
+Do not commit, push, or create a pull request."
