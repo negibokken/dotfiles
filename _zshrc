@@ -8,7 +8,7 @@ export PATH="$PWD/btools":$PATH
 export PATH="$PWD/.btools":$PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$HOME/.local/bin:$PATH
 
 # dotfiles
 export DOTFILES=$HOME/dotfiles
@@ -81,6 +81,9 @@ zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
 
 # prompt
 # PROMPT=$'%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%}%{${reset_color}%} %~ (%*)\n\$'
+
+# EDITOR=nvim だと zsh が vi モードを選ぶため、emacs 風キーバインドを明示する
+bindkey -e
 
 # word cursor movement
 bindkey '^f' forward-word
@@ -250,7 +253,7 @@ if [[ "$IS_CRON" != "true" ]]; then
       echo '% tmux list-windows -a'
       tmux list-windows -a
     fi
-    if [[ ! $TMUX && $TERM_PROGRAM != "vscode" ]] ; then
+    if [[ ! $TMUX && $TERM_PROGRAM != "vscode" && $TERM_PROGRAM != "Orca" ]] ; then
       tmux new-session
     fi
 fi
@@ -521,3 +524,22 @@ bindkey '^X^E' vex
 
 # export EDITOR='nvim'
 # export VISUAL='nvim'
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/bokken/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# pnpm
+export PNPM_HOME="/Users/bokken/Library/pnpm"
+# pnpm is managed by mise, so $PNPM_HOME/bin (self-installed pnpm, broken) is not added to PATH
+# pnpm end
+# gh() {
+#     ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readonly -- gh "$@"
+# }
+# gh-write() {
+#     ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readwrite -- gh "$@"
+# }
+
+# Prefer ~/.local/bin (gh wrapper using ghtkn) over /opt/homebrew/bin; keep this at the end of PATH setup
+typeset -U path
+path=($HOME/.local/bin $path)
