@@ -8,7 +8,7 @@ export PATH="$PWD/btools":$PATH
 export PATH="$PWD/.btools":$PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$HOME/.local/bin:$PATH
 
 # dotfiles
 export DOTFILES=$HOME/dotfiles
@@ -521,3 +521,14 @@ bindkey '^X^E' vex
 
 export EDITOR='nvim'
 export VISUAL='nvim'
+
+# gh() {
+#     ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readonly -- gh "$@"
+# }
+# gh-write() {
+#     ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readwrite -- gh "$@"
+# }
+
+# Prefer ~/.local/bin (gh wrapper using ghtkn) over /opt/homebrew/bin; keep this at the end of PATH setup
+typeset -U path
+path=($HOME/.local/bin $path)
