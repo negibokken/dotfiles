@@ -1,0 +1,46 @@
+-- Run from the repository root: nvim --headless --clean -l nvim/tests/create-zettelkasten.lua
+local source = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h:h")
+	.. "/lua/config/create-zettelkasten.lua"
+local root = vim.fn.tempname()
+vim.env.SECOND_BRAIN = root
+vim.fn.mkdir(root, "p")
+dofile(source)
+local function keys(s)
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(s, true, false, true), "xt", false)
+end
+local function check(name, text, motion, expected)
+	vim.cmd("silent! only!")
+	vim.cmd("enew!")
+	local buf = vim.api.nvim_get_current_buf()
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { text })
+	keys(motion .. "<A-z>")
+	local actual = vim.api.nvim_buf_get_lines(buf, 0, -1, false)[1]
+	actual = actual:gsub("%[%[%d+|%d+%.md%]%]", "LINK")
+	assert(actual == expected, name .. ": expected " .. expected .. ", got " .. actual)
+	assert(#vim.api.nvim_tabpage_list_wins(0) == 2, name .. ": no split")
+	assert(vim.api.nvim_buf_get_name(0):find(vim.uv.fs_realpath(root), 1, true) == 1, name .. ": incorrect note path")
+	print("PASS " .. name)
+end
+local ok, err = pcall(function()
+	check("insert empty line", "", "i", "LINK")
+	check("insert start", "abc", "0i", "LINKabc")
+	check("insert end", "abc", "$a", "abcLINK")
+	check("insert middle", "abc", "0li", "aLINKbc")
+	check("insert Japanese", "日本語", "0li", "日LINK本語")
+	check("normal mode", "abc", "0", "LINKabc")
+	vim.cmd("silent! only!")
+	vim.cmd("enew!")
+	local buf = vim.api.nvim_get_current_buf()
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "日本語" })
+	keys("0vl<A-z>")
+	local actual = vim.api.nvim_buf_get_lines(buf, 0, -1, false)[1]
+	assert(actual:match("^%[%[%d+|日本%]%]語$"), "visual link: " .. actual)
+	assert(vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] == "# 日本", "visual heading")
+	print("PASS visual Japanese selection")
+end)
+vim.fn.delete(root, "rf")
+if not ok then
+	print(err)
+	vim.cmd("cquit 1")
+end
+vim.cmd("qa!")
