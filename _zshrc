@@ -525,6 +525,10 @@ bindkey '^X^E' vex
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/bokken/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
 # gh() {
 #     ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readonly -- gh "$@"
 # }
