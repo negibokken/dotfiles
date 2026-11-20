@@ -192,7 +192,7 @@ function ghq() { print -r -- "$HOME/repos with spaces"; }
 function git() { print -r -- "$*" >> "$ZSH_TEST_LOG"; }
 export B_PROFILE='example user'
 mkdev "repository $ZSH_TEST_CASE"
-[[ $PWD == "$HOME/repos with spaces/example user/repository $ZSH_TEST_CASE" ]]
+[[ $PWD == "$HOME/repos with spaces/github.com/example user/repository $ZSH_TEST_CASE" ]]
 [[ $(<README.md) == "# repository $ZSH_TEST_CASE" ]]
 mkcd 'sub dir'
 [[ ${PWD:t} == 'sub dir' ]]

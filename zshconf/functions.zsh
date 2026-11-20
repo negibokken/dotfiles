@@ -5,7 +5,7 @@ function mkdev() {
   fi
   local root_dir destination
   root_dir=$(ghq root) || return
-  destination=$root_dir/${B_PROFILE:-github.com/negibokken}/$1
+  destination=$root_dir/github.com/${B_PROFILE:-negibokken}/$1
   if [[ -e $destination || -L $destination ]]; then
     print -u2 -r -- "Directory already exists: $destination"
     return 1
