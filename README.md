@@ -6,4 +6,4 @@ Execute below command to install files.
 ./install.sh
 ```
 
-zsh の構成・コマンドの移行・検証方法は [zshconf/README.md](zshconf/README.md) を参照してください。
+Neovim の構成・キー設定・検証方法は [nvim/README.md](nvim/README.md) を参照してください。
