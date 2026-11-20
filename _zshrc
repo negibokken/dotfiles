@@ -1,545 +1,112 @@
-# language
+# Resolve symlinks so this configuration can also be used from a worktree.
+typeset _zsh_config_root=${${(%):-%x}:A:h}
+
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
-# bin
-export PATH=$PATH:$HOME/.bin
-export PATH="$PWD/btools":$PATH
-export PATH="$PWD/.btools":$PATH
-export PATH="/opt/homebrew/bin:$PATH"
-
-export PATH=$HOME/.local/bin:$PATH
-
-# dotfiles
 export DOTFILES=$HOME/dotfiles
-export PATH=$DOTFILES/bin:$PATH
-
-# SECOND BRAIN
-export SECOND_BRAIN="$HOME/Documents/obsidian/notes"
-
-# rbenv
-export PATH=$HOME/.rbenv/shims:$PATH
-
-# golang
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
-# export GOROOT=/usr/local/opt/go/libexec
+export SECOND_BRAIN=$HOME/Documents/obsidian/notes
 export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/go/bin:$PATH:$GOROOT/bin:$HOME/.go/bin
 export MYGO=$GOPATH/src/github.com/negibokken
+export DENO_INSTALL=$HOME/.deno
+export PNPM_HOME=$HOME/Library/pnpm
+export EDITOR=nvim
+export VISUAL=nvim
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/shims:$PATH"
+# Remove obsolete entries inherited from an older shell or tmux server.
+typeset -gU path
+for _zsh_old_path in \
+  "$HOME/.rbenv/shims" "$HOME/.pyenv/shims" "$HOME/.nodebrew/current/bin" \
+  "$HOME/.go/bin" /usr/local/opt/go/libexec/bin /usr/local/opt/bison/bin \
+  "$HOME/Library/Android/sdk/platform-tools" \
+  "$HOME/go/src/chromium.googlesource.com/chromium/tools/depot_tools" \
+  "$PNPM_HOME/bin"; do
+  path=("${(@)path:#$_zsh_old_path}")
+done
+unset _zsh_old_path
 
-# nodebrew
-export PATH=$PATH:./node_modules/.bin
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-export PATH=$PATH:$HOME/.config/yarn/global/node_modules/.bin
+# These values may also have been inherited from the old configuration.
+if [[ -n $GOROOT && ! -d $GOROOT ]]; then
+  path=("${(@)path:#$GOROOT/bin}")
+  unset GOROOT
+fi
+[[ -n $JAVA_HOME && ! -d $JAVA_HOME ]] && unset JAVA_HOME
+[[ -n $PLANTUML_JAR && ! -f $PLANTUML_JAR ]] && unset PLANTUML_JAR
+[[ -n $GRAPHVIZ_DOT && ! -x $GRAPHVIZ_DOT ]] && unset GRAPHVIZ_DOT
 
-# sbin
-export PATH="/usr/local/sbin:$PATH"
+path=(
+  "$HOME/.local/bin"
+  "$HOME/.local/share/mise/shims"
+  "$DOTFILES/bin"
+  "$HOME/.rd/bin"
+  "$DENO_INSTALL/bin"
+  "$HOME/.poetry/bin"
+  /opt/homebrew/bin /opt/homebrew/sbin
+  "$PWD/.btools" "$PWD/btools"
+  "$HOME/.cargo/bin" "$GOPATH/bin" "$PNPM_HOME" "$HOME/.bin"
+  "$HOME/node_modules/.bin" "$HOME/.config/yarn/global/node_modules/.bin"
+  ./node_modules/.bin
+  $path
+)
+export PATH
 
-# Android
-export PATH="/Users/bokken/Library/Android/sdk/platform-tools:$PATH"
+# Start tmux before expensive interactive setup. Preserve a shell after it exits.
+if [[ -o interactive && -t 0 && -t 1 && -z $TMUX && $IS_CRON != true &&
+  $TERM_PROGRAM != vscode && $TERM_PROGRAM != Orca ]] && (($+commands[tmux])); then
+  command tmux new-session
+fi
 
-# vscode plantuml
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
-export PLANTUML_JAR=/usr/local/Cellar/plantuml/8048/libexec/plantuml.jar
-export GRAPHVIZ_DOT=/usr/local/Cellar/graphviz/3.0.0/bin/dot
-
-# Chromium tools
-# export PATH=$PATH:/usr/local/bin/depot_tools
-export PATH=$PATH:$(ghq root)/chromium.googlesource.com/chromium/tools/depot_tools
-
-# For flex & bison
-#export PATH="/usr/local/opt/flex/bin:$PATH"
-export PATH="/usr/local/opt/bison/bin:$PATH"
-export PATH="/usr/local/bin:$PATH"
-
-# history
-HISTFILE=~/.zsh_history
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
-
-# colorize
-autoload -Uz colors
-colors
-
-autoload -Uz compinit
-compinit
-
-# complement file name
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-
-# auto pushd
 DIRSTACKSIZE=100
-setopt AUTO_PUSHD
-autoload -Uz compinit && compinit
+setopt auto_pushd auto_cd interactive_comments extended_glob \
+  hist_ignore_all_dups hist_reduce_blanks print_eight_bit
+
+source "$_zsh_config_root/zshconf/functions.zsh"
+source "$_zsh_config_root/zshconf/aliases.zsh"
+
+# Keep machine-specific values and aliases outside the repository.
+[[ -r ${ZDOTDIR:-$HOME}/.zshrc.local ]] && source "${ZDOTDIR:-$HOME}/.zshrc.local"
+# Local settings may add PATH entries; wrappers and mise must still take precedence.
+path=("$HOME/.local/bin" "$HOME/.local/share/mise/shims" $path)
+
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;91:bd=44;33:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+export LSCOLORS=gxfxcxdxbxegedabagacag
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:descriptions' format '%BCompletion%b %U%d%u'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+autoload -Uz compinit
+compinit
 
-# prompt
-# PROMPT=$'%{\e[38;5;044m%}[%n@%m]%{\e[0m%}%{\e[30;48;5;235m\e[38;5;015m%}%{${reset_color}%} %~ (%*)\n\$'
-
-# EDITOR=nvim だと zsh が vi モードを選ぶため、emacs 風キーバインドを明示する
+# EDITOR=nvim otherwise makes zsh choose vi mode.
 bindkey -e
-
-# word cursor movement
 bindkey '^f' forward-word
 bindkey '^b' backward-word
-
-# load edit-command-line
-autoload -Uz edit-command-line
+autoload -Uz edit-command-line select-word-style history-search-end
 zle -N edit-command-line
-
 bindkey '^[e' edit-command-line
-
-# word definition
-autoload -Uz select-word-style
+bindkey '^X^E' edit-command-line
 select-word-style default
-zstyle ':zle:*' word-chars " /=;@:{},|"
+zstyle ':zle:*' word-chars ' /=;@:{},|'
 zstyle ':zle:*' word-style unspecified
-
-# vcs prompt
-# autoload -Uz vcs_info
-# autoload -Uz add-zsh-hook
-# setopt prompt_subst
-# zstyle ':vcs_info:*' enable git
-# zstyle ':vcs_info:*' disable bzr svn hg
-# zstyle ':vcs_info:*' formats '%F{cyan}(%s)-[%b]%f'
-# zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
-# 
-# function _update_vcs_info_msg() {
-#   LANG=en_US.UTF-8 vcs_info
-#   RPROMPT="${vcs_info_msg_0_}"
-# }
-# add-zsh-hook precmd _update_vcs_info_msg
-
-# Options
-## print_eight_bit
-setopt print_eight_bit
-
-## comment
-setopt interactive_comments
-
-## cd if specfied only directory
-setopt auto_cd
-
-## share history among zsh process
-# setopt share_history
-
-## delete same command history
-setopt hist_ignore_all_dups
-
-## expand wild card
-setopt extended_glob
-
-## delete redundant spaces
-setopt hist_reduce_blanks
-
-# 補完の選択を楽にする
-zstyle ':completion:*' menu select
-
-## complte using history
-autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-bindkey "^p" history-beginning-search-backward-end
-bindkey "^n" history-beginning-search-forward-end
-
-## syntax highlight
-source $HOME/dotfiles/zshconf/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# ls color setting
-export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;91:bd=44;33:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-export LSCOLORS=gxfxcxdxbxegedabagacag
-autoload -U colors ; colors ; zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-# aliases
-if [ "$(uname)" = 'Darwin' ]; then
-  alias ls="ls -G"
-elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
-  alias ls="ls --color"
-fi
-alias l="ls -lt"
-alias la="ls -lta"
-
-alias dotfiles="cd ~/dotfiles"
-
-alias br="cd $SECOND_BRAIN"
-
-alias v="nvim"
-alias vi="nvim"
-alias vim="nvim"
-alias vio="nvim -O"
-alias vic="nvim -O *.(cc|h|sh)"
-alias vit='nvim -O /tmp/$(uuid)'
-alias viu="nvim -u NONE"
-# alias vip="vim -O *.(py|sh)"
-function vip() {
-    target=$1
-    if [ "$target" = "" ]; then
-        nvim -O *.(py|sh)
-    else
-        nvim -O *($target)*.py *sh
-    fi
-}
-
-alias grep="grep --color"
-alias egrep="egrep --color"
-alias rm="rm -rf"
-
-alias cp="cp -i"
-alias chx="chmod +x"
-alias cd="cd -P"
-
-alias mkdir="mkdir -p"
-
-alias sudo="sudo "
-alias gcp="gcloud"
-alias dcku="docker-compose up"
-alias dckd="docker-compose down"
-alias kube="kubectl"
-alias k="kubectl"
-alias codegrep='find . -path ./.git -prune -o -path ./log -prune -o -type f -print0 | xargs -0 grep -n -E $1'
-
-alias python="python3"
-alias pip="pip3"
-alias v="vim"
-alias g="git"
-alias gad="git add"
-alias gst="git status"
-alias gr='cd $(git rev-parse --show-toplevel)'
-alias grt='git rev-parse --show-toplevel'
-alias gstat="git log --since=\"$(date +'%Y-%m-%d')T00:00:00+09:00\" --shortstat --oneline | grep 'changed' | awk '{ s += \$4+\$6} END {print s}'"
-alias wip='git add -A && git commit -m "wip" --no-verify'
-alias wipp='git add -A && git commit -m "wip" --no-verify && git push --no-verify origin `git branch --show-current`'
-alias alp='docker run -it -v $(pwd):/app -w /app --rm alpine /bin/sh'
-alias ub='docker run -it  -v $(pwd):/app -w /app --rm ubuntu /bin/bash'
-alias bl="ls -1 btools"
-
-alias hb="gh browse"
-alias hprc="hub pull-request -d"
-alias atcoder="cd $(ghq root)/github.com/negibokken/sandbox/atcoder"
-alias leetcode="cd $(ghq root)/github.com/negibokken/sandbox/leetcode"
-# copy pwd to clipboard support macOS and Linux
-alias pwdc="pwd | tr -d '\n' | pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null"
-
-# reload shell quickly
-alias x="exec $SHELL -l"
-
-## global alias
-alias -g L="| less"
-alias -g G="| grep"
-alias -g X="| xargs"
-alias -g H="| head"
-# alias -g T="| tee \"/var/log/sh-$(date +'%y-%m-%d_%H-%m-%d.log').log\""
-alias -g T="| tee -a \"/tmp/sh-$(date +'%y-%m-%d.log')\""
-alias dw="docker run --rm -v $(pwd):/work -w /work -it myubuntu /bin/bash"
-alias '..'='cd ..'
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-
-# Application alias
-alias 0xED="open -a 0xED"
-
-# tmux
-if [[ "$IS_CRON" != "true" ]]; then
-    tmux has-session >/dev/null 2>&1 && if [ -z "${TMUX}" ]; then
-      echo '% tmux list-sessions'
-      tmux list-sessions
-      echo '% tmux list-windows -a'
-      tmux list-windows -a
-    fi
-    if [[ ! $TMUX && $TERM_PROGRAM != "vscode" && $TERM_PROGRAM != "Orca" ]] ; then
-      tmux new-session
-    fi
+bindkey '^p' history-beginning-search-backward-end
+bindkey '^n' history-beginning-search-forward-end
+if (($+commands[peco])); then
+  zle -N peco-select-history
+  bindkey '^r' peco-select-history
 fi
 
-# make temp directory
-mkdev () {
-  if [ ! -n "$1" ]; then
-    echo "Usage: mkdev dir-name"
-    return
-  fi
-  local dirName=$1
-  local rootDir=$(ghq root)
-  local githubUser=""
-  if [ "$B_PROFILE" != "" ]; then
-    githubUser=$B_PROFILE;
-  else
-    githubUser="github.com/negibokken"
-  fi
-  local devPath="${rootDir}/${githubUser}/${dirName}"
-  if [ -e $devPath ]; then
-    echo "The directory '$1' is already exists"
-    return 1
-  fi
-  mkdir -p ${devPath}
-  cd ${devPath}
-  touch README.md
-  echo "# $1" >> README.md
-  git init
-  git add README.md && git commit -m "Initial commit"
-}
+if whence -p git-wt >/dev/null; then
+  eval "$(command git-wt --init zsh)"
+fi
+(($+commands[starship])) && eval "$(command starship init zsh)"
 
-source $HOME/dotfiles/shell_functions/mktemp.sh
-
-mkcd () {
-  if [ ! -n "$1" ] ; then
-    echo "Usage: mkcd dir-name"
-    return
-  fi
-  if [ -e "$1" ] ; then
-    echo "Directory already exists"
-    return
-  fi
-  local dirName=$1
-  mkdir -p ${dirName}
-  cd ${dirName}
-}
-
-gat () {
-  git add .
-  git cm -m "Add $(basename $(cd .. && pwd)) $(basename $(pwd))"
-  git push origin `git branch --show-current`
-}
-
-mkcode () {
-  e="F"
-  if [ -n "$1" ]; then
-    e=$1
-  fi
-  for i in {A..$e}; do cppdev question$i comp; done
-}
-
-###############################
-# peco
-###############################
-function peco-select-history() {
-  BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle clear-screen
-}
-zle -N peco-select-history
-bindkey '^r' peco-select-history
-
-# search a destination from cdr list
-function peco-get-destination-from-cdr() {
-  cdr -l | \
-  sed -e 's/^[[:digit:]]*[[:blank:]]*//' | \
-  peco --query "$LBUFFER"
-}
-
-function peco-cdr() {
-  local destination="$(peco-get-destination-from-cdr)"
-  if [ -n "$destination" ]; then
-    BUFFER="cd $destination"
-    zle accept-line
-  else
-    zle reset-prompt
-  fi
-}
-zle -N peco-cdr
-bindkey '^x' peco-cdr
-
-function gb() {
-  local branch=$(git branch | peco | sed -e 's/[ *]//g')
-  if [ "$branch" = "" ]; then
-    return
-  fi
-  echo $branch
-  git checkout $branch
-}
-
-## peco
-alias pro='cd ~/Project/$(ls ~/Project | peco)'
-# alias temp='cd ~/temp/$(for f in $(ls ~/temp); do echo -n "$f "; if [ -e ~/temp/$f/README.md ]; then head -n 5 $f/README.md | tr -d "\n"; fi; echo ""; done | peco | awk '\''{ print $1; }'\'')'
-temp() {
-  cd ~/temp/$(for f in $(ls -t1 ~/temp); do
-    echo -n "$f "
-    if [ -e ~/temp/$f/README.md ]; then
-      head -n 5 ~/temp/$f/README.md | tr -d "\n"
-    fi
-    echo ""
-  done | peco | awk '{ print $1; }')
-}
-alias cb='git checkout `git branch |
-  peco |
-  sed -e "s/\* //g" |
-  awk "{print \$1}"`'
-
-function ghq-peco() {
-  dir=$(ghq list -p | peco)
-  if [ "$dir" = "" ]; then
-    echo "\e[31mdirectory not specified"
-    return
-  fi
-  cd $dir
-}
-alias gp='ghq-peco'
-
-## kill using peco
-function peco-pkill() {
-  for pid in `ps aux | peco | awk '{ print $2 }'`
-  do
-    kill $pid
-    echo "Killed ${pid}"
-  done
-}
-alias pk="peco-pkill"
-
-## kill docker process using peco
-function peco-dpkill() {
-  for pid in `docker ps | tail +2 | peco | awk '{ print $1 }'`
-  do
-    docker kill $pid
-    echo "Killed ${pid}"
-  done
-}
-alias dpk="peco-dpkill"
-
-## exec /bin/bash in docker container
-function peco-dpexec() {
-  for pid in `docker ps | tail +2 | peco | awk '{ print $1 }'`
-  do
-    docker exec -it $pid /bin/bash
-  done
-}
-alias dex="peco-dpexec"
-
-# incremental search for node scripts
-function peco-node-scripts() {
-  script=`cat package.json| jq -r '.scripts | to_entries | map(.key + " => " + .value) | .[]'|peco`
-  script=`echo $script | awk -F " => " '{ print $1 }'`
-  if [[ "${script}" == "" ]]; then
-      echo "\e[31mscript is not specified"
-      return
-  fi
-  if [ -e "yarn.lock" ]; then
-    echo "yarn ${script}" | pbcopy
-    yarn ${script}
-  elif [ -e "pnpm-lock.yaml" ]; then
-    echo "pnpm ${script}" | pbcopy
-    pnpm ${script}
-  else
-    echo "npm run ${script}" | pbcopy
-    npm run ${script}
-  fi
-}
-alias ns="peco-node-scripts"
-
-function delete-merged-branches() {
-  git branch --merged|egrep -v '\*|develop|master|main'|xargs git branch -d
-}
-
-function peco-pull-request() {
-    pr_number=`hub pr list --limit 20 | peco | awk '{print $1}' | sed -e 's/#//'`
-    if [[ "$pr_number" == "" ]]; then
-        echo "Skipped"
-        return
-    fi
-    hub pr show $pr_number
-}
-alias hpr="peco-pull-request"
-
-## difit aliases
-# diff between current branch and remote branch
-function difit-remote() {
-  local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
-  difit "." "origin/${branch}"
-}
-# diff between current branch and main
-alias difit-main='difit . main'
-
-## print 256 colors for configuring terminal
-function printColors() {
-  for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done;echo
-}
-
-function cecho() {
-  message=$1
-  c=$2
-  cntl=""
-  case $c in
-    "black")
-      cntl="\e[30m" ;;
-    "red")
-      cntl="\e[31m" ;;
-    "green")
-      cntl="\e[32m" ;;
-    "yellow")
-      cntl="\e[33m" ;;
-    "blue")
-      cntl="\e[34m" ;;
-    "magenta")
-      cntl="\e[35m" ;;
-    "cyan")
-      cntl="\e[36m" ;;
-    "white")
-      cntl="\e[37m" ;;
-    *)
-      "" ;;
-  esac
-  echo "$cntl$message"
-}
-function nfind() {
-  find . -type d -name node_modules -prune -o -type f -name $1 -print
-}
-
-function gdraft() {
-    git stash save --include-untracked $1
-    git stash apply stash@\{0\}
-}
-
-#candidates
-export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
-
-# include local .zshrc
-source ~/.zshrc.local
-
-function ere() {
-    project=$(cargo run --example |& tail -n +4 | sed -e 's/ //g' | sed -e '$d' | peco)
-    if [ $project = "" ]; then
-        echo "\e[31mproject not specified"
-        return
-    fi
-    cargo run --example $project
-}
-
-function vex() {
-    local tmpfile=/tmp/$(uuidgen)
-    ${EDITOR:-nvim} "$tmpfile"
-    local cmd
-    cmd=$(awk 'NR==1 {printf "%s", $0} NR>1 {printf "\\n%s", $0}' "$tmpfile")
-    BUFFER=$cmd
-    CURSOR=${#cmd}
-    zle reset-prompt
-}
-zle -N vex
-bindkey '^X^E' vex
-
-# export EDITOR='nvim'
-# export VISUAL='nvim'
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/bokken/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
-# pnpm
-export PNPM_HOME="/Users/bokken/Library/pnpm"
-# pnpm is managed by mise, so $PNPM_HOME/bin (self-installed pnpm, broken) is not added to PATH
-# pnpm end
-# gh() {
-#     ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readonly -- gh "$@"
-# }
-# gh-write() {
-#     ghtkn exec -e GH_TOKEN:nikkei-ghtkn-readwrite -- gh "$@"
-# }
-
-# Prefer ~/.local/bin (gh wrapper using ghtkn) over /opt/homebrew/bin; keep this at the end of PATH setup
-typeset -U path
-path=($HOME/.local/bin $path)
+# Highlighting must be loaded after all ZLE widgets have been defined.
+if ((!$+functions[_zsh_highlight])); then
+  source "$_zsh_config_root/zshconf/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+unset _zsh_config_root
