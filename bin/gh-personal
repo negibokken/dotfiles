@@ -1,0 +1,327 @@
+#!/opt/homebrew/bin/python3
+"""Use a Keychain-backed GitHub credential for negibokken repositories."""
+
+import argparse
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+GH = "/opt/homebrew/bin/gh"
+OP = "/opt/homebrew/bin/op"
+KEYCHAIN = "/opt/homebrew/opt/git/libexec/git-core/git-credential-osxkeychain"
+OWNER = "negibokken"
+HOST = "github.com"
+CONFIG_DIR = Path.home() / ".config/gh-personal"
+# Keep this lookup separate from the credential Git uses for github.com.
+CREDENTIAL = f"protocol=https\nhost=gh-personal.invalid\nusername={OWNER}\n"
+REPO_NAME = r"[A-Za-z0-9_.-]+"
+REPO_TARGET = re.compile(
+    rf"(?:(?:https://|ssh://git@)?github\.com/|git@github\.com:)?{OWNER}/({REPO_NAME})",
+    re.IGNORECASE,
+)
+REPO_COMMANDS = {"view", "edit", "archive", "unarchive", "delete"}
+PR_COMMANDS = {"list", "view", "checks", "create"}
+HELP = """Usage:
+  gh-personal repo list [negibokken] [flags]
+  gh-personal repo {view|edit|archive|unarchive|delete} [negibokken/repo] [flags]
+  gh-personal [-R negibokken/repo] repo rename <new-name> [--yes]
+  gh-personal [-R negibokken/repo] pr {list|view|checks|create} [number] [flags]
+  gh-personal api repos/negibokken/<repo>[/path][?query] [formatting flags]
+  gh-personal --auth-status
+  gh-personal --refresh-keychain
+
+Repository commands default to the current Git origin. Supply an explicit
+repository for deletion and a pull request number for view or checks.
+"""
+
+
+def fail(message):
+    raise SystemExit(f"gh-personal: {message}")
+
+
+def clean_environment():
+    env = os.environ.copy()
+    for name in (
+        "GH_TOKEN",
+        "GITHUB_TOKEN",
+        "GH_ENTERPRISE_TOKEN",
+        "GITHUB_ENTERPRISE_TOKEN",
+        "GH_PERSONAL_PAT",
+        "GH_DEBUG",
+        "GH_REPO",
+    ):
+        env.pop(name, None)
+    env["GH_CONFIG_DIR"] = str(CONFIG_DIR)
+    env["GH_HOST"] = HOST
+    return env
+
+
+def keychain(action, token=None):
+    request = CREDENTIAL
+    if token is not None:
+        request += f"password={token}\n"
+    result = subprocess.run(
+        [KEYCHAIN, action],
+        input=request + "\n",
+        text=True,
+        capture_output=True,
+        env=clean_environment(),
+        check=False,
+    )
+    if result.returncode:
+        fail(f"Keychain {action} failed")
+    return dict(
+        line.split("=", 1) for line in result.stdout.splitlines() if "=" in line
+    ).get("password", "")
+
+
+def token_environment(token):
+    if not re.fullmatch(r"github_pat_[A-Za-z0-9_]+", token):
+        fail("a fine-grained personal access token is required")
+    env = clean_environment()
+    env["GH_TOKEN"] = token
+    return env
+
+
+def account(env):
+    result = subprocess.run(
+        [GH, "api", "user", "--jq", ".login"],
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode or result.stdout.strip().lower() != OWNER:
+        fail(f"GitHub could not verify the {OWNER} account")
+    return OWNER
+
+
+def refresh_keychain():
+    try:
+        reference = (CONFIG_DIR / "token-ref").read_text().strip()
+    except OSError:
+        fail(f"save the 1Password secret reference in {CONFIG_DIR / 'token-ref'}")
+    if not re.fullmatch(r"op://[^\s]+", reference):
+        fail("token-ref must contain a 1Password secret reference")
+    env = clean_environment()
+    env["GH_PERSONAL_PAT"] = reference
+    os.execve(
+        OP,
+        [
+            OP,
+            "--account",
+            "my.1password.com",
+            "run",
+            "--",
+            str(Path(__file__).resolve()),
+            "--store-from-env",
+        ],
+        env,
+    )
+
+
+def git_value(*args):
+    result = subprocess.run(["git", *args], text=True, capture_output=True, check=False)
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def personal_repo(target):
+    match = REPO_TARGET.fullmatch(target)
+    if not match or match[1] in {".", ".."}:
+        fail(f"repository must be on {HOST} under {OWNER}")
+    return f"{OWNER}/{match[1]}"
+
+
+def origin_repo():
+    origin = git_value("remote", "get-url", "origin")
+    return personal_repo(origin.removesuffix(".git"))
+
+
+def verify_repository(repo, env):
+    # GitHub can redirect old names after a repository transfer.
+    owner, name = repo.split("/")
+    query = (
+        "query($owner: String!, $name: String!) {"
+        "  repository(owner: $owner, name: $name, followRenames: false) {"
+        "    nameWithOwner"
+        "  }"
+        "}"
+    )
+    result = subprocess.run(
+        [
+            GH,
+            "api",
+            "graphql",
+            "-f",
+            f"query={query}",
+            "-f",
+            f"owner={owner}",
+            "-f",
+            f"name={name}",
+            "--jq",
+            ".data.repository.nameWithOwner",
+        ],
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode or result.stdout.strip().lower() != repo.lower():
+        fail(f"GitHub could not verify {repo}; check its current name and PAT access")
+
+
+def explicit_target(args):
+    if args and args[0] in {"-R", "--repo"}:
+        if len(args) < 2:
+            fail("--repo requires a repository")
+        return personal_repo(args[1]), args[2:]
+    return None, args
+
+
+def reject_target_flags(group, action, args):
+    # gh also accepts short options in clusters, such as -dROTHER/REPO.
+    blocked = {"R"}
+    long_flags = {"--repo", "--hostname"}
+    if (group, action) == ("pr", "create"):
+        blocked.add("H")
+        long_flags.add("--head")
+    if (group, action) == ("pr", "list"):
+        # A search expression can select pull requests from other repositories.
+        blocked.add("S")
+        long_flags.add("--search")
+    for arg in args:
+        if arg.split("=", 1)[0] in long_flags or (
+            arg.startswith("-")
+            and not arg.startswith("--")
+            and not blocked.isdisjoint(arg[1:].split("=", 1)[0])
+        ):
+            fail("unsupported target option (use -R before the subcommand)")
+
+
+def repo_command(action, args, target):
+    if action == "list":
+        if args and not args[0].startswith("-"):
+            owner, *args = args
+            if owner.lower() != OWNER:
+                fail(f"repository list is limited to {OWNER}")
+        if target:
+            fail("repo list does not take -R")
+        return ["repo", "list", OWNER, *args], None
+    if action == "rename":
+        if (
+            not args
+            or args[0].startswith("-")
+            or not re.fullmatch(REPO_NAME, args[0])
+            or args[0] in {".", ".."}
+        ):
+            fail("repo rename requires a new repository name")
+        repo = target or origin_repo()
+        return ["repo", "rename", "--repo", repo, *args], repo
+    if action not in REPO_COMMANDS:
+        fail("unsupported repo command (see --help)")
+    if action == "delete" and not (target or (args and not args[0].startswith("-"))):
+        fail("repo delete requires an explicit repository")
+    if args and not args[0].startswith("-"):
+        if target:
+            fail("specify the repository once")
+        target = personal_repo(args.pop(0))
+    repo = target or origin_repo()
+    return ["repo", action, repo, *args], repo
+
+
+def pr_command(action, args, target):
+    if action not in PR_COMMANDS:
+        fail("unsupported pull request command (see --help)")
+    if action in {"view", "checks"} and (
+        not args or not re.fullmatch(r"[0-9]+", args[0])
+    ):
+        fail(f"pr {action} requires a pull request number")
+    repo = target or origin_repo()
+    command = ["pr", action, "--repo", repo]
+    if action == "create":
+        # An explicit head keeps gh from choosing a different remote or pushing.
+        if origin_repo().lower() != repo.lower():
+            fail("pr create requires origin to match the target repository")
+        branch = git_value("symbolic-ref", "--quiet", "--short", "HEAD")
+        if not branch:
+            fail("pr create requires a checked-out branch already pushed to origin")
+        command.append(f"--head={branch}")
+    return [*command, *args], repo
+
+
+def api_command(args):
+    if not args:
+        fail("api requires a repository endpoint")
+    path = args[0].partition("?")[0]
+    segments = path.split("/")
+    if (
+        len(segments) < 3
+        or segments[:2] != ["repos", OWNER]
+        or any(
+            not re.fullmatch(REPO_NAME, part) or part in {".", ".."}
+            for part in segments[2:]
+        )
+    ):
+        fail(f"API endpoint must be under repos/{OWNER}/<repo>")
+    options = argparse.ArgumentParser(
+        prog="gh-personal api", allow_abbrev=False, exit_on_error=False
+    )
+    options.add_argument("--paginate", action="store_true")
+    options.add_argument("--slurp", action="store_true")
+    options.add_argument("-q", "--jq")
+    options.add_argument("-t", "--template")
+    try:
+        options.parse_args(args[1:])
+    except argparse.ArgumentError:
+        fail("api only accepts GET requests with formatting or pagination options")
+    return ["api", "--method", "GET", *args], "/".join(segments[1:3])
+
+
+def github_command(args):
+    target, args = explicit_target(args)
+    if args and args[0] == "api" and target is None:
+        return api_command(args[1:])
+    if len(args) < 2 or args[0] not in {"repo", "pr"}:
+        fail("unsupported command (see --help)")
+    group, action, *options = args
+    reject_target_flags(group, action, options)
+    if group == "repo":
+        return repo_command(action, options, target)
+    return pr_command(action, options, target)
+
+
+def main(args):
+    if args in ([], ["--help"], ["-h"], ["--credential-help"]):
+        print(HELP, end="")
+        return
+    if args == ["--refresh-keychain"]:
+        refresh_keychain()
+        return
+    if args == ["--store-from-env"]:
+        token = os.environ.get("GH_PERSONAL_PAT", "")
+        account(token_environment(token))
+        keychain("store", token)
+        if keychain("get") != token:
+            fail("Keychain could not verify the saved credential")
+        print(f"Saved the {OWNER} credential in macOS Keychain.")
+        return
+    # Reject out-of-scope targets before touching the credential store.
+    status = args == ["--auth-status"]
+    if not status:
+        command, repo = github_command(args)
+    token = keychain("get")
+    if not token:
+        fail("credential missing; run gh-personal --refresh-keychain")
+    env = token_environment(token)
+    if status:
+        print(f"Authenticated as {account(env)} on {HOST} (macOS Keychain).")
+        return
+    if repo:
+        verify_repository(repo, env)
+    os.execve(GH, [GH, *command], env)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
