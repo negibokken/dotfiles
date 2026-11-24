@@ -4,6 +4,11 @@ ln -s ~/dotfiles/_zshrc.local ~/.zshrc.local
 ln -s ~/dotfiles/_vimrc ~/.vimrc
 ln -s ~/dotfiles/_tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/_gitconfig ~/.gitconfig
+
+mkdir -p ~/.local/bin
+install -m 755 ~/dotfiles/bin/gh-personal ~/.local/bin/gh-personal
+ln -sfn gh-personal ~/.local/bin/gh-personal-write
+
 if ! [[ -e ~/.config/nvim ]]; then
   mkdir -p ~/.config/nvim
 fi
